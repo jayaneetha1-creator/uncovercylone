@@ -429,23 +429,23 @@ export default function MapPage() {
           )}
 
           {/* Floating Map Legend / Guide on bottom right */}
-          <div className="absolute bottom-9 sm:bottom-10 right-4 sm:right-6 z-[1001] hidden sm:flex items-center gap-2 bg-[#0a192f]/95 backdrop-blur-md border border-white/15 rounded-2xl p-2.5 shadow-xl text-xs font-semibold text-white">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-amber-400 px-2">Legend</span>
+          <div className="absolute bottom-9 sm:bottom-10 right-4 sm:right-6 z-[1001] hidden sm:flex items-center gap-2 bg-white/95 backdrop-blur-md border border-[#DCE8F2] rounded-2xl p-2.5 shadow-md text-xs font-semibold text-[#0F2A3D]">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#38A9F0] px-2">Legend</span>
             <div className="flex items-center gap-3">
-              <span className="flex items-center gap-1 text-[11px]">
-                <span className="w-2.5 h-2.5 rounded-full bg-sky-400" /> Beaches
+              <span className="flex items-center gap-1 text-[11px] text-[#5B7385]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#38A9F0]" /> Beaches
               </span>
-              <span className="flex items-center gap-1 text-[11px]">
-                <span className="w-2.5 h-2.5 rounded-full bg-indigo-400" /> Mountains
+              <span className="flex items-center gap-1 text-[11px] text-[#5B7385]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#6366F1]" /> Mountains
               </span>
-              <span className="flex items-center gap-1 text-[11px]">
-                <span className="w-2.5 h-2.5 rounded-full bg-cyan-400" /> Waterfalls
+              <span className="flex items-center gap-1 text-[11px] text-[#5B7385]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#06B6D4]" /> Waterfalls
               </span>
-              <span className="flex items-center gap-1 text-[11px]">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" /> Wildlife
+              <span className="flex items-center gap-1 text-[11px] text-[#5B7385]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#2FB67C]" /> Wildlife
               </span>
-              <span className="flex items-center gap-1 text-[11px]">
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-400" /> Historical
+              <span className="flex items-center gap-1 text-[11px] text-[#5B7385]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#F5A623]" /> Historical
               </span>
             </div>
           </div>

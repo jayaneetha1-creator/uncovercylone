@@ -80,7 +80,7 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
       const amountUSD = parseFloat(usdMatch[1]);
       const suffix = (usdMatch[2] || '').trim();
 
-      let converted = amountUSD * RATES_FROM_USD[currency];
+      const converted = amountUSD * RATES_FROM_USD[currency];
       let formatted = '';
 
       if (currency === 'LKR') {

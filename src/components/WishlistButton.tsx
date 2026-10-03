@@ -37,10 +37,10 @@ export default function WishlistButton({
         className={`p-2 rounded-full backdrop-blur-md transition-all duration-200 cursor-pointer shadow-sm ${
           saved
             ? 'bg-rose-500 text-white shadow-rose-500/30'
-            : 'bg-black/40 hover:bg-black/60 text-white/90 border border-white/20'
+            : 'bg-white/90 hover:bg-white text-[#5B7385] hover:text-rose-500 border border-[#DCE8F2]'
         } ${className}`}
       >
-        <Heart className={`w-4 h-4 ${saved ? 'fill-white text-white' : 'text-white'}`} />
+        <Heart className={`w-4 h-4 ${saved ? 'fill-white text-white' : 'stroke-[2]'}`} />
       </motion.button>
     );
   }

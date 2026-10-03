@@ -610,7 +610,7 @@ export default function DestinationEditorModal({
                             <span className="text-[9px] text-slate-400 truncate max-w-full px-2 mt-0.5 font-mono">{img}</span>
                           </div>
                           {idx === 0 && (
-                            <span className="absolute top-2.5 left-2.5 bg-[#0a192f] text-amber-400 text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow-md z-10">
+                            <span className="absolute top-2.5 left-2.5 bg-[#0F2A3D] text-[#F5A623] text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow-md z-10">
                               Primary Cover
                             </span>
                           )}

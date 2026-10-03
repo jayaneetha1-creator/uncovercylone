@@ -61,18 +61,18 @@ export default function CategoryFilter({ selected, onChange, counts }: CategoryF
       <button
         onClick={() => scroll('left')}
         aria-label="Scroll categories left"
-        className="hidden sm:flex absolute left-0 z-10 flex-shrink-0 w-8 h-8 items-center justify-center rounded-full bg-white border border-slate-200 text-slate-800 hover:bg-slate-50 hover:border-sky-500 transition-all shadow-md opacity-0 group-hover:opacity-100"
+        className="hidden sm:flex absolute left-0 z-10 flex-shrink-0 w-8 h-8 items-center justify-center rounded-full bg-white border border-[#DCE8F2] text-[#0F2A3D] hover:bg-[#EAF4FD] hover:border-[#38A9F0] transition-all shadow-md opacity-0 group-hover:opacity-100 cursor-pointer"
       >
         <ChevronLeft className="w-4 h-4" />
       </button>
 
       {/* Mobile edge mask indicator (right fade) */}
-      <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-[#f8fafc] via-[#f8fafc]/80 to-transparent z-10 sm:hidden" />
+      <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-[#F5FAFF] via-[#F5FAFF]/80 to-transparent z-10 sm:hidden" />
 
       {/* Scrollable pills */}
       <div
         ref={scrollRef}
-        className="flex gap-2 overflow-x-auto scroll-smooth py-2 px-3 sm:px-2 w-full overscroll-x-contain"
+        className="flex gap-2 overflow-x-auto scroll-smooth py-1.5 px-3 sm:px-1 w-full overscroll-x-contain"
         style={{
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
@@ -90,15 +90,15 @@ export default function CategoryFilter({ selected, onChange, counts }: CategoryF
               onClick={() => onChange(cat.label)}
               className={`flex-shrink-0 flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-medium border transition-all duration-200 active:scale-95 cursor-pointer ${
                 isActive
-                  ? 'bg-sky-600 border-sky-600 text-white shadow-md shadow-sky-600/25 font-semibold'
-                  : 'bg-white border-slate-200 text-slate-600 hover:text-sky-600 hover:border-sky-300'
+                  ? 'bg-[#38A9F0] border-[#38A9F0] text-white shadow-md shadow-[#38A9F0]/25 font-semibold'
+                  : 'bg-white border-[#DCE8F2] text-[#5B7385] hover:text-[#38A9F0] hover:border-[#38A9F0]/50 hover:bg-[#F5FAFF]'
               }`}
             >
-              <Icon className={`w-3.5 sm:w-4 h-3.5 sm:h-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+              <Icon className={`w-3.5 sm:w-4 h-3.5 sm:h-4 ${isActive ? 'text-white' : 'text-[#5B7385]'}`} />
               <span>{getCategoryLabel(cat.label)}</span>
               {count !== undefined && (
                 <span className={`text-[11px] sm:text-xs ml-0.5 font-bold ${
-                  isActive ? 'text-sky-200' : 'text-slate-400'
+                  isActive ? 'text-white/90' : 'text-[#5B7385]/70'
                 }`}>
                   {count}
                 </span>
@@ -112,7 +112,7 @@ export default function CategoryFilter({ selected, onChange, counts }: CategoryF
       <button
         onClick={() => scroll('right')}
         aria-label="Scroll categories right"
-        className="hidden sm:flex absolute right-0 z-10 flex-shrink-0 w-8 h-8 items-center justify-center rounded-full bg-white border border-slate-200 text-slate-800 hover:bg-slate-50 hover:border-sky-500 transition-all shadow-md opacity-0 group-hover:opacity-100"
+        className="hidden sm:flex absolute right-0 z-10 flex-shrink-0 w-8 h-8 items-center justify-center rounded-full bg-white border border-[#DCE8F2] text-[#0F2A3D] hover:bg-[#EAF4FD] hover:border-[#38A9F0] transition-all shadow-md opacity-0 group-hover:opacity-100 cursor-pointer"
       >
         <ChevronRight className="w-4 h-4" />
       </button>

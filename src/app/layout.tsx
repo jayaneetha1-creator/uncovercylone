@@ -8,11 +8,12 @@ import { LanguageProvider } from "@/context/LanguageContext";
 import { CurrencyProvider } from "@/context/CurrencyContext";
 import { LocationProvider } from "@/context/LocationContext";
 import WishlistDrawer from "@/components/WishlistDrawer";
+import BottomTabBar from "@/components/BottomTabBar";
 import GoogleTranslator from "@/components/GoogleTranslator";
 import PWARegister from "@/components/PWARegister";
 
 export const viewport: Viewport = {
-  themeColor: "#07111e",
+  themeColor: "#F5FAFF",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -90,26 +91,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark" data-scroll-behavior="smooth">
-      <body className="min-h-screen bg-slate-950 text-slate-100 antialiased selection:bg-sky-600 selection:text-white">
+    <html lang="en" data-scroll-behavior="smooth">
+      <body className="min-h-screen bg-[#F5FAFF] text-[#0F2A3D] antialiased selection:bg-[#38A9F0]/20 selection:text-[#0F2A3D]">
         <LanguageProvider>
           <CurrencyProvider>
             <LocationProvider>
               <WishlistProvider>
                 <Navbar />
-                <main>{children}</main>
+                <main className="pb-16 md:pb-0">{children}</main>
                 <WishlistDrawer />
                 <GoogleTranslator />
                 <PWARegister />
                 <Footer />
+                <BottomTabBar />
                 <Toaster
                   position="bottom-right"
                   toastOptions={{
                     style: {
-                      background: "#0a192f",
-                      color: "#f8fafc",
-                      border: "1px solid rgba(255, 255, 255, 0.12)",
-                      boxShadow: "0 20px 35px -5px rgba(0,0,0,0.5)",
+                      background: "#FFFFFF",
+                      color: "#0F2A3D",
+                      border: "1px solid #DCE8F2",
+                      boxShadow: "0 12px 28px -6px rgba(15, 42, 61, 0.09)",
                       borderRadius: "14px",
                       fontFamily: "'Inter', sans-serif",
                       fontWeight: 600,

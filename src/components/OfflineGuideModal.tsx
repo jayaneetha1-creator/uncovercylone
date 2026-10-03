@@ -390,7 +390,7 @@ export default function OfflineGuideModal({
           {/* Footer Bar (No Print) */}
           <div className="p-4 sm:p-5 bg-white border-t border-slate-200 flex items-center justify-between no-print">
             <div className="text-xs text-slate-500 hidden sm:block">
-              Tip: Click "Print or Save as PDF" to save directly to your mobile files or print an A4 copy.
+              Tip: Click &quot;Print or Save as PDF&quot; to save directly to your mobile files or print an A4 copy.
             </div>
             <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
               <button

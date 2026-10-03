@@ -16,9 +16,23 @@ const InteractiveMap = dynamic(() => import('@/components/InteractiveMap'), {
 
 interface PlaceMapProps {
   place: Place;
+  compact?: boolean;
 }
 
-export default function PlaceMap({ place }: PlaceMapProps) {
+export default function PlaceMap({ place, compact = false }: PlaceMapProps) {
+  if (compact) {
+    return (
+      <div className="w-full h-full min-h-[440px] sm:min-h-[500px] relative rounded-2xl overflow-hidden">
+        <InteractiveMap
+          places={[place]}
+          center={[place.lat, place.lng]}
+          zoom={13}
+          height="100%"
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm space-y-5">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">

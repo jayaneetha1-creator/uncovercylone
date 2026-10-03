@@ -1,61 +1,88 @@
 'use client';
 
-import Image from 'next/image';
+import { useRef } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { ArrowRight, Mountain, Palmtree, Waves } from 'lucide-react';
+import {
+  ArrowRight, ChevronLeft, ChevronRight, Waves, Mountain,
+  Droplets, PawPrint, Landmark, Sparkles
+} from 'lucide-react';
 import { Place } from '@/types';
+import PlaceImage from '@/components/PlaceImage';
 
 interface JourneyCategoriesSectionProps {
   places: Place[];
 }
 
-const categories = [
+interface InterestCategory {
+  title: string;
+  category: string;
+  tagline: string;
+  image: string;
+  icon: React.ElementType;
+}
+
+const INTEREST_TILES: InterestCategory[] = [
   {
-    name: 'Coast & Beaches',
-    query: 'Beaches',
-    image: '/images/journey/coast-beaches.jpg',
+    title: 'Coast & Golden Beaches',
+    category: 'Beaches',
+    tagline: 'Warm ocean breaks, whale safaris & quiet palm bays',
+    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80',
     icon: Waves,
   },
   {
-    name: 'Highlands',
-    query: 'Mountains',
-    image: '/images/journey/highlands.jpg',
+    title: 'Highlands & Misty Peaks',
+    category: 'Mountains',
+    tagline: 'Scenic rail viaducts, cloud forests & tea estates',
+    image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800&q=80',
     icon: Mountain,
   },
   {
-    name: 'Wild Sri Lanka',
-    query: 'Wildlife',
-    image: '/images/journey/wild-sri-lanka.jpg',
-    icon: Palmtree,
+    title: 'Secret Cascades & Falls',
+    category: 'Waterfalls',
+    tagline: 'Natural rock pools, roaring falls & river treks',
+    image: 'https://images.unsplash.com/photo-1467173572719-f14b9fb86e5f?w=800&q=80',
+    icon: Droplets,
+  },
+  {
+    title: 'Wild Sanctuaries & Safaris',
+    category: 'Wildlife',
+    tagline: 'Leopard tracking, wild elephant herds & birds',
+    image: 'https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=800&q=80',
+    icon: PawPrint,
+  },
+  {
+    title: 'Ancient Citadels & Ruined Cities',
+    category: 'Ancient Sites',
+    tagline: 'Sky fortresses, rock-cut shrines & royal moats',
+    image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80',
+    icon: Landmark,
+  },
+  {
+    title: 'Hidden Gems & Local Secrets',
+    category: 'Hidden Gems',
+    tagline: 'Lesser-trodden footpaths & panoramic ridge points',
+    image: 'https://images.unsplash.com/photo-1535463731090-e34f4b5098c5?w=800&q=80',
+    icon: Sparkles,
   },
 ];
 
 export default function JourneyCategoriesSection({ places }: JourneyCategoriesSectionProps) {
-  const handleCategoryClick = (e: React.MouseEvent, categoryQuery: string) => {
-    if (typeof window !== 'undefined' && window.location.pathname === '/') {
-      e.preventDefault();
-      window.history.pushState(null, '', `/?category=${encodeURIComponent(categoryQuery)}#explore`);
-      window.dispatchEvent(
-        new CustomEvent('uc:filter-category', {
-          detail: { category: categoryQuery },
-        })
-      );
-      const exploreEl = document.getElementById('explore');
-      if (exploreEl) {
-        exploreEl.scrollIntoView({ behavior: 'smooth' });
-      }
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const getCount = (cat: string) =>
+    places.filter((p) => p.category.toLowerCase().includes(cat.toLowerCase())).length;
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const amount = direction === 'left' ? -340 : 340;
+      scrollRef.current.scrollBy({ left: amount, behavior: 'smooth' });
     }
   };
 
-  const handleBrowseAllClick = (e: React.MouseEvent) => {
-    if (typeof window !== 'undefined' && window.location.pathname === '/') {
-      e.preventDefault();
-      window.history.pushState(null, '', '/#explore');
+  const handleCategoryClick = (categoryQuery: string) => {
+    if (typeof window !== 'undefined') {
       window.dispatchEvent(
-        new CustomEvent('uc:filter-category', {
-          detail: { category: 'All' },
-        })
+        new CustomEvent('uc:filter-category', { detail: { category: categoryQuery } })
       );
       const exploreEl = document.getElementById('explore');
       if (exploreEl) {
@@ -65,97 +92,106 @@ export default function JourneyCategoriesSection({ places }: JourneyCategoriesSe
   };
 
   return (
-    <section className="py-12 sm:py-20 lg:py-24 overflow-hidden">
-      <div className="mx-auto w-full max-w-7xl px-3 sm:px-6 lg:px-8">
+    <section className="py-12 sm:py-20 bg-[#F5FAFF] border-b border-[#DCE8F2]/60 overflow-hidden">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header with smooth drop-down animation */}
-        <div className="mb-8 sm:mb-14 text-center">
-          <motion.p
-            initial={{ opacity: 0, y: -16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-2 sm:mb-3 text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em] text-sky-700"
-          >
-            Start your journey
-          </motion.p>
+        {/* Section Header with Arrow Controls */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">
+          <div>
+            <div className="inline-flex items-center gap-1.5 bg-[#DCEFFD] text-[#1E93DC] text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2.5 border border-[#38A9F0]/20">
+              <Sparkles className="w-3 h-3 text-[#38A9F0]" />
+              <span>Find Things by Interest</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#0F2A3D] tracking-tight">
+              What kind of island trip do you imagine?
+            </h2>
+            <p className="mt-1.5 text-xs sm:text-base text-[#5B7385] max-w-xl">
+              Select an experience style to view curated places with verified locations and real travel advice.
+            </p>
+          </div>
 
-          <motion.h2
-            initial={{ opacity: 0, y: -24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="mx-auto max-w-2xl text-2xl sm:text-3xl lg:text-4xl font-semibold leading-tight text-slate-900 tracking-tight"
-          >
-            Find the Sri Lanka that stays with you.
-          </motion.h2>
-
-          <motion.div
-            initial={{ opacity: 0, y: -14 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <Link
-              href="/#explore"
-              onClick={handleBrowseAllClick}
-              className="mt-3 sm:mt-4 inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-sky-600 hover:text-sky-700 transition-colors group cursor-pointer"
+          {/* Desktop Arrow Controls */}
+          <div className="hidden sm:flex items-center gap-2 shrink-0">
+            <button
+              onClick={() => scroll('left')}
+              aria-label="Scroll left"
+              className="p-2.5 rounded-full bg-white hover:bg-[#EAF4FD] border border-[#DCE8F2] text-[#0F2A3D] transition-colors shadow-xs cursor-pointer active:scale-95"
             >
-              <span>Browse every place</span>
-              <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 group-hover:translate-x-1 transition-transform duration-200" />
-            </Link>
-          </motion.div>
+              <ChevronLeft className="w-4 h-4 stroke-[2.5]" />
+            </button>
+            <button
+              onClick={() => scroll('right')}
+              aria-label="Scroll right"
+              className="p-2.5 rounded-full bg-white hover:bg-[#EAF4FD] border border-[#DCE8F2] text-[#0F2A3D] transition-colors shadow-xs cursor-pointer active:scale-95"
+            >
+              <ChevronRight className="w-4 h-4 stroke-[2.5]" />
+            </button>
+          </div>
         </div>
 
-        {/* 3 Categories Cards with staggered drop-down entrance */}
-        <div className="grid w-full grid-cols-3 gap-2.5 sm:gap-6">
-          {categories.map((category, idx) => {
-            const Icon = category.icon;
-            const count = places.filter((place) => place.category === category.query).length;
+        {/* Horizontal Scroll-Snap Carousel */}
+        <div
+          ref={scrollRef}
+          className="flex gap-4 sm:gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-none"
+        >
+          {INTEREST_TILES.map((tile) => {
+            const count = getCount(tile.category);
+            const Icon = tile.icon;
 
             return (
-              <motion.div
-                key={category.query}
-                initial={{ opacity: 0, y: -36, scale: 0.96 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{
-                  duration: 0.75,
-                  delay: 0.12 * (idx + 1),
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                whileHover={{ y: -6, transition: { duration: 0.25 } }}
-                className="w-full"
+              <div
+                key={tile.category}
+                className="w-[280px] sm:w-[320px] shrink-0 snap-start"
               >
                 <Link
-                  href={`/?category=${encodeURIComponent(category.query)}#explore`}
-                  onClick={(e) => handleCategoryClick(e, category.query)}
-                  className="group relative block aspect-[4/5] sm:aspect-[4/3] w-full overflow-hidden rounded-xl sm:rounded-2xl bg-slate-950 shadow-sm hover:shadow-xl hover:shadow-sky-950/20 border border-slate-200/50 transition-all duration-300 cursor-pointer"
+                  href={`/?category=${encodeURIComponent(tile.category)}#explore`}
+                  onClick={() => handleCategoryClick(tile.category)}
+                  className="group block relative h-[380px] rounded-2xl overflow-hidden border border-[#DCE8F2] bg-white transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:shadow-[#38A9F0]/15"
                 >
-                  <Image
-                    src={category.image}
-                    alt={category.name}
-                    fill
-                    sizes="(max-width: 768px) 33vw, 33vw"
-                    className="object-cover transition duration-700 ease-out group-hover:scale-108"
-                    unoptimized
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent transition-opacity group-hover:opacity-90" />
-                  
-                  <div className="absolute inset-x-0 bottom-0 flex flex-col justify-end p-2.5 sm:p-6 text-white">
-                    <Icon className="mb-1 sm:mb-4 h-3.5 w-3.5 sm:h-5 sm:w-5 text-amber-400 transition-transform duration-300 group-hover:scale-110" />
-                    <h3 className="text-xs sm:text-xl font-semibold leading-tight truncate">
-                      {category.name}
+                  {/* Photo with PlaceImage */}
+                  <div className="absolute inset-0 z-0">
+                    <PlaceImage
+                      src={tile.image}
+                      placeName={tile.title}
+                      category={tile.category}
+                      aspectRatio="auto"
+                      className="transition-transform duration-700 ease-out group-hover:scale-104"
+                    />
+                    {/* Serene bottom gradient overlay for crystal clear typography */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0F2A3D]/90 via-[#0F2A3D]/40 to-transparent" />
+                  </div>
+
+                  {/* Top Category Badge & Real Count */}
+                  <div className="relative z-10 p-4 flex items-center justify-between">
+                    <span className="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-full text-[10.5px] font-bold text-[#0F2A3D] shadow-xs border border-[#DCE8F2]">
+                      <Icon className="w-3.5 h-3.5 text-[#38A9F0]" />
+                      <span>{tile.category}</span>
+                    </span>
+
+                    <span className="bg-[#0F2A3D]/80 backdrop-blur-md text-white text-[10.5px] font-bold px-2.5 py-1 rounded-full border border-white/20">
+                      {count} {count === 1 ? 'place' : 'places'}
+                    </span>
+                  </div>
+
+                  {/* Bottom Text Content */}
+                  <div className="absolute bottom-0 inset-x-0 z-10 p-5 space-y-1.5 text-white">
+                    <h3 className="text-xl font-bold tracking-tight leading-snug group-hover:text-[#38A9F0] transition-colors">
+                      {tile.title}
                     </h3>
-                    <p className="mt-0.5 text-[10px] sm:text-sm text-white/75 font-medium">
-                      {count} places
+                    <p className="text-xs text-white/80 line-clamp-2 leading-relaxed">
+                      {tile.tagline}
                     </p>
+                    <div className="pt-2 flex items-center gap-1 text-xs font-bold text-[#38A9F0] group-hover:translate-x-1 transition-transform">
+                      <span>Explore {tile.category}</span>
+                      <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
+                    </div>
                   </div>
                 </Link>
-              </motion.div>
+              </div>
             );
           })}
         </div>
+
       </div>
     </section>
   );

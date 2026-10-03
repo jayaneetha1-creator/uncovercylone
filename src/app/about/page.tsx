@@ -19,18 +19,18 @@ export default function AboutPage() {
     <div className="min-h-screen w-full bg-[#f8fafc] text-slate-900">
 
       {/* ━━━ 1. HERO SECTION (FULL SCREEN) ━━━ */}
-      <section className="relative isolate min-h-screen min-h-[100dvh] w-full overflow-hidden bg-[#0a192f] text-white flex flex-col justify-between">
+      <section className="relative isolate min-h-screen min-h-[100dvh] w-full overflow-hidden bg-[#0F2A3D] text-white flex flex-col justify-between">
         <Image
           src="https://images.unsplash.com/photo-1546708973-b339540b5162?w=1920&q=90"
           alt="Misty tea highlands of Sri Lanka"
           fill
           priority
           sizes="100vw"
-          className="-z-20 object-cover object-center brightness-[0.68] transition-transform duration-1000 scale-105"
+          className="-z-20 object-cover object-center brightness-[0.70] transition-transform duration-1000 scale-105"
           unoptimized
         />
-        <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(10,25,47,0.85)_0%,rgba(10,25,47,0.60)_45%,rgba(7,17,30,0.95)_100%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-52 bg-gradient-to-t from-[#0a192f] via-[#0a192f]/70 to-transparent -z-10" />
+        <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(15,42,61,0.78)_0%,rgba(15,42,61,0.50)_45%,rgba(15,42,61,0.92)_100%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#0F2A3D] via-[#0F2A3D]/70 to-transparent -z-10" />
 
         {/* Vertically Centered Hero Content */}
         <div className="mx-auto flex min-h-screen min-h-[100dvh] w-full max-w-5xl flex-col items-center justify-center px-4 pb-28 pt-24 text-center sm:px-6 lg:px-8">
@@ -137,23 +137,23 @@ export default function AboutPage() {
 
             {/* Visual Story Card */}
             <div className="lg:col-span-5">
-              <div className="relative rounded-3xl overflow-hidden bg-[#0a192f] p-8 text-white shadow-2xl shadow-sky-950/30 border border-white/10">
-                <div className="absolute -top-16 -right-16 w-52 h-52 bg-sky-500/15 rounded-full blur-3xl pointer-events-none" />
+              <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#EAF4FD] via-[#F5FAFF] to-[#DCEFFD] p-8 text-[#0F2A3D] shadow-sm border border-[#DCE8F2]">
+                <div className="absolute -top-16 -right-16 w-52 h-52 bg-[#38A9F0]/15 rounded-full blur-3xl pointer-events-none" />
                 <div className="relative z-10 space-y-6">
-                  <div className="w-12 h-12 rounded-2xl bg-sky-500 text-white flex items-center justify-center font-bold shadow-md shadow-sky-500/25">
+                  <div className="w-12 h-12 rounded-2xl bg-[#38A9F0] text-white flex items-center justify-center font-bold shadow-md shadow-[#38A9F0]/25">
                     <MapPin className="h-6 w-6" />
                   </div>
 
-                  <blockquote className="text-xl sm:text-2xl font-medium leading-snug text-white/95 italic">
+                  <blockquote className="text-xl sm:text-2xl font-semibold leading-snug text-[#0F2A3D] italic">
                     &ldquo;Sri Lanka shouldn&apos;t just be visited — it should be felt, experienced, and uncovered on your own terms.&rdquo;
                   </blockquote>
 
-                  <div className="border-t border-white/15 pt-5 flex items-center justify-between text-xs text-white/70">
+                  <div className="border-t border-[#DCE8F2] pt-5 flex items-center justify-between text-xs text-[#5B7385]">
                     <div>
-                      <p className="font-bold text-white text-sm">Ravindu Wijethunga & Gayan Rathnaweera</p>
-                      <p className="mt-0.5 text-sky-400">Founders, UncoverCeylon · Serandib Co.</p>
+                      <p className="font-bold text-[#0F2A3D] text-sm">Ravindu Wijethunga &amp; Gayan Rathnaweera</p>
+                      <p className="mt-0.5 text-[#38A9F0] font-medium">Founders, UncoverCeylon · Serandib Co.</p>
                     </div>
-                    <span className="rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold text-white/90">
+                    <span className="rounded-full bg-white border border-[#DCE8F2] px-3 py-1 text-[11px] font-semibold text-[#0F2A3D] shadow-2xs">
                       Est. 2026
                     </span>
                   </div>
@@ -349,17 +349,17 @@ export default function AboutPage() {
       </section>
 
       {/* ━━━ 5. WHY CHOOSE UNCOVERCEYLON ━━━ */}
-      <section className="py-20 sm:py-24 bg-[#0a192f] text-white">
+      <section className="py-20 sm:py-24 bg-white border-y border-[#DCE8F2] text-[#0F2A3D]">
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3.5 py-1 text-xs font-bold uppercase tracking-[0.16em] text-amber-400 backdrop-blur-md">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#EAF4FD] px-3.5 py-1 text-xs font-bold uppercase tracking-[0.16em] text-[#38A9F0] border border-[#DCEFFD]">
               <CheckCircle2 className="h-3.5 w-3.5" />
               <span>The Advantage</span>
             </span>
-            <h2 className="mt-3 text-3xl sm:text-4xl font-bold leading-tight text-white tracking-tight">
+            <h2 className="mt-3 text-3xl sm:text-4xl font-black leading-tight text-[#0F2A3D] tracking-tight">
               Why Choose UncoverCeylon
             </h2>
-            <p className="mt-4 text-base sm:text-lg text-white/80">
+            <p className="mt-4 text-base sm:text-lg text-[#5B7385]">
               Built differently from standard travel portals — focused purely on authenticity, freedom, and user delight.
             </p>
           </div>
@@ -376,17 +376,17 @@ export default function AboutPage() {
             ].map((item, idx) => (
               <div
                 key={item.title}
-                className={`rounded-2xl border border-white/15 bg-white/5 p-6 backdrop-blur-md hover:bg-white/10 transition-all ${
+                className={`rounded-2xl border border-[#DCE8F2] bg-[#F5FAFF] p-6 hover:bg-[#EAF4FD] hover:border-[#38A9F0]/40 transition-all shadow-2xs ${
                   idx === 6 ? 'sm:col-span-2 lg:col-span-1' : ''
                 }`}
               >
                 <div className="flex items-start gap-3.5">
-                  <div className="flex-shrink-0 w-7 h-7 rounded-full bg-sky-500 text-white flex items-center justify-center font-bold text-sm shadow-sm shadow-sky-500/30">
+                  <div className="flex-shrink-0 w-7 h-7 rounded-full bg-[#38A9F0] text-white flex items-center justify-center font-bold text-sm shadow-sm shadow-[#38A9F0]/30">
                     ✓
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-white">{item.title}</h3>
-                    <p className="mt-1 text-sm text-slate-300 leading-relaxed">{item.desc}</p>
+                    <h3 className="text-base font-bold text-[#0F2A3D]">{item.title}</h3>
+                    <p className="mt-1 text-sm text-[#5B7385] leading-relaxed">{item.desc}</p>
                   </div>
                 </div>
               </div>
@@ -487,7 +487,7 @@ export default function AboutPage() {
             <div className="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-4 mb-5">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#0a192f] to-sky-600 text-white flex items-center justify-center font-extrabold text-xl shadow-md border-2 border-amber-400 flex-shrink-0">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#0F2A3D] to-[#38A9F0] text-white flex items-center justify-center font-extrabold text-xl shadow-md border-2 border-white flex-shrink-0">
                     RW
                   </div>
                   <div>
@@ -598,29 +598,29 @@ export default function AboutPage() {
       {/* ━━━ 8. COMPANY SECTION (SERANDIB CO.) ━━━ */}
       <section className="py-20 sm:py-24">
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-3xl bg-[#0a192f] text-white p-8 sm:p-14 lg:p-16 relative overflow-hidden shadow-2xl border border-white/10">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-sky-500/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="rounded-3xl bg-gradient-to-br from-[#EAF4FD] via-[#F5FAFF] to-[#DCEFFD] text-[#0F2A3D] p-8 sm:p-14 lg:p-16 relative overflow-hidden shadow-sm border border-[#DCE8F2]">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-[#38A9F0]/10 rounded-full blur-3xl pointer-events-none" />
 
             <div className="relative z-10 max-w-3xl">
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-semibold text-amber-400 backdrop-blur-md mb-6">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-[#38A9F0] border border-[#DCE8F2] mb-6 shadow-2xs">
                 <Award className="h-3.5 w-3.5" />
                 <span>Parent Initiative</span>
               </div>
 
-              <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white leading-tight">
+              <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-[#0F2A3D] leading-tight">
                 Serandib Co.
               </h2>
 
-              <p className="mt-6 text-lg sm:text-xl text-white/90 leading-relaxed font-normal">
+              <p className="mt-6 text-lg sm:text-xl text-[#0F2A3D]/90 leading-relaxed font-normal">
                 A Sri Lankan digital initiative dedicated to creating innovative platforms that promote local culture, tourism, and technology.
               </p>
 
-              <p className="mt-4 text-sm sm:text-base text-slate-300 leading-relaxed">
+              <p className="mt-4 text-sm sm:text-base text-[#5B7385] leading-relaxed">
                 Rooted in the royal legacy of our island — famous across historical seafaring lore for serenity and wonder — Serandib Co. champions high-impact digital ventures that showcase Sri Lanka’s unparalleled heritage, craftsmanship, and ecological treasures to global audiences.
               </p>
 
-              <div className="mt-8 pt-6 border-t border-white/15 flex flex-wrap items-center gap-8 text-xs font-bold uppercase tracking-wider text-amber-400">
-                <span>✓ Technology & Culture</span>
+              <div className="mt-8 pt-6 border-t border-[#DCE8F2] flex flex-wrap items-center gap-8 text-xs font-bold uppercase tracking-wider text-[#38A9F0]">
+                <span>✓ Technology &amp; Culture</span>
                 <span>✓ Open Tourism Infrastructure</span>
                 <span>✓ Colombo, Sri Lanka</span>
               </div>
@@ -694,26 +694,25 @@ export default function AboutPage() {
       </section>
 
       {/* ━━━ 10. FINAL CTA SECTION ━━━ */}
-      <section className="py-20 sm:py-28 bg-[#0a192f] text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-600/10 via-transparent to-transparent pointer-events-none" />
+      <section className="py-20 sm:py-28 bg-gradient-to-br from-[#EAF4FD] via-[#F5FAFF] to-[#DCEFFD] text-[#0F2A3D] border-t border-[#DCE8F2] relative overflow-hidden">
         <div className="mx-auto w-full max-w-4xl px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-4 py-1.5 text-xs font-semibold text-amber-400 backdrop-blur-md mb-6">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-[#38A9F0] border border-[#DCE8F2] shadow-2xs mb-6">
             <Sparkles className="h-3.5 w-3.5" />
             <span>Embark on Your Journey</span>
           </span>
 
-          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white leading-tight">
+          <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-[#0F2A3D] leading-tight">
             Start Exploring Sri Lanka Today
           </h2>
 
-          <p className="mt-5 max-w-2xl mx-auto text-base sm:text-lg text-white/85 leading-relaxed">
+          <p className="mt-5 max-w-2xl mx-auto text-base sm:text-lg text-[#5B7385] leading-relaxed">
             Discover breathtaking destinations, hidden gems, and unforgettable experiences with UncoverCeylon.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/#explore"
-              className="inline-flex items-center gap-2 rounded-xl bg-sky-500 hover:bg-sky-400 px-7 py-3.5 text-sm font-bold text-white transition-all hover:scale-105 active:scale-95 shadow-lg shadow-sky-600/30"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#38A9F0] hover:bg-[#1E93DC] px-7 py-3.5 text-sm font-bold text-white transition-all hover:scale-105 active:scale-95 shadow-md shadow-[#38A9F0]/25"
             >
               <span>Explore Destinations</span>
               <ArrowRight className="h-4 w-4" />
@@ -721,9 +720,9 @@ export default function AboutPage() {
 
             <Link
               href="/map"
-              className="inline-flex items-center gap-2 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 px-7 py-3.5 text-sm font-bold text-white transition-all hover:scale-105 active:scale-95 backdrop-blur-md"
+              className="inline-flex items-center gap-2 rounded-xl bg-white hover:bg-[#EAF4FD] border border-[#DCE8F2] px-7 py-3.5 text-sm font-bold text-[#0F2A3D] transition-all hover:scale-105 active:scale-95 shadow-xs"
             >
-              <Map className="h-4 w-4 text-sky-300" />
+              <Map className="h-4 w-4 text-[#38A9F0]" />
               <span>Interactive Map</span>
             </Link>
           </div>
