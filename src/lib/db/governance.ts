@@ -397,3 +397,7 @@ export async function getAuditLogs(
 
   return query<AuditLogRecord>(sql, params);
 }
+
+// Convenient aliases matching specification nomenclature
+export const createNotification = dispatchNotification;
+export const logAudit = recordAuditLog;

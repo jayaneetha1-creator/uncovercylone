@@ -17,6 +17,7 @@ export interface Place {
   rating: number;
   review_count: number;
   featured: number;
+  status?: 'published' | 'draft' | 'pending' | 'archived';
   created_at: string;
 }
 
@@ -28,6 +29,9 @@ export interface Review {
   rating: number;
   comment: string;
   status?: 'approved' | 'pending' | 'spam';
+  photos?: string[];
+  ratings?: { clean?: number; crowd?: number; value?: number; accessibility?: number };
+  helpful_count?: number;
   created_at: string;
 }
 

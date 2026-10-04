@@ -11,7 +11,8 @@ import {
   Check, ArrowUpRight, ArrowUpDown, ChevronLeft, ChevronRight,
   Edit, AlertTriangle, CheckSquare, Square, MessageSquare,
   Database, History, Tag,
-  FolderTree, Palette, FileCode2, Trash, ClipboardList
+  FolderTree, Palette, FileCode2, Trash, ClipboardList,
+  Sparkles
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import DestinationEditorModal from '@/components/DestinationEditorModal';
@@ -20,6 +21,10 @@ import ThemeControllerTab from './components/ThemeControllerTab';
 import FileMapTab from './components/FileMapTab';
 import TrashRequestsTab from './components/TrashRequestsTab';
 import AuditLogTab from './components/AuditLogTab';
+import ApprovalsTab from './components/ApprovalsTab';
+import CustomerChatTab from './components/CustomerChatTab';
+import MediaManagerTab from './components/MediaManagerTab';
+import SlidesManagerTab from './components/SlidesManagerTab';
 
 interface HeroSlide {
   id: number;
@@ -89,9 +94,9 @@ export default function AdminPage() {
   const [adminPassword, setAdminPassword] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  // Active tab: 'places' | 'slides' | 'region' | 'reviews' | 'folders' | 'theme' | 'filemap' | 'trash' | 'audit' | 'logs'
+  // Active tab: 'places' | 'approvals' | 'chat' | 'slides' | 'media' | 'reviews' | 'folders' | 'theme' | 'filemap' | 'trash' | 'audit' | 'logs'
   const [activeTab, setActiveTab] = useState<
-    'places' | 'slides' | 'region' | 'reviews' | 'folders' | 'theme' | 'filemap' | 'trash' | 'audit' | 'logs'
+    'places' | 'approvals' | 'chat' | 'slides' | 'media' | 'reviews' | 'folders' | 'theme' | 'filemap' | 'trash' | 'audit' | 'logs'
   >('places');
 
   // Activity Logs State
@@ -1144,6 +1149,30 @@ export default function AdminPage() {
             </button>
 
             <button
+              onClick={() => setActiveTab('approvals')}
+              className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
+                activeTab === 'approvals'
+                  ? 'bg-white text-sky-600 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-900'
+              }`}
+            >
+              <CheckSquare className="w-4 h-4" />
+              <span>Approvals</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('chat')}
+              className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
+                activeTab === 'chat'
+                  ? 'bg-white text-sky-600 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-900'
+              }`}
+            >
+              <MessageSquare className="w-4 h-4" />
+              <span>Customer Chat</span>
+            </button>
+
+            <button
               onClick={() => setActiveTab('slides')}
               className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
                 activeTab === 'slides'
@@ -1152,19 +1181,19 @@ export default function AdminPage() {
               }`}
             >
               <ImageIcon className="w-4 h-4" />
-              <span>Hero Slides ({slides.length})</span>
+              <span>Slides Manager</span>
             </button>
 
             <button
-              onClick={() => setActiveTab('region')}
+              onClick={() => setActiveTab('media')}
               className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
-                activeTab === 'region'
+                activeTab === 'media'
                   ? 'bg-white text-sky-600 shadow-sm'
                   : 'text-slate-500 hover:text-slate-900'
               }`}
             >
-              <MapPin className="w-4 h-4" />
-              <span>Regions ({regionSlides.length})</span>
+              <Sparkles className="w-4 h-4" />
+              <span>Media Optimizer</span>
             </button>
 
             <button
@@ -1268,24 +1297,6 @@ export default function AdminPage() {
               >
                 <Plus className="w-4 h-4" />
                 <span>Add Destination</span>
-              </button>
-            )}
-            {activeTab === 'slides' && (
-              <button
-                onClick={() => setShowSlideForm(!showSlideForm)}
-                className="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-500 text-white font-bold px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-md shadow-sky-600/25 active:scale-95 transition-all cursor-pointer"
-              >
-                {showSlideForm ? <X className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-                <span>{showSlideForm ? 'Close Form' : 'Add Hero Slide'}</span>
-              </button>
-            )}
-            {activeTab === 'region' && (
-              <button
-                onClick={() => setShowRegionSlideForm(!showRegionSlideForm)}
-                className="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-500 text-white font-bold px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-md shadow-sky-600/25 active:scale-95 transition-all cursor-pointer"
-              >
-                {showRegionSlideForm ? <X className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-                <span>{showRegionSlideForm ? 'Close Form' : 'Add Region Slide'}</span>
               </button>
             )}
             {activeTab === 'reviews' && (
@@ -1798,605 +1809,6 @@ export default function AdminPage() {
           </div>
         )}
 
-        {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            TAB 2: HERO SLIDESHOW MANAGEMENT
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-        {activeTab === 'slides' && (
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-lg font-black text-slate-900">
-                  Welcome Hero Slideshow
-                </h2>
-                <p className="text-slate-500 text-xs mt-0.5">
-                  Full-bleed background photographs automatically cycling on the homepage
-                </p>
-              </div>
-
-              <button
-                onClick={() => setShowSlideForm(!showSlideForm)}
-                className="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-500 text-white font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-md shadow-sky-600/25 active:scale-95 transition-all cursor-pointer"
-              >
-                {showSlideForm ? <X className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-                <span>{showSlideForm ? 'Close Form' : 'Add New Slide'}</span>
-              </button>
-            </div>
-
-            {/* ADD SLIDE FORM */}
-            {showSlideForm && (
-              <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-900/5 animate-fade-in-up">
-                <h3 className="text-lg font-black text-slate-900 mb-6 flex items-center gap-2">
-                  <ImageIcon className="w-5 h-5 text-sky-600" />
-                  Add Photo to Welcome Slideshow
-                </h3>
-
-                <form onSubmit={handleSubmitSlide} className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div className="sm:col-span-2 bg-slate-50 border border-slate-200 rounded-2xl p-5 space-y-4">
-                    <div className="flex items-center justify-between">
-                      <label className="block text-slate-900 text-xs font-bold uppercase tracking-wider">
-                        Slide Photograph *
-                      </label>
-                      {slideForm.image_url && (
-                        <span className="text-sky-600 text-xs flex items-center gap-1 font-bold">
-                          <CheckCircle2 className="w-3.5 h-3.5" /> Photo Attached
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {/* Upload from PC */}
-                      <div className="border-2 border-dashed border-slate-200 hover:border-sky-500 rounded-2xl p-5 flex flex-col items-center justify-center text-center bg-white hover:bg-sky-50/50 transition-all cursor-pointer relative group shadow-xs">
-                        <input
-                          type="file"
-                          accept="image/*"
-                          disabled={uploadingSlideImage}
-                          onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            if (file) handleFileUpload(file);
-                          }}
-                          className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10"
-                        />
-                        <div className="w-11 h-11 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                          {uploadingSlideImage ? <Loader2 className="w-5 h-5 animate-spin" /> : <Upload className="w-5 h-5" />}
-                        </div>
-                        <span className="text-slate-900 text-xs font-bold">
-                          {uploadingSlideImage ? 'Uploading image...' : '📁 Upload Photo from PC'}
-                        </span>
-                        <span className="text-slate-500 text-[11px] mt-0.5">High-definition landscape photo</span>
-                      </div>
-
-                      {/* Enter Web URL */}
-                      <div className="flex flex-col justify-center">
-                        <span className="text-slate-600 text-xs mb-1.5 font-bold">Or enter Image URL:</span>
-                        <input
-                          value={slideForm.image_url}
-                          onChange={(e) => setSlideForm({ ...slideForm, image_url: e.target.value })}
-                          placeholder="https://images.unsplash.com/photo-..."
-                          className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-slate-800 placeholder-slate-400 text-xs focus:border-sky-500 focus:ring-1 focus:ring-sky-500/20 outline-none transition-all shadow-xs"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Live Preview */}
-                    {slideForm.image_url && isValidImageUrl(slideForm.image_url) && (
-                      <div className="flex items-center gap-3 pt-3 border-t border-slate-200">
-                        <div className="relative w-24 h-14 rounded-xl overflow-hidden border border-slate-200 flex-shrink-0 bg-slate-100 shadow-xs">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={slideForm.image_url}
-                            alt="Slide preview"
-                            className="w-full h-full object-cover"
-                            onError={(e) => {
-                              (e.target as HTMLElement).style.display = 'none';
-                            }}
-                          />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <span className="text-slate-600 text-xs font-medium block truncate">{slideForm.image_url}</span>
-                          <button
-                            type="button"
-                            onClick={() => setSlideForm({ ...slideForm, image_url: '' })}
-                            className="text-rose-600 hover:text-rose-700 text-xs font-bold mt-1 cursor-pointer"
-                          >
-                            Remove photo
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-slate-700 text-xs font-bold uppercase tracking-wider mb-2">
-                      Location Name *
-                    </label>
-                    <input
-                      value={slideForm.location}
-                      onChange={(e) => setSlideForm({ ...slideForm, location: e.target.value })}
-                      placeholder="e.g. Nine Arch Bridge, Ella"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 text-sm focus:border-sky-500 focus:ring-1 focus:ring-sky-500/20 focus:bg-white transition-all shadow-xs outline-none"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-slate-700 text-xs font-bold uppercase tracking-wider mb-2">
-                      Province
-                    </label>
-                    <select
-                      value={slideForm.province}
-                      onChange={(e) => setSlideForm({ ...slideForm, province: e.target.value })}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 text-sm focus:border-sky-500 focus:ring-1 focus:ring-sky-500/20 focus:bg-white transition-all shadow-xs font-semibold outline-none cursor-pointer"
-                    >
-                      {PROVINCES.map((p) => (
-                        <option key={p} value={p}>{p}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="sm:col-span-2 flex items-center gap-3 pt-4 border-t border-slate-100">
-                    <button
-                      type="submit"
-                      disabled={submittingSlide}
-                      className="flex items-center gap-2 bg-sky-600 hover:bg-sky-500 disabled:opacity-50 text-white font-bold px-7 py-3 rounded-xl transition-all shadow-md shadow-sky-600/25 text-sm cursor-pointer"
-                    >
-                      {submittingSlide ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                      <span>{submittingSlide ? 'Adding...' : 'Add Slide to Homepage'}</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setShowSlideForm(false)}
-                      className="px-5 py-3 rounded-xl text-slate-500 hover:text-slate-800 text-sm font-semibold cursor-pointer"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </form>
-              </div>
-            )}
-
-            {/* SLIDES PREVIEWS GRID */}
-            {loadingSlides ? (
-              <div className="py-20 flex justify-center bg-white rounded-3xl border border-slate-200">
-                <Loader2 className="w-8 h-8 animate-spin text-sky-600" />
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {slides.map((slide, index) => (
-                  <div
-                    key={slide.id}
-                    className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-xs hover:shadow-md hover:border-sky-500/40 transition-all flex flex-col"
-                  >
-                    <div className="relative h-48 w-full bg-slate-100">
-                      {isValidImageUrl(slide.image_url) ? (
-                        /* eslint-disable-next-line @next/next/no-img-element */
-                        <img
-                          src={slide.image_url}
-                          alt={slide.location}
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800&q=80';
-                          }}
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-slate-300">
-                          <ImageIcon className="w-8 h-8" />
-                        </div>
-                      )}
-                      <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-white text-xs font-bold">
-                        Slide #{index + 1}
-                      </div>
-                    </div>
-
-                    <div className="p-5 flex-1 flex flex-col justify-between">
-                      <div>
-                        <h4 className="text-slate-900 font-extrabold text-base mb-1">
-                          {slide.location}
-                        </h4>
-                        <p className="text-slate-500 text-xs font-medium">{slide.province || 'Sri Lanka'}</p>
-                      </div>
-
-                      <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
-                        <a
-                          href={slide.image_url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-sky-600 hover:text-sky-500 text-xs font-bold flex items-center gap-1"
-                        >
-                          <span>View Link</span>
-                          <ExternalLink className="w-3 h-3" />
-                        </a>
-
-                        <button
-                          onClick={() => handleDeleteSlide(slide.id)}
-                          disabled={deletingSlideId === slide.id}
-                          className="flex items-center gap-1.5 text-xs text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 px-3 py-1.5 rounded-lg transition-colors font-bold cursor-pointer"
-                        >
-                          {deletingSlideId === slide.id ? (
-                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                          ) : (
-                            <Trash2 className="w-3.5 h-3.5" />
-                          )}
-                          <span>Remove</span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            TAB 3: EXPLORE BY REGION (BANNER & SLIDES)
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-        {activeTab === 'region' && (
-          <div className="space-y-8 animate-fade-in">
-            {/* Header / Intro Card */}
-            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 text-sky-700 text-xs font-bold mb-2">
-                  <MapPin className="w-3.5 h-3.5 text-amber-500" />
-                  <span>Homepage Featured Banner</span>
-                </div>
-                <h2 className="text-xl sm:text-2xl font-black text-slate-900">
-                  Explore by Region Section
-                </h2>
-                <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-xl">
-                  Manage the promotional card on the homepage, including its headline, description, map button, and rotating image carousel.
-                </p>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => setShowRegionSlideForm(!showRegionSlideForm)}
-                  className="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs sm:text-sm shadow-md shadow-sky-600/20 active:scale-95 transition-all cursor-pointer"
-                >
-                  {showRegionSlideForm ? <X className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-                  <span>{showRegionSlideForm ? 'Close Slide Form' : 'Add Region Slide'}</span>
-                </button>
-              </div>
-            </div>
-
-            {/* ━━━ LIVE CARD PREVIEW ━━━ */}
-            <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                Live Appearance Preview (How it looks on Homepage)
-              </span>
-              <div className="grid overflow-hidden rounded-2xl bg-[#0a192f] shadow-md lg:grid-cols-[1fr_0.9fr]">
-                <div className="p-6 sm:p-8 text-white flex flex-col justify-between">
-                  <div>
-                    <MapPin className="h-5 w-5 text-amber-400 mb-4" />
-                    <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-sky-300">
-                      {regionSettings.region_tagline || 'Explore by region'}
-                    </p>
-                    <h3 className="mt-2 text-xl sm:text-2xl font-semibold leading-tight">
-                      {regionSettings.region_title || 'Every corner of the island has a different story.'}
-                    </h3>
-                    <p className="mt-3 text-xs sm:text-sm leading-relaxed text-slate-300">
-                      {regionSettings.region_description || 'Choose a province, follow the map, and make your own route across Sri Lanka.'}
-                    </p>
-                  </div>
-                  <div className="mt-6">
-                    <span className="inline-flex items-center gap-2 rounded-lg bg-amber-400 px-4 py-2 text-xs font-bold text-slate-950">
-                      {regionSettings.region_button_text || 'Open the map'} <Map className="h-3.5 w-3.5" />
-                    </span>
-                  </div>
-                </div>
-                <div className="relative min-h-48 sm:min-h-60 bg-[#07111e] flex items-center justify-center p-4">
-                  {regionSlides.length > 0 ? (
-                    <div className="relative w-full h-full min-h-48 rounded-xl overflow-hidden">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={regionSlides[0].image_url}
-                        alt={regionSlides[0].title}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute bottom-3 left-3 bg-black/65 backdrop-blur-md px-3 py-1.5 rounded-xl text-white text-xs border border-white/15">
-                        <p className="font-bold">{regionSlides[0].title}</p>
-                        <p className="text-[10px] text-amber-400">{regionSlides[0].region}</p>
-                      </div>
-                      <div className="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-lg text-white text-xs font-mono font-bold">
-                        1 / {regionSlides.length}
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="text-white/60 text-xs">No region slides added yet</div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* ━━━ SECTION 1: BANNER TEXT CONTENT ━━━ */}
-            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-xs space-y-6">
-              <div className="flex items-center justify-between border-b border-slate-200 pb-4">
-                <div>
-                  <h3 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
-                    <Sliders className="w-4 h-4 text-sky-600" />
-                    <span>Card Text & Link Settings</span>
-                  </h3>
-                  <p className="text-xs text-slate-500">Customise the left side text of the Explore by Region banner.</p>
-                </div>
-              </div>
-
-              <form onSubmit={handleSaveRegionSettings} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-slate-900 uppercase tracking-wider mb-1.5">
-                      Badge / Tagline
-                    </label>
-                    <input
-                      type="text"
-                      value={regionSettings.region_tagline}
-                      onChange={(e) => setRegionSettings((prev) => ({ ...prev, region_tagline: e.target.value }))}
-                      placeholder="e.g. Explore by region"
-                      className="w-full bg-slate-50 border border-slate-200 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 rounded-xl px-4 py-2.5 text-sm text-slate-900 outline-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-slate-900 uppercase tracking-wider mb-1.5">
-                      Main Heading / Title
-                    </label>
-                    <input
-                      type="text"
-                      value={regionSettings.region_title}
-                      onChange={(e) => setRegionSettings((prev) => ({ ...prev, region_title: e.target.value }))}
-                      placeholder="e.g. Every corner of the island has a different story."
-                      className="w-full bg-slate-50 border border-slate-200 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 rounded-xl px-4 py-2.5 text-sm text-slate-900 outline-none font-semibold"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-slate-900 uppercase tracking-wider mb-1.5">
-                    Description Paragraph
-                  </label>
-                  <textarea
-                    rows={2}
-                    value={regionSettings.region_description}
-                    onChange={(e) => setRegionSettings((prev) => ({ ...prev, region_description: e.target.value }))}
-                    placeholder="e.g. Choose a province, follow the map, and make your own route across Sri Lanka."
-                    className="w-full bg-slate-50 border border-slate-200 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 rounded-xl px-4 py-2.5 text-sm text-slate-900 outline-none resize-none"
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-slate-900 uppercase tracking-wider mb-1.5">
-                      Button Label
-                    </label>
-                    <input
-                      type="text"
-                      value={regionSettings.region_button_text}
-                      onChange={(e) => setRegionSettings((prev) => ({ ...prev, region_button_text: e.target.value }))}
-                      placeholder="e.g. Open the map"
-                      className="w-full bg-slate-50 border border-slate-200 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 rounded-xl px-4 py-2.5 text-sm text-slate-900 outline-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-slate-900 uppercase tracking-wider mb-1.5">
-                      Button Link URL
-                    </label>
-                    <input
-                      type="text"
-                      value={regionSettings.region_button_link}
-                      onChange={(e) => setRegionSettings((prev) => ({ ...prev, region_button_link: e.target.value }))}
-                      placeholder="e.g. /map or /#explore"
-                      className="w-full bg-slate-50 border border-slate-200 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 rounded-xl px-4 py-2.5 text-sm text-slate-900 outline-none font-mono"
-                    />
-                  </div>
-                </div>
-
-                <div className="pt-2 flex justify-end">
-                  <button
-                    type="submit"
-                    disabled={savingSettings}
-                    className="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-500 disabled:opacity-50 text-white font-bold px-6 py-2.5 rounded-xl text-sm shadow-sm transition-all cursor-pointer"
-                  >
-                    {savingSettings ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                    <span>{savingSettings ? 'Saving...' : 'Save Banner Text'}</span>
-                  </button>
-                </div>
-              </form>
-            </div>
-
-            {/* ━━━ SECTION 2: ADD NEW REGION SLIDE FORM ━━━ */}
-            {showRegionSlideForm && (
-              <div className="bg-sky-50/40 border-2 border-dashed border-sky-300 rounded-3xl p-6 sm:p-8 animate-scale-in">
-                <div className="flex items-center justify-between mb-6">
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                      <Plus className="w-5 h-5 text-sky-600" />
-                      <span>Add New Region Slide</span>
-                    </h3>
-                    <p className="text-xs text-slate-500">
-                      Add an eye-catching photo for the rotating carousel on the right side of the card.
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => setShowRegionSlideForm(false)}
-                    className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-white cursor-pointer"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-                </div>
-
-                <form onSubmit={handleAddRegionSlide} className="space-y-5">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold text-slate-900 uppercase tracking-wider mb-1.5">
-                        Slide Title / Landmark *
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={regionSlideForm.title}
-                        onChange={(e) => setRegionSlideForm((prev) => ({ ...prev, title: e.target.value }))}
-                        placeholder="e.g. Yala Wilderness Safari"
-                        className="w-full bg-white border border-slate-200 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 rounded-xl px-4 py-2.5 text-sm text-slate-900 outline-none"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-bold text-slate-900 uppercase tracking-wider mb-1.5">
-                        Region / Province *
-                      </label>
-                      <select
-                        value={regionSlideForm.region}
-                        onChange={(e) => setRegionSlideForm((prev) => ({ ...prev, region: e.target.value }))}
-                        className="w-full bg-white border border-slate-200 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 rounded-xl px-4 py-2.5 text-sm text-slate-900 outline-none cursor-pointer"
-                      >
-                        {PROVINCES.map((prov) => (
-                          <option key={prov} value={prov}>{prov}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Photo selection (Upload or URL) */}
-                  <div className="space-y-3 bg-white p-5 rounded-2xl border border-slate-200">
-                    <label className="block text-xs font-bold text-slate-900 uppercase tracking-wider">
-                      Slide Photograph *
-                    </label>
-
-                    <div className="flex flex-col sm:flex-row items-center gap-3">
-                      <label className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-sky-50 hover:bg-sky-100 text-sky-700 rounded-xl font-bold text-xs sm:text-sm cursor-pointer transition-colors border border-sky-200">
-                        <Upload className="w-4 h-4" />
-                        <span>{uploadingRegionImage ? 'Uploading Image...' : 'Upload Photo from PC'}</span>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          className="hidden"
-                          disabled={uploadingRegionImage}
-                          onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            if (file) handleRegionFileUpload(file);
-                          }}
-                        />
-                      </label>
-                      <span className="text-xs text-slate-500 font-medium">or paste direct image URL below:</span>
-                    </div>
-
-                    <input
-                      type="url"
-                      required
-                      value={regionSlideForm.image_url}
-                      onChange={(e) => setRegionSlideForm((prev) => ({ ...prev, image_url: e.target.value }))}
-                      placeholder="https://images.unsplash.com/..."
-                      className="w-full bg-slate-50 border border-slate-200 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 rounded-xl px-4 py-2.5 text-sm text-slate-900 outline-none"
-                    />
-
-                    {regionSlideForm.image_url && (
-                      <div className="mt-2 relative h-36 w-full max-w-sm rounded-xl overflow-hidden border border-slate-200">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={regionSlideForm.image_url}
-                          alt="Preview"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="flex items-center gap-3 pt-2">
-                    <button
-                      type="submit"
-                      disabled={submittingRegionSlide || uploadingRegionImage}
-                      className="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-500 disabled:opacity-50 text-white font-bold px-6 py-3 rounded-xl text-sm shadow-md shadow-sky-600/20 transition-all cursor-pointer"
-                    >
-                      {submittingRegionSlide ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                      <span>{submittingRegionSlide ? 'Saving Slide...' : 'Save Region Slide'}</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setShowRegionSlideForm(false)}
-                      className="px-5 py-3 rounded-xl text-slate-500 hover:text-slate-800 text-sm font-semibold cursor-pointer"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </form>
-              </div>
-            )}
-
-            {/* ━━━ SECTION 3: REGION SLIDES GRID ━━━ */}
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
-                  <ImageIcon className="w-4 h-4 text-sky-600" />
-                  <span>Current Region Slides ({regionSlides.length})</span>
-                </h3>
-              </div>
-
-              {loadingRegion ? (
-                <div className="py-20 flex justify-center bg-white rounded-3xl border border-slate-200">
-                  <Loader2 className="w-8 h-8 animate-spin text-sky-600" />
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {regionSlides.map((slide, index) => (
-                    <div
-                      key={slide.id}
-                      className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-xs hover:shadow-md hover:border-sky-500/40 transition-all flex flex-col"
-                    >
-                      <div className="relative h-48 w-full bg-slate-100">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={slide.image_url}
-                          alt={slide.title}
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800&q=80';
-                          }}
-                        />
-                        <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-white text-xs font-bold">
-                          Slide #{index + 1}
-                        </div>
-                      </div>
-
-                      <div className="p-5 flex-1 flex flex-col justify-between">
-                        <div>
-                          <h4 className="text-slate-900 font-extrabold text-base mb-1">
-                            {slide.title}
-                          </h4>
-                          <p className="text-sky-600 text-xs font-semibold">{slide.region}</p>
-                        </div>
-
-                        <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
-                          <a
-                            href={slide.image_url}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="text-sky-600 hover:text-sky-500 text-xs font-bold flex items-center gap-1"
-                          >
-                            <span>View Link</span>
-                            <ExternalLink className="w-3 h-3" />
-                          </a>
-
-                          <button
-                            onClick={() => handleDeleteRegionSlide(slide.id)}
-                            disabled={deletingRegionSlideId === slide.id}
-                            className="flex items-center gap-1.5 text-xs text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 px-3 py-1.5 rounded-lg transition-colors font-bold cursor-pointer"
-                          >
-                            {deletingRegionSlideId === slide.id ? (
-                              <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                            ) : (
-                              <Trash2 className="w-3.5 h-3.5" />
-                            )}
-                            <span>Remove</span>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        )}
 
         {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             TAB 4: REVIEWS MODERATION & ANTI-SPAM CONTROL
@@ -2849,6 +2261,18 @@ export default function AdminPage() {
             </div>
           </div>
         )}
+
+        {/* ━━━ TAB: APPROVALS QUEUE (R30, T5.4) ━━━ */}
+        {activeTab === 'approvals' && <ApprovalsTab />}
+
+        {/* ━━━ TAB: CUSTOMER CHAT & SUPPORT (R03, T5.7) ━━━ */}
+        {activeTab === 'chat' && <CustomerChatTab />}
+
+        {/* ━━━ TAB: SLIDES MANAGER (T5.2) ━━━ */}
+        {activeTab === 'slides' && <SlidesManagerTab />}
+
+        {/* ━━━ TAB: MEDIA OPTIMIZER (R17, T5.3) ━━━ */}
+        {activeTab === 'media' && <MediaManagerTab />}
 
         {/* ━━━ TAB 6: FOLDER MANAGER (SITE NODES HIERARCHY) ━━━ */}
         {activeTab === 'folders' && <FolderManagerTab />}

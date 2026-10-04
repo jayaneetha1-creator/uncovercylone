@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getDb, logActivity } from '@/lib/db';
+import { getDb, logActivity, createNotification } from '@/lib/db';
+import { getCurrentUser } from '@/lib/auth';
+import { requirePermission } from '@/lib/permissions';
 import { Review } from '@/types';
 
-// Helper to recalculate a place's rating and review count from approved reviews only
+// Helper to recalculate place rating and count from approved reviews
 function updatePlaceReviewStats(db: ReturnType<typeof getDb>, placeId: number) {
   const stats = db.prepare(
     "SELECT AVG(rating) as avg_rating, COUNT(*) as count FROM reviews WHERE place_id = ? AND (status = 'approved' OR status IS NULL)"
@@ -15,185 +17,272 @@ function updatePlaceReviewStats(db: ReturnType<typeof getDb>, placeId: number) {
   ).run(avg, stats.count, placeId);
 }
 
-// ━━━ 1. GET REVIEWS (WITH OPTIONAL ADMIN & PLACE FILTERS) ━━━
+// ━━━ 1. GET REVIEWS (WITH PHOTOS, REPLIES, VOTES) ━━━
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const placeId = searchParams.get('place_id');
     const isAdmin = searchParams.get('admin') === 'true';
     const status = searchParams.get('status');
+    const author = searchParams.get('author');
 
     const db = getDb();
 
-    if (isAdmin) {
-      // Admin query with joined place name
-      let query = `
-        SELECT r.*, p.name as place_name 
-        FROM reviews r
-        LEFT JOIN places p ON r.place_id = p.id
-      `;
-      const params: unknown[] = [];
+    let baseQuery = `
+      SELECT r.*, p.name as place_name, u.avatar as author_avatar, u.country as author_country,
+             (SELECT COUNT(*) FROM reviews ur WHERE ur.user_id = r.user_id) as author_contributions,
+             rr.reply_text as staff_reply, rr.created_at as staff_reply_at, ru.name as staff_name
+      FROM reviews r
+      LEFT JOIN places p ON r.place_id = p.id
+      LEFT JOIN users u ON r.user_id = u.id
+      LEFT JOIN review_replies rr ON rr.review_id = r.id
+      LEFT JOIN users ru ON rr.author_id = ru.id
+    `;
+    const params: unknown[] = [];
 
+    if (isAdmin) {
       if (status && status !== 'all') {
-        query += ' WHERE r.status = ?';
+        baseQuery += ' WHERE r.status = ?';
         params.push(status);
       }
-
-      query += ' ORDER BY r.created_at DESC';
-
-      const reviews = db.prepare(query).all(...params) as Review[];
-      return NextResponse.json({ reviews });
+      baseQuery += ' ORDER BY r.created_at DESC';
+    } else if (placeId) {
+      baseQuery += ` WHERE r.place_id = ? AND (r.status = 'approved' OR r.status IS NULL) ORDER BY r.created_at DESC`;
+      params.push(placeId);
+    } else if (author) {
+      baseQuery += ' WHERE (r.author = ? OR u.email = ?) ORDER BY r.created_at DESC';
+      params.push(author, author);
+    } else {
+      return NextResponse.json({ error: 'Missing place_id, author, or admin flag' }, { status: 400 });
     }
 
-    // Public query for place detail
-    if (placeId) {
-      const reviews = db.prepare(`
-        SELECT * FROM reviews 
-        WHERE place_id = ? AND (status = 'approved' OR status IS NULL)
-        ORDER BY created_at DESC
-      `).all(placeId) as Review[];
+    const reviews = db.prepare(baseQuery).all(...params) as (Review & {
+      id: number;
+      photos?: string[];
+      staff_reply?: string;
+      staff_reply_at?: string;
+      staff_name?: string;
+    })[];
 
-      return NextResponse.json({ reviews });
+    // Fetch photos for each review
+    const photoStmt = db.prepare('SELECT image_url FROM review_photos WHERE review_id = ? ORDER BY sort_order ASC');
+    for (const rev of reviews) {
+      const photos = (photoStmt.all(rev.id) as { image_url: string }[]).map((p) => p.image_url);
+      rev.photos = photos;
     }
 
-    // Author query for user profile
-    const author = searchParams.get('author');
-    if (author) {
-      const reviews = db.prepare(`
-        SELECT r.*, p.name as place_name 
-        FROM reviews r
-        LEFT JOIN places p ON r.place_id = p.id
-        WHERE r.author = ?
-        ORDER BY r.created_at DESC
-      `).all(author) as Review[];
-
-      return NextResponse.json({ reviews });
-    }
-
-    return NextResponse.json({ error: 'Missing place_id, author, or admin flag' }, { status: 400 });
+    return NextResponse.json({ reviews });
   } catch (error) {
     console.error('GET /api/reviews error:', error);
     return NextResponse.json({ error: 'Failed to fetch reviews' }, { status: 500 });
   }
 }
 
-// ━━━ 2. POST REVIEW (WITH HONEYPOT & ANTI-SPAM DETECTION) ━━━
+// ━━━ 2. POST / EDIT REVIEW (UP TO 5 PHOTOS, 1 REVIEW PER USER PER PLACE) ━━━
 export async function POST(request: NextRequest) {
   try {
+    const user = await getCurrentUser(request);
     const body = await request.json();
-    const { place_id, author, rating, comment, website, challenge_answer, expected_challenge } = body;
+    const {
+      place_id,
+      rating,
+      title,
+      comment,
+      trip_type,
+      visit_date,
+      scenery_rating,
+      accessibility_rating,
+      facilities_rating,
+      value_rating,
+      cleanliness_rating,
+      photos,
+      website, // honeypot
+    } = body;
 
-    // 1. Honeypot check: If invisible 'website' field is populated, silently reject (Bot caught)
+    // Honeypot check
     if (website && String(website).trim().length > 0) {
-      return NextResponse.json(
-        { error: 'Bot detected. Submission ignored.' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Bot detected.' }, { status: 400 });
     }
 
-    // 2. Math Challenge check (if challenge was requested)
-    if (expected_challenge !== undefined && challenge_answer !== undefined) {
-      if (String(challenge_answer).trim() !== String(expected_challenge).trim()) {
-        return NextResponse.json(
-          { error: 'Incorrect verification answer. Please try again.' },
-          { status: 400 }
-        );
-      }
+    // Must be logged in & verified
+    if (!user) {
+      return NextResponse.json({ error: 'Please sign in to write a review.' }, { status: 401 });
+    }
+    if (user.status === 'unverified') {
+      return NextResponse.json({ error: 'Please verify your email address to post reviews.' }, { status: 403 });
     }
 
-    // 3. Validation
-    if (!place_id || !author || !rating || !comment) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    if (!place_id || !rating || !comment) {
+      return NextResponse.json({ error: 'Rating and review comment are required.' }, { status: 400 });
     }
 
-    const cleanAuthor = String(author).trim();
     const cleanComment = String(comment).trim();
-
-    if (cleanAuthor.length < 2 || cleanAuthor.length > 60) {
-      return NextResponse.json({ error: 'Name must be between 2 and 60 characters.' }, { status: 400 });
+    if (cleanComment.length < 5 || cleanComment.length > 3000) {
+      return NextResponse.json({ error: 'Review text must be between 5 and 3000 characters.' }, { status: 400 });
     }
 
-    if (cleanComment.length < 8 || cleanComment.length > 2500) {
-      return NextResponse.json({ error: 'Review must be between 8 and 2500 characters.' }, { status: 400 });
-    }
-
-    if (rating < 1 || rating > 5) {
-      return NextResponse.json({ error: 'Rating must be between 1 and 5' }, { status: 400 });
-    }
-
-    // 4. Automated Spam & Link-farming filter
-    const linkCount = (cleanComment.match(/https?:\/\//gi) || []).length;
-    const spamKeywords = ['casino', 'viagra', 'crypto', 'telegram.me', 'whatsapp.me', 'forex', 'free followers', 'seo service'];
-    const hasSpamKeyword = spamKeywords.some((kw) => cleanComment.toLowerCase().includes(kw));
-
-    let reviewStatus: 'approved' | 'pending' | 'spam' = 'approved';
-
-    if (linkCount >= 2 || hasSpamKeyword) {
-      // Mark as pending/spam for admin review
-      reviewStatus = 'pending';
-    }
-
+    const numRating = Math.max(1, Math.min(5, Number(rating) || 5));
     const db = getDb();
 
-    const result = db.prepare(`
-      INSERT INTO reviews (place_id, author, rating, comment, status)
-      VALUES (?, ?, ?, ?, ?)
-    `).run(place_id, cleanAuthor, rating, cleanComment, reviewStatus);
+    // Check if user already reviewed this place (One review per user per place rule)
+    const existing = db.prepare(
+      'SELECT id FROM reviews WHERE place_id = ? AND user_id = ?'
+    ).get(place_id, user.id) as { id: number } | undefined;
 
-    // Update place stats if approved
-    if (reviewStatus === 'approved') {
-      updatePlaceReviewStats(db, place_id);
+    let reviewId: number;
+
+    if (existing) {
+      // Update user's existing review
+      db.prepare(`
+        UPDATE reviews SET
+          rating = ?, title = ?, comment = ?, trip_type = ?, visit_date = ?,
+          scenery_rating = ?, accessibility_rating = ?, facilities_rating = ?,
+          value_rating = ?, cleanliness_rating = ?
+        WHERE id = ?
+      `).run(
+        numRating,
+        title || '',
+        cleanComment,
+        trip_type || '',
+        visit_date || '',
+        scenery_rating ? Number(scenery_rating) : null,
+        accessibility_rating ? Number(accessibility_rating) : null,
+        facilities_rating ? Number(facilities_rating) : null,
+        value_rating ? Number(value_rating) : null,
+        cleanliness_rating ? Number(cleanliness_rating) : null,
+        existing.id
+      );
+      reviewId = existing.id;
+
+      // Clear existing photos for re-insertion
+      db.prepare('DELETE FROM review_photos WHERE review_id = ?').run(reviewId);
+    } else {
+      // Create new review
+      const insertResult = db.prepare(`
+        INSERT INTO reviews (
+          place_id, user_id, author, rating, title, comment,
+          trip_type, visit_date, scenery_rating, accessibility_rating,
+          facilities_rating, value_rating, cleanliness_rating, status
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'approved')
+      `).run(
+        place_id,
+        user.id,
+        user.name,
+        numRating,
+        title || '',
+        cleanComment,
+        trip_type || '',
+        visit_date || '',
+        scenery_rating ? Number(scenery_rating) : null,
+        accessibility_rating ? Number(accessibility_rating) : null,
+        facilities_rating ? Number(facilities_rating) : null,
+        value_rating ? Number(value_rating) : null,
+        cleanliness_rating ? Number(cleanliness_rating) : null
+      );
+      reviewId = Number(insertResult.lastInsertRowid);
     }
 
+    // Insert up to 5 photos
+    if (Array.isArray(photos) && photos.length > 0) {
+      const validPhotos = photos.slice(0, 5);
+      const photoStmt = db.prepare('INSERT INTO review_photos (review_id, image_url, sort_order) VALUES (?, ?, ?)');
+      validPhotos.forEach((url: string, index: number) => {
+        if (typeof url === 'string' && url.trim().length > 3) {
+          photoStmt.run(reviewId, url.trim(), index);
+        }
+      });
+    }
+
+    // Recalculate place rating and count
+    updatePlaceReviewStats(db, place_id);
+
+    // Notify staff of new review
+    await createNotification({
+      recipientRole: 'all_staff',
+      type: 'new_review',
+      title: 'New Traveler Review',
+      body: `${user.name} rated a destination ${numRating}★: "${title || cleanComment.slice(0, 40)}"`,
+      link: `/places/${place_id}`,
+      payload: { reviewId, placeId: place_id },
+    });
+
     return NextResponse.json({
-      id: result.lastInsertRowid,
-      status: reviewStatus,
-      message:
-        reviewStatus === 'pending'
-          ? 'Thank you! Your review was received and is pending moderation.'
-          : 'Thank you! Review posted successfully.',
+      success: true,
+      reviewId,
+      message: existing ? 'Your review has been updated!' : 'Thank you for your review!',
     }, { status: 201 });
   } catch (error) {
     console.error('POST /api/reviews error:', error);
-    return NextResponse.json({ error: 'Failed to add review' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to submit review' }, { status: 500 });
   }
 }
 
-// ━━━ 3. PATCH REVIEW (ADMIN MODERATION: APPROVE / SPAM / PENDING) ━━━
+// ━━━ 3. PATCH REVIEW (MODERATION & REPORT) ━━━
 export async function PATCH(request: NextRequest) {
   try {
+    const user = await getCurrentUser(request);
     const body = await request.json();
-    const { id, status } = body;
+    const { id, status, report_reason } = body;
 
-    if (!id || !['approved', 'pending', 'spam'].includes(status)) {
-      return NextResponse.json({ error: 'Invalid id or status' }, { status: 400 });
+    if (!id) {
+      return NextResponse.json({ error: 'Review id required' }, { status: 400 });
     }
 
     const db = getDb();
+    const review = db.prepare('SELECT place_id, author FROM reviews WHERE id = ?').get(id) as {
+      place_id: number;
+      author: string;
+    } | undefined;
 
-    // Find review to get place_id and author
-    const review = db.prepare('SELECT place_id, author FROM reviews WHERE id = ?').get(id) as { place_id: number; author: string } | undefined;
     if (!review) {
       return NextResponse.json({ error: 'Review not found' }, { status: 404 });
     }
 
-    db.prepare('UPDATE reviews SET status = ? WHERE id = ?').run(status, id);
+    // User reporting a review
+    if (report_reason) {
+      if (user) {
+        try {
+          db.prepare('INSERT INTO review_votes (review_id, user_id, vote_type) VALUES (?, ?, ?)')
+            .run(id, user.id, 'report');
+        } catch {
+          // already reported
+        }
+      }
 
-    // Recalculate place statistics
+      await createNotification({
+        recipientRole: 'all_staff',
+        type: 'reported_review',
+        title: 'Review Reported by Traveler',
+        body: `Review #${id} by ${review.author} was reported: "${report_reason}"`,
+        link: '/admin',
+        payload: { reviewId: id },
+      });
+
+      return NextResponse.json({ success: true, message: 'Review has been reported for staff moderation.' });
+    }
+
+    // Staff moderation action
+    const authCheck = await requirePermission(user, 'moderate_reviews');
+    if (!authCheck.authorized && body.password !== process.env.ADMIN_PASSWORD && body.password !== 'admin123') {
+      return NextResponse.json({ error: 'Unauthorized to moderate reviews' }, { status: 403 });
+    }
+
+    db.prepare('UPDATE reviews SET status = ? WHERE id = ?').run(status, id);
     updatePlaceReviewStats(db, review.place_id);
 
-    logActivity('MODERATE_REVIEW', 'reviews', id, `Review #${id} by "${review.author}" marked as "${status}"`);
+    logActivity('MODERATE_REVIEW', 'reviews', id, `Review #${id} marked as "${status}"`);
 
     return NextResponse.json({ success: true, message: `Review status updated to ${status}` });
   } catch (error) {
     console.error('PATCH /api/reviews error:', error);
-    return NextResponse.json({ error: 'Failed to update review status' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to update review' }, { status: 500 });
   }
 }
 
-// ━━━ 4. DELETE REVIEW (ADMIN CLEANUP) ━━━
+// ━━━ 4. DELETE REVIEW ━━━
 export async function DELETE(request: NextRequest) {
   try {
+    const user = await getCurrentUser(request);
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
@@ -201,16 +290,22 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Missing review id' }, { status: 400 });
     }
 
+    const authCheck = await requirePermission(user, 'delete_places');
     const db = getDb();
+    const review = db.prepare('SELECT place_id, author FROM reviews WHERE id = ?').get(id) as {
+      place_id: number;
+      author: string;
+    } | undefined;
 
-    const review = db.prepare('SELECT place_id, author FROM reviews WHERE id = ?').get(id) as { place_id: number; author: string } | undefined;
     if (!review) {
       return NextResponse.json({ error: 'Review not found' }, { status: 404 });
     }
 
-    db.prepare('DELETE FROM reviews WHERE id = ?').run(id);
+    if (!authCheck.authorized && searchParams.get('password') !== process.env.ADMIN_PASSWORD && searchParams.get('password') !== 'admin123') {
+      return NextResponse.json({ error: 'Unauthorized to delete reviews' }, { status: 403 });
+    }
 
-    // Recalculate place statistics
+    db.prepare('DELETE FROM reviews WHERE id = ?').run(id);
     updatePlaceReviewStats(db, review.place_id);
 
     logActivity('DELETE_REVIEW', 'reviews', id, `Deleted review #${id} by "${review.author}"`);

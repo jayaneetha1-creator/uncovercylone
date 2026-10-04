@@ -240,7 +240,102 @@ function initializeSqliteDb(database: Database.Database) {
       created_at TEXT DEFAULT (datetime('now')),
       FOREIGN KEY (parent_id) REFERENCES site_nodes(id) ON DELETE CASCADE
     );
+
+    CREATE TABLE IF NOT EXISTS review_photos (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      review_id INTEGER NOT NULL,
+      image_url TEXT NOT NULL,
+      sort_order INTEGER DEFAULT 0,
+      created_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE IF NOT EXISTS review_replies (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      review_id INTEGER NOT NULL UNIQUE,
+      author_id INTEGER NOT NULL,
+      reply_text TEXT NOT NULL,
+      created_at TEXT DEFAULT (datetime('now')),
+      updated_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE CASCADE,
+      FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE IF NOT EXISTS review_votes (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      review_id INTEGER NOT NULL,
+      user_id INTEGER NOT NULL,
+      vote_type TEXT NOT NULL DEFAULT 'helpful',
+      created_at TEXT DEFAULT (datetime('now')),
+      UNIQUE(review_id, user_id, vote_type),
+      FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE CASCADE,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE IF NOT EXISTS place_questions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      place_id INTEGER NOT NULL,
+      user_id INTEGER NOT NULL,
+      question TEXT NOT NULL,
+      status TEXT DEFAULT 'approved',
+      created_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (place_id) REFERENCES places(id) ON DELETE CASCADE,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE IF NOT EXISTS place_answers (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      question_id INTEGER NOT NULL,
+      user_id INTEGER NOT NULL,
+      answer TEXT NOT NULL,
+      is_team INTEGER DEFAULT 0,
+      status TEXT DEFAULT 'approved',
+      created_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (question_id) REFERENCES place_questions(id) ON DELETE CASCADE,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE IF NOT EXISTS chat_threads (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      status TEXT DEFAULT 'open',
+      created_at TEXT DEFAULT (datetime('now')),
+      updated_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE IF NOT EXISTS chat_messages (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      thread_id INTEGER NOT NULL,
+      sender_id INTEGER NOT NULL,
+      sender_role TEXT NOT NULL,
+      message_text TEXT NOT NULL,
+      created_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (thread_id) REFERENCES chat_threads(id) ON DELETE CASCADE,
+      FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE
+    );
   `);
+
+  // Safe non-destructive column additions for SQLite
+  const safeAlter = (table: string, colDef: string) => {
+    try {
+      database.exec(`ALTER TABLE ${table} ADD COLUMN ${colDef};`);
+    } catch {
+      // Column already exists
+    }
+  };
+
+  safeAlter('places', "status TEXT DEFAULT 'published'");
+  safeAlter('places', 'submitted_by INTEGER NULL');
+  safeAlter('reviews', 'user_id INTEGER NULL');
+  safeAlter('reviews', "title TEXT DEFAULT ''");
+  safeAlter('reviews', "trip_type TEXT DEFAULT ''");
+  safeAlter('reviews', "visit_date TEXT DEFAULT ''");
+  safeAlter('reviews', 'helpful_count INTEGER DEFAULT 0');
+  safeAlter('hero_slides', "title_si TEXT DEFAULT ''");
+  safeAlter('hero_slides', "subtitle_en TEXT DEFAULT ''");
+  safeAlter('hero_slides', "subtitle_si TEXT DEFAULT ''");
+  safeAlter('region_slides', "title_si TEXT DEFAULT ''");
 }
 
 // -------------------------------------------------------------
@@ -359,3 +454,4 @@ export * from './db/locations';
 export * from './db/users';
 export * from './db/nodes';
 export * from './db/admin';
+export * from './db/governance';

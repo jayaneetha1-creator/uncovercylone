@@ -11,12 +11,12 @@ Status Definitions:
 
 | ID | Requirement Summary | Target Phase | Implementation Files & Routes | Acceptance Test & Verification | Current Status |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **R01** | Admin panel separate from public site | Phase 3–5 | `src/app/admin/layout.tsx`, `src/app/admin/page.tsx` | Admin panel accessible only at `/admin`, public site has independent layout | Planned (Phase 3–5) |
+| **R01** | Admin panel separate from public site | Phase 3–5 | `src/app/admin/layout.tsx`, `src/app/admin/page.tsx` | Admin panel accessible only at `/admin`, public site has independent layout | Done (Phase 5) |
 | **R02** | 4 login types (owner, developer, uploader, user) | Phase 2, 3 | `src/lib/permissions.ts`, `src/lib/auth.ts`, `src/app/login/`, `src/app/admin/login/` | Each role receives strictly bounded capabilities and redirected correctly | Done (Phase 2) |
 | **R03** | Core admin tabs (Chat, Approvals, Folders, Theme, Ads) | Phase 4, 5, 8 | `src/app/admin/components/*`, `src/app/admin/page.tsx` | Tabs present in admin sidebar & nav bar; modern modular components | Done (Phase 4) |
 | **R04** | Folder Manager: site treated as collapsible folders | Phase 4 | `src/lib/db/nodes.ts`, `src/app/admin/components/FolderManagerTab.tsx` | All sections in DB `site_nodes`; toggle on/off dynamically updates page | Done (Phase 4) |
 | **R05** | Turning folder off leaves zero UI gap or broken link | Phase 4, 6 | `src/components/Folder.tsx`, `src/app/page.tsx` | When section disabled in admin, DOM element is completely unmounted | Done (Phase 4) |
-| **R06** | Simplify location editor: essentials on one screen, extras behind "+" | Phase 5 | `src/components/DestinationEditorModal.tsx` | Modal opens cleanly with core fields; advanced fields toggle in tidy panel | Planned (Phase 5) |
+| **R06** | Simplify location editor: essentials on one screen, extras behind "+" | Phase 5 | `src/components/DestinationEditorModal.tsx` | Modal opens cleanly with core fields; advanced fields toggle in tidy panel | Done (Phase 5) |
 | **R07** | File Map: owner/developer view project files and roles | Phase 4 | `src/app/admin/components/FileMapTab.tsx`, `docs/FILE_MAP.json` | Read-only tree view rendered with friendly descriptions; secrets hidden | Done (Phase 4) |
 | **R08** | Email signup + verification link + free SMTP method | Phase 2 | `src/lib/mailer.ts`, `src/app/api/auth/register/`, `src/app/verify-email/` | Registration sends signed token link via Nodemailer Gmail/SMTP | Done (Phase 2) |
 | **R09** | Google login backend complete, keys added later | Phase 2 | `src/app/api/auth/google/`, `docs/GOOGLE_LOGIN_SETUP.md` | OAuth endpoint implemented; button conditionally shown when keys present | Done (Phase 2) |
@@ -27,7 +27,7 @@ Status Definitions:
 | **R14** | Text data in MySQL; owner SQL console with safeguards | Phase 1 | `src/lib/db.ts`, `scripts/migrate-sqlite-to-mysql.js`, `src/lib/db/admin.ts`, `db/migrations/001_init.sql` | MySQL connection pool works; SQL console checks password & auto-backups | Done (Phase 1) |
 | **R15** | Two main data partitions: users and locations | Phase 1 | `src/lib/db/users.ts`, `src/lib/db/locations.ts` | Clean separation of user models and destination models in data access layer | Done (Phase 1) |
 | **R16** | Images stored on disk, linked via DB paths | Phase 1, 5 | `src/app/uploads/[...path]/route.ts`, `public/uploads/` | Image files served securely via relative paths stored in MySQL/SQLite | Done (Phase 1) |
-| **R17** | One-button Admin Image Optimizer (WebP, resize, strip EXIF) | Phase 5 | `src/lib/optimizer.ts`, `src/app/api/admin/media/optimize/` | Sharp batch optimization shrinks images to responsive WebP with 0 CLS | Planned (Phase 5) |
+| **R17** | One-button Admin Image Optimizer (WebP, resize, strip EXIF) | Phase 5 | `src/lib/optimizer.ts`, `src/app/api/admin/media/optimize/` | Sharp batch optimization shrinks images to responsive WebP with 0 CLS | Done (Phase 5) |
 | **R18** | Click/view tracking per place visible in Admin Analytics | Phase 7 | `src/lib/analytics.ts`, `src/app/admin/tabs/AnalyticsTab.tsx` | Place views/clicks tracked in `events` table; top charts in admin | Planned (Phase 7) |
 | **R19** | Proximity and co-viewed place recommendations | Phase 7 | `src/lib/recommend.ts`, `src/components/RecommendationCarousel.tsx` | "Nearby & you might like" carousel renders Haversine & co-occurrence suggestions | Planned (Phase 7) |
 | **R20** | Visitor journey paths saved as JSON for recommendations | Phase 7 | `src/lib/db/analytics.ts`, `src/app/api/events/route.ts` | Ordered place views stored as JSON array; downloadable in admin | Planned (Phase 7) |
@@ -40,7 +40,7 @@ Status Definitions:
 | **R27** | Everything mobile-optimized (touch targets ≥ 44px) | All | All components | Tested at 390px, 768px, 1440px with responsive sheets and tab bar | Planned (All) |
 | **R28** | Trip To-Do List (`/trips`) with Map side-panel & suggestions | Phase 11 | `src/app/trips/page.tsx`, `src/components/TripMapSidePanel.tsx` | Users can create trips, check items, reorder, view route on map | Planned (Phase 11) |
 | **R29** | Strict RBAC permissions table | Phase 3 | `src/lib/permissions.ts` | Matrix enforced on all API routes; non-owners blocked from destructive calls | Done (Phase 3) |
-| **R30** | Public user "Add a place" form with approval workflow | Phase 5 | `src/app/submit-place/page.tsx`, `src/app/admin/tabs/ApprovalsTab.tsx` | Normal users submit places to Pending; staff review and approve | Planned (Phase 5) |
+| **R30** | Public user "Add a place" form with approval workflow | Phase 5 | `src/app/submit-place/page.tsx`, `src/app/admin/tabs/ApprovalsTab.tsx` | Normal users submit places to Pending; staff review and approve | Done (Phase 5) |
 | **R31** | Extra admin features (Maintenance mode, Announcement, SEO, Backup) | Phase 4, 5 | `src/app/admin/tabs/SettingsTab.tsx`, `src/app/admin/tabs/JobsTab.tsx` | Maintenance banner, sitemap settings, error viewer, jobs runner active | Planned (Phase 4, 5) |
 | **R32** | Final site contains everything listed in master spec | All | All routes & components | End-to-end verification checklist passes across all phases | Planned (All) |
 | **R33** | Simple and friendly UI/UX throughout | All | `src/app/globals.css`, `DESIGN_SYSTEM.md` | Clear typography, friendly empty states, soft shadows, 0 clutter | Planned (All) |

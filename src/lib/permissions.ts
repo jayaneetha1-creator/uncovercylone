@@ -23,6 +23,10 @@ export type Capability =
   | 'approve_submissions'
   | 'reply_customer_chat'
   | 'view_analytics'
+  | 'manage_slides'
+  | 'moderate_reviews'
+  | 'delete_places'
+  | 'upload_images'
   | 'direct_delete'
   | 'request_delete'
   | 'restore_trash'
@@ -40,6 +44,7 @@ const CAPABILITIES: Record<Capability, UserRole[]> = {
   sql_console: ['owner'],
   empty_trash: ['owner'],
   direct_delete: ['owner'],
+  delete_places: ['owner'],
 
   // Owner & Developer capabilities
   edit_ai_prompt: ['owner', 'developer'],
@@ -55,6 +60,9 @@ const CAPABILITIES: Record<Capability, UserRole[]> = {
   // Owner, Developer & Uploader capabilities
   create_edit_places: ['owner', 'developer', 'uploader'],
   upload_media: ['owner', 'developer', 'uploader'],
+  upload_images: ['owner', 'developer', 'uploader'],
+  manage_slides: ['owner', 'developer', 'uploader'],
+  moderate_reviews: ['owner', 'developer', 'uploader'],
   approve_submissions: ['owner', 'developer', 'uploader'],
   reply_customer_chat: ['owner', 'developer', 'uploader'],
   view_analytics: ['owner', 'developer', 'uploader'],
@@ -73,45 +81,71 @@ export function hasCapability(role: UserRole | undefined, capability: Capability
 }
 
 /**
- * Ensures the incoming request is authenticated and has the required capability.
- * Returns either authorized true with user, or authorized false with a pre-configured JSON response.
+ * Checks capability synchronously for an already-resolved User object.
+ */
+export function checkPermission(
+  user: User | null | undefined,
+  capability: Capability
+): { authorized: boolean; error?: string } {
+  if (!user) return { authorized: false, error: 'Unauthorized: Please sign in.' };
+  if (user.status === 'suspended') return { authorized: false, error: 'Account suspended.' };
+  if (!hasCapability(user.role, capability)) {
+    return {
+      authorized: false,
+      error: `Forbidden: Your role (${user.role}) does not have permission for '${capability}'.`,
+    };
+  }
+  return { authorized: true };
+}
+
+/**
+ * Ensures the incoming request or user is authenticated and has the required capability.
+ * Accepts either NextRequest or already resolved User object.
  */
 export async function requirePermission(
-  request: NextRequest,
+  reqOrUser: NextRequest | User | null | undefined,
   capability: Capability
 ): Promise<
   | { authorized: true; user: User }
-  | { authorized: false; response: NextResponse }
+  | { authorized: false; response: NextResponse; error: string }
 > {
-  const user = await getCurrentUser(request);
+  let user: User | null = null;
+  if (reqOrUser && typeof reqOrUser === 'object' && 'role' in reqOrUser) {
+    user = reqOrUser as User;
+  } else if (reqOrUser) {
+    user = await getCurrentUser(reqOrUser as NextRequest);
+  }
 
   if (!user) {
+    const error = 'Unauthorized: Please sign in.';
     return {
       authorized: false,
-      response: NextResponse.json({ error: 'Unauthorized: Please sign in.' }, { status: 401 }),
+      response: NextResponse.json({ error }, { status: 401 }),
+      error,
     };
   }
 
   if (user.status === 'suspended') {
+    const error = 'Account suspended. Please contact the administrator.';
     return {
       authorized: false,
-      response: NextResponse.json(
-        { error: 'Account suspended. Please contact the administrator.' },
-        { status: 403 }
-      ),
+      response: NextResponse.json({ error }, { status: 403 }),
+      error,
     };
   }
 
   if (!hasCapability(user.role, capability)) {
+    const error = `Forbidden: Your role (${user.role}) does not have permission to perform this action.`;
     return {
       authorized: false,
       response: NextResponse.json(
         {
-          error: `Forbidden: Your role (${user.role}) does not have permission to perform this action.`,
+          error,
           requiredCapability: capability,
         },
         { status: 403 }
       ),
+      error,
     };
   }
 

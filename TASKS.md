@@ -89,19 +89,19 @@ This checklist covers every requirement specified in `MASTER_SPEC.md`, broken do
 ---
 
 ## Phase 5: Places, Media Optimizer, Approvals & Customer Chat
-- [ ] **T5.1 Admin Audit & Places Manager**: Write `ADMIN_AUDIT.md` and rebuild Places tab with search, filters, and modal editor.
+- [x] **T5.1 Admin Audit & Places Manager**: Write `ADMIN_AUDIT.md` and rebuild Places tab with search, filters, and modal editor.
   *Acceptance Test*: Editing a destination opens modal with essential fields; advanced fields toggle behind "+".
-- [ ] **T5.2 Slides Manager**: Rebuild Hero and Region slides manager with drag reorder, photo replacement, and EN/SI text fields.
+- [x] **T5.2 Slides Manager**: Rebuild Hero and Region slides manager with drag reorder, photo replacement, and EN/SI text fields.
   *Acceptance Test*: Reordering slides updates `sort_order` and reflects in homepage hero slideshow.
-- [ ] **T5.3 One-Button Image Optimizer**: Sharp batch optimizer generating responsive WebPs (480/960/1600), stripping EXIF, and storing dimensions.
+- [x] **T5.3 One-Button Image Optimizer**: Sharp batch optimizer generating responsive WebPs (480/960/1600), stripping EXIF, and storing dimensions.
   *Acceptance Test*: Clicking "Optimize All" converts images to WebP and reports before/after file sizes.
-- [ ] **T5.4 Public "Add a Place" & Approvals**: Verified users can submit destinations via `/submit-place` into Admin Approvals queue.
+- [x] **T5.4 Public "Add a Place" & Approvals**: Verified users can submit destinations via `/submit-place` into Admin Approvals queue.
   *Acceptance Test*: Submitted place appears in Admin Approvals; approving it publishes it to the live directory.
-- [ ] **T5.5 User Reviews with Photos & Staff Replies**: Full review system with 1–5 stars, up to 5 photos, helpful votes, and official staff responses.
+- [x] **T5.5 User Reviews with Photos & Staff Replies**: Full review system with 1–5 stars, up to 5 photos, helpful votes, and official staff responses.
   *Acceptance Test*: Verified user submits review with photo; staff posts reply marked with "Team" badge.
-- [ ] **T5.6 Q&A System**: Place Q&A thread allowing visitors to ask questions and staff/users to post answers.
+- [x] **T5.6 Q&A System**: Place Q&A thread allowing visitors to ask questions and staff/users to post answers.
   *Acceptance Test*: Posting question triggers notification; answering question displays with verified user badge.
-- [ ] **T5.7 Customer Chat**: Lightweight 1-on-1 messaging thread between logged-in users and staff inside Admin.
+- [x] **T5.7 Customer Chat**: Lightweight 1-on-1 messaging thread between logged-in users and staff inside Admin.
   *Acceptance Test*: User messages via floating Help button; message appears in Admin Customer Chat tab for reply.
 
 ---

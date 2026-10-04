@@ -12,6 +12,7 @@ import WishlistDrawer from "@/components/WishlistDrawer";
 import BottomTabBar from "@/components/BottomTabBar";
 import GoogleTranslator from "@/components/GoogleTranslator";
 import PWARegister from "@/components/PWARegister";
+import CustomerChatWidget from "@/components/CustomerChatWidget";
 
 export const viewport: Viewport = {
   themeColor: "#F5FAFF",
@@ -102,6 +103,7 @@ export default function RootLayout({
                   <Navbar />
                   <main className="pb-16 md:pb-0">{children}</main>
                   <WishlistDrawer />
+                  <CustomerChatWidget />
                   <GoogleTranslator />
                   <PWARegister />
                   <Footer />
