@@ -21,17 +21,17 @@ This checklist covers every requirement specified in `MASTER_SPEC.md`, broken do
 ---
 
 ## Phase 1: Database Migration (SQLite → MySQL)
-- [ ] **T1.1 MySQL DAL Architecture**: Create MySQL connection pool and unified data access layer in `src/lib/db.ts` with submodules `src/lib/db/users.ts` and `src/lib/db/locations.ts`.
+- [x] **T1.1 MySQL DAL Architecture**: Create MySQL connection pool and unified data access layer in `src/lib/db.ts` with submodules `src/lib/db/users.ts` and `src/lib/db/locations.ts`.
   *Acceptance Test*: Querying both user and location modules succeeds without circular dependencies.
-- [ ] **T1.2 Versioned Migrations**: Create `db/migrations/001_init.sql` with full schema (users, places, reviews, slides, settings, logs) using `utf8mb4_unicode_ci`.
+- [x] **T1.2 Versioned Migrations**: Create `db/migrations/001_init.sql` with full schema (users, places, reviews, slides, settings, logs) using `utf8mb4_unicode_ci`.
   *Acceptance Test*: Running migration runner `npm run db:migrate` creates all required tables and foreign key indexes.
-- [ ] **T1.3 Data Migration Script**: Create `scripts/migrate-sqlite-to-mysql.js` transferring all data from SQLite into MySQL with row-count verification.
+- [x] **T1.3 Data Migration Script**: Create `scripts/migrate-sqlite-to-mysql.js` transferring all data from SQLite into MySQL with row-count verification.
   *Acceptance Test*: Script outputs matching row counts for places (61), reviews, hero slides, and settings.
-- [ ] **T1.4 Dual-Engine Compatibility Fallback**: Allow switching between SQLite (local development fallback) and MySQL via `DATABASE_URL` / `DB_TYPE` env flag.
+- [x] **T1.4 Dual-Engine Compatibility Fallback**: Allow switching between SQLite (local development fallback) and MySQL via `DATABASE_URL` / `DB_TYPE` env flag.
   *Acceptance Test*: App compiles and serves data correctly regardless of configured database engine.
-- [ ] **T1.5 Owner SQL Console & Table Browser**: Implement secure SQL console in Admin with password re-entry, DROP protection, automatic pre-backup, and row-level browser.
+- [x] **T1.5 Owner SQL Console & Table Browser**: Implement secure SQL console in Admin with password re-entry, DROP protection, automatic pre-backup, and row-level browser.
   *Acceptance Test*: Non-owner cannot access SQL console; write queries create an automatic backup entry before running.
-- [ ] **T1.6 Database Setup Documentation**: Create `docs/DB_SETUP.md` with instructions for local MySQL installation, Docker command, and VPS deployment.
+- [x] **T1.6 Database Setup Documentation**: Create `docs/DB_SETUP.md` with instructions for local MySQL installation, Docker command, and VPS deployment.
   *Acceptance Test*: Documentation provides working copy-paste setup commands for Ubuntu and Windows.
 
 ---
