@@ -410,6 +410,11 @@
           "type": "file"
         },
         {
+          "name": "test-phase9.mjs",
+          "description": "File in scripts/test-phase9.mjs",
+          "type": "file"
+        },
+        {
           "name": "update-colors.js",
           "description": "File in scripts/update-colors.js",
           "type": "file"
@@ -451,6 +456,11 @@
                     {
                       "name": "AdManagerTab.tsx",
                       "description": "File in src/app/admin/components/AdManagerTab.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "AIChatbotTab.tsx",
+                      "description": "File in src/app/admin/components/AIChatbotTab.tsx",
                       "type": "file"
                     },
                     {
@@ -564,6 +574,42 @@
                             {
                               "name": "route.ts",
                               "description": "File in src/app/api/admin/ads/[id]/route.ts",
+                              "type": "file"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "ai",
+                      "description": "Folder in src/app/api/admin/ai",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "logs",
+                          "description": "Folder in src/app/api/admin/ai/logs",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "route.ts",
+                              "description": "File in src/app/api/admin/ai/logs/route.ts",
+                              "type": "file"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/admin/ai/route.ts",
+                          "type": "file"
+                        },
+                        {
+                          "name": "test",
+                          "description": "Folder in src/app/api/admin/ai/test",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "route.ts",
+                              "description": "File in src/app/api/admin/ai/test/route.ts",
                               "type": "file"
                             }
                           ]
@@ -976,6 +1022,47 @@
                             {
                               "name": "route.ts",
                               "description": "File in src/app/api/chat/customer/[id]/route.ts",
+                              "type": "file"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "feedback",
+                      "description": "Folder in src/app/api/chat/feedback",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/chat/feedback/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "route.ts",
+                      "description": "File in src/app/api/chat/route.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "sessions",
+                      "description": "Folder in src/app/api/chat/sessions",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/chat/sessions/route.ts",
+                          "type": "file"
+                        },
+                        {
+                          "name": "[id]",
+                          "description": "Folder in src/app/api/chat/sessions/[id]",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "route.ts",
+                              "description": "File in src/app/api/chat/sessions/[id]/route.ts",
                               "type": "file"
                             }
                           ]
@@ -1456,6 +1543,16 @@
               "type": "file"
             },
             {
+              "name": "AIChatPanel.tsx",
+              "description": "File in src/components/AIChatPanel.tsx",
+              "type": "file"
+            },
+            {
+              "name": "AITripProposalCard.tsx",
+              "description": "File in src/components/AITripProposalCard.tsx",
+              "type": "file"
+            },
+            {
               "name": "AnimatedReveal.tsx",
               "description": "File in src/components/AnimatedReveal.tsx",
               "type": "file"
@@ -1513,6 +1610,11 @@
             {
               "name": "FilterSidebar.tsx",
               "description": "File in src/components/FilterSidebar.tsx",
+              "type": "file"
+            },
+            {
+              "name": "FloatingAIButton.tsx",
+              "description": "File in src/components/FloatingAIButton.tsx",
               "type": "file"
             },
             {
@@ -1695,6 +1797,23 @@
           "type": "directory",
           "children": [
             {
+              "name": "ai",
+              "description": "Folder in src/lib/ai",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "constants.ts",
+                  "description": "File in src/lib/ai/constants.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "gemini.ts",
+                  "description": "File in src/lib/ai/gemini.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
               "name": "analytics.ts",
               "description": "File in src/lib/analytics.ts",
               "type": "file"
@@ -1717,6 +1836,11 @@
                 {
                   "name": "ads.ts",
                   "description": "File in src/lib/db/ads.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "ai.ts",
+                  "description": "File in src/lib/db/ai.ts",
                   "type": "file"
                 },
                 {

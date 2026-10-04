@@ -373,10 +373,42 @@ function initializeSqliteDb(database: Database.Database) {
       created_at TEXT DEFAULT (datetime('now'))
     );
 
+    CREATE TABLE IF NOT EXISTS ai_chat_sessions (
+      id TEXT PRIMARY KEY,
+      user_id INTEGER NULL,
+      guest_token TEXT NULL,
+      title TEXT NOT NULL DEFAULT 'New Trip Plan',
+      created_at TEXT DEFAULT (datetime('now')),
+      updated_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE IF NOT EXISTS ai_chat_messages (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      session_id TEXT NOT NULL,
+      role TEXT NOT NULL,
+      content TEXT NOT NULL,
+      itinerary_proposal TEXT NULL,
+      feedback INTEGER DEFAULT 0,
+      created_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (session_id) REFERENCES ai_chat_sessions(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE IF NOT EXISTS ai_prompt_versions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      version_num INTEGER NOT NULL,
+      system_prompt TEXT NOT NULL,
+      created_by INTEGER NULL,
+      created_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL
+    );
+
     CREATE INDEX IF NOT EXISTS idx_events_place ON events(place_id);
     CREATE INDEX IF NOT EXISTS idx_events_type ON events(event_type);
     CREATE INDEX IF NOT EXISTS idx_events_created ON events(created_at);
     CREATE INDEX IF NOT EXISTS idx_journeys_session ON journeys(session_id);
+    CREATE INDEX IF NOT EXISTS idx_ai_sessions_user ON ai_chat_sessions(user_id);
+    CREATE INDEX IF NOT EXISTS idx_ai_messages_session ON ai_chat_messages(session_id);
   `);
 
   // Safe non-destructive column additions for SQLite

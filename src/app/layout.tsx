@@ -15,6 +15,7 @@ import PWARegister from "@/components/PWARegister";
 import CustomerChatWidget from "@/components/CustomerChatWidget";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
 import AdSenseScript from "@/components/AdSenseScript";
+import FloatingAIButton from "@/components/FloatingAIButton";
 
 export const viewport: Viewport = {
   themeColor: "#F5FAFF",
@@ -105,6 +106,7 @@ export default function RootLayout({
                   <Navbar />
                   <main className="pb-16 md:pb-0">{children}</main>
                   <WishlistDrawer />
+                  <FloatingAIButton />
                   <CustomerChatWidget />
                   <CookieConsentBanner />
                   <AdSenseScript />

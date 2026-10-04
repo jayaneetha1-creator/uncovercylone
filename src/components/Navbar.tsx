@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Search, Heart, ArrowRight, User as UserIcon, LogOut, Shield, ChevronDown } from 'lucide-react';
+import { Search, Heart, ArrowRight, User as UserIcon, LogOut, Shield, ChevronDown, Sparkles } from 'lucide-react';
 import { useWishlist } from '@/context/WishlistContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { useAuth } from '@/context/AuthContext';
@@ -186,6 +186,19 @@ export default function Navbar() {
 
             {/* Language Selector */}
             <LanguageSelector scrolled={true} />
+
+            {/* Plan with AI Header Button (Section 4.6-D) */}
+            <button
+              onClick={() => {
+                const event = new CustomEvent('open-ai-chat', { detail: {} });
+                window.dispatchEvent(event);
+              }}
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#EAF4FD] hover:bg-[#DCEFFD] text-[#38A9F0] border border-[#DCEFFD] text-xs font-bold transition shadow-2xs active:scale-95 cursor-pointer"
+              title="Plan your journey with Ceylon AI"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-[#F5A623]" />
+              <span>Plan with AI</span>
+            </button>
 
             {/* Saved Wishlist Button */}
             <button

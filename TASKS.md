@@ -143,17 +143,17 @@ This checklist covers every requirement specified in `MASTER_SPEC.md`, broken do
 ---
 
 ## Phase 9: AI Chatbot (Gemini)
-- [ ] **T9.1 Server-Side Gemini Client**: Secure API handler with configurable model (default `gemini-2.5-flash`) and encrypted key storage.
+- [x] **T9.1 Server-Side Gemini Client**: Secure API handler with configurable model (default `gemini-2.5-flash`) and encrypted key storage.
   *Acceptance Test*: API endpoint streams responses without exposing API key to browser.
-- [ ] **T9.2 Editable System Prompt & Test Console**: Admin interface to modify system instruction with version history and live test chat.
+- [x] **T9.2 Editable System Prompt & Test Console**: Admin interface to modify system instruction with version history and live test chat.
   *Acceptance Test*: Saving prompt updates instructions; bot refuses off-topic queries outside Sri Lanka tourism.
-- [ ] **T9.3 Read-Only Parameterized DB Tools**: Whitelisted function calling (search places, get details, nearby, category filter).
+- [x] **T9.3 Read-Only Parameterized DB Tools**: Whitelisted function calling (search places, get details, nearby, category filter).
   *Acceptance Test*: Bot queries real places data; cannot access user tables, passwords, or write operations.
-- [ ] **T9.4 Left Slide-In UI & Page Context**: Desktop left drawer and mobile sheet with `@place` autocomplete and example chips.
+- [x] **T9.4 Left Slide-In UI & Page Context**: Desktop left drawer and mobile sheet with `@place` autocomplete and example chips.
   *Acceptance Test*: Clicking "Plan with AI" on Sigiriya page automatically passes Sigiriya as context to bot.
-- [ ] **T9.5 Rate Limiting & Guest Limits**: Enforce 2-message limit for guests and daily quotas for signed-in users.
+- [x] **T9.5 Rate Limiting & Guest Limits**: Enforce 2-message limit for guests and daily quotas for signed-in users.
   *Acceptance Test*: Third message from guest shows friendly "Sign in to continue" modal.
-- [ ] **T9.6 AI Trip Itinerary Proposals**: Bot generates structured itinerary cards with "Add to my trip" button.
+- [x] **T9.6 AI Trip Itinerary Proposals**: Bot generates structured itinerary cards with "Add to my trip" button.
   *Acceptance Test*: Clicking "Add to my trip" calls authenticated trip API to save places into user's planner.
 
 ---
