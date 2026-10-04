@@ -5,6 +5,7 @@ import { ArrowRight, MapPin, Star } from 'lucide-react';
 import { Place } from '@/types';
 import PlaceImage from '@/components/PlaceImage';
 import WishlistButton from '@/components/WishlistButton';
+import { AddToTripButton } from '@/components/AddToTripButton';
 import { useLanguage } from '@/context/LanguageContext';
 import { useCurrency } from '@/context/CurrencyContext';
 import { useLocation } from '@/context/LocationContext';
@@ -75,8 +76,9 @@ export default function PlaceCard({ place, variant = 'grid' }: PlaceCardProps) {
             </span>
           </div>
 
-          {/* Wishlist Heart Button (Top-Right) */}
-          <div className="absolute right-2.5 top-2.5 sm:right-3 sm:top-3 z-20">
+          {/* Action Buttons (Wishlist Heart + Add to Trip) (Top-Right) */}
+          <div className="absolute right-2.5 top-2.5 sm:right-3 sm:top-3 z-20 flex items-center gap-1.5">
+            <AddToTripButton place={place} variant="icon" />
             <WishlistButton placeId={place.id} placeName={place.name} variant="icon" />
           </div>
 

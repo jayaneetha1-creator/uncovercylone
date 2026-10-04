@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useWishlist } from '@/context/WishlistContext';
+import { useTrips } from '@/context/TripContext';
 import { Place, Review } from '@/types';
 
 type ProfileTab = 'settings' | 'saved' | 'trips' | 'reviews' | 'submissions';
@@ -31,6 +32,7 @@ export default function ProfilePage() {
   const router = useRouter();
   const { user, isLoading, refreshUser, logout } = useAuth();
   const { savedIds, toggleWishlist } = useWishlist();
+  const { trips, setActiveTripId } = useTrips();
 
   const [activeTab, setActiveTab] = useState<ProfileTab>('settings');
 
@@ -585,23 +587,97 @@ export default function ProfilePage() {
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h2 className="text-lg font-bold text-[#0F2A3D]">My Trips & Itineraries</h2>
-                <p className="text-xs text-[#5B7385]">Custom multi-day journeys across Sri Lanka</p>
+                <p className="text-xs text-[#5B7385]">Custom multi-day journeys and route maps</p>
               </div>
-            </div>
-
-            <div className="text-center py-12 border-2 border-dashed border-[#DCE8F2] rounded-2xl">
-              <Calendar className="w-12 h-12 text-[#DCE8F2] mx-auto mb-3" />
-              <h3 className="text-base font-bold text-[#0F2A3D] mb-1">Trip Planner (Phase 11)</h3>
-              <p className="text-xs text-[#5B7385] max-w-sm mx-auto mb-4">
-                You will be able to organize your saved places into custom day-by-day itineraries with route maps and travel time estimates.
-              </p>
               <Link
-                href="/#explore"
-                className="inline-flex items-center gap-2 px-4 py-2 bg-[#38A9F0] hover:bg-[#1E93DC] text-white text-xs font-bold rounded-xl shadow-xs"
+                href="/trips"
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#0284C7] hover:bg-[#0369A1] text-white text-xs font-bold rounded-xl shadow-xs transition-colors"
               >
-                Discover Places to Add
+                <Compass className="w-3.5 h-3.5" />
+                <span>Open Trip Planner</span>
               </Link>
             </div>
+
+            {trips.length === 0 ? (
+              <div className="text-center py-12 border-2 border-dashed border-[#DCE8F2] rounded-2xl">
+                <Calendar className="w-12 h-12 text-[#DCE8F2] mx-auto mb-3" />
+                <h3 className="text-base font-bold text-[#0F2A3D] mb-1">No trips planned yet</h3>
+                <p className="text-xs text-[#5B7385] max-w-sm mx-auto mb-4">
+                  Create custom day-by-day itineraries, track visited places, and view connected route maps with travel estimates.
+                </p>
+                <Link
+                  href="/trips"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-[#38A9F0] hover:bg-[#1E93DC] text-white text-xs font-bold rounded-xl shadow-xs"
+                >
+                  Create Your First Trip
+                </Link>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {trips.map((trip) => {
+                  const stopCount = trip.items?.length || trip.item_count || 0;
+                  const visitedCount = trip.visited_count || (trip.items || []).filter((i) => i.is_visited).length;
+                  const percent = stopCount > 0 ? Math.round((visitedCount / stopCount) * 100) : 0;
+
+                  return (
+                    <div
+                      key={trip.id}
+                      className="bg-[#F5FAFF] rounded-2xl p-5 border border-[#DCE8F2] hover:border-[#38A9F0]/60 transition-all flex flex-col justify-between shadow-2xs hover:shadow-xs"
+                    >
+                      <div>
+                        <div className="flex items-center justify-between gap-2 mb-2">
+                          <span className="px-2 py-0.5 rounded-md bg-[#DCEFFD] text-[#0284C7] text-[10px] font-bold uppercase tracking-wider">
+                            {stopCount} {stopCount === 1 ? 'Stop' : 'Stops'}
+                          </span>
+                          {trip.is_ai_planned && (
+                            <span className="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 border border-purple-200 text-[10px] font-bold">
+                              AI
+                            </span>
+                          )}
+                        </div>
+
+                        <h4 className="font-bold text-sm sm:text-base text-[#0F2A3D] mb-1">
+                          {trip.title}
+                        </h4>
+
+                        {trip.description && (
+                          <p className="text-xs text-slate-500 line-clamp-2 mb-3">
+                            {trip.description}
+                          </p>
+                        )}
+
+                        <div className="mt-3">
+                          <div className="flex items-center justify-between text-[11px] font-semibold text-slate-600 mb-1">
+                            <span>Progress</span>
+                            <span className="font-bold text-[#0284C7]">{percent}%</span>
+                          </div>
+                          <div className="w-full h-1.5 bg-slate-200/80 rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-[#0284C7] rounded-full transition-all duration-300"
+                              style={{ width: `${percent}%` }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="mt-5 pt-3 border-t border-[#DCE8F2]/60 flex items-center justify-between">
+                        <span className="text-[11px] text-slate-400">
+                          {visitedCount} of {stopCount} visited
+                        </span>
+                        <Link
+                          href="/trips"
+                          onClick={() => setActiveTripId(trip.id)}
+                          className="text-xs font-bold text-[#0284C7] hover:underline flex items-center gap-1"
+                        >
+                          <span>Manage</span>
+                          <ArrowRight className="w-3 h-3" />
+                        </Link>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         )}
 

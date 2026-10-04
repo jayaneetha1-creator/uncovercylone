@@ -431,6 +431,36 @@ function initializeSqliteDb(database: Database.Database) {
       executed_at TEXT DEFAULT (datetime('now'))
     );
 
+    CREATE TABLE IF NOT EXISTS trips (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NULL,
+      title TEXT NOT NULL,
+      description TEXT DEFAULT '',
+      start_date TEXT DEFAULT '',
+      end_date TEXT DEFAULT '',
+      is_public INTEGER DEFAULT 0,
+      share_slug TEXT UNIQUE,
+      is_ai_planned INTEGER DEFAULT 0,
+      created_at TEXT DEFAULT (datetime('now')),
+      updated_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS trip_items (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      trip_id INTEGER NOT NULL,
+      place_id INTEGER NULL,
+      item_type TEXT DEFAULT 'place',
+      title TEXT NOT NULL,
+      notes TEXT DEFAULT '',
+      order_index INTEGER DEFAULT 0,
+      is_visited INTEGER DEFAULT 0,
+      target_date TEXT DEFAULT '',
+      created_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (trip_id) REFERENCES trips(id) ON DELETE CASCADE,
+      FOREIGN KEY (place_id) REFERENCES locations(id) ON DELETE SET NULL
+    );
+
     CREATE INDEX IF NOT EXISTS idx_events_place ON events(place_id);
     CREATE INDEX IF NOT EXISTS idx_events_type ON events(event_type);
     CREATE INDEX IF NOT EXISTS idx_events_created ON events(created_at);
@@ -440,6 +470,10 @@ function initializeSqliteDb(database: Database.Database) {
     CREATE INDEX IF NOT EXISTS idx_news_published ON news_items(published_at);
     CREATE INDEX IF NOT EXISTS idx_news_category ON news_items(category);
     CREATE INDEX IF NOT EXISTS idx_news_status ON news_items(status);
+    CREATE INDEX IF NOT EXISTS idx_trips_user ON trips(user_id);
+    CREATE INDEX IF NOT EXISTS idx_trips_slug ON trips(share_slug);
+    CREATE INDEX IF NOT EXISTS idx_trip_items_trip ON trip_items(trip_id);
+    CREATE INDEX IF NOT EXISTS idx_trip_items_place ON trip_items(place_id);
   `);
 
   // Safe non-destructive column additions for SQLite

@@ -4,11 +4,12 @@ import dynamic from 'next/dynamic';
 import { useEffect, useState, useMemo } from 'react';
 import { Place, CategoryType } from '@/types';
 import Link from 'next/link';
+import { useTrips } from '@/context/TripContext';
 import {
   Map, Search, SlidersHorizontal, Star, MapPin, X,
   Globe, Waves, Droplets, Mountain, PawPrint, Landmark,
   Castle, Gem, Loader2, Navigation, ChevronRight,
-  Filter, Layers, RotateCcw
+  Filter, Layers, RotateCcw, Compass, Check, CheckSquare, Square
 } from 'lucide-react';
 
 const InteractiveMap = dynamic(() => import('@/components/InteractiveMap'), {
@@ -72,6 +73,10 @@ export default function MapPage() {
 
   // Recenter counter trigger
   const [recenterCount, setRecenterCount] = useState(0);
+
+  // Trip Itinerary Side Panel
+  const { activeTrip, toggleVisited } = useTrips();
+  const [isTripPanelOpen, setIsTripPanelOpen] = useState(false);
 
   useEffect(() => {
     fetch('/api/places')
@@ -426,6 +431,193 @@ export default function MapPage() {
                 setRecenterCount((c) => c + 1);
               }}
             />
+          )}
+
+          {/* ━━━━ TOP-RIGHT FLOATING CONTROLS: TRIP ITINERARY TOGGLE ━━━━ */}
+          <div className="absolute top-4 right-4 z-[1001] flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setIsTripPanelOpen(!isTripPanelOpen)}
+              className={`flex items-center gap-2 px-3.5 py-2.5 rounded-2xl font-bold text-xs shadow-md transition-all backdrop-blur-md cursor-pointer ${
+                isTripPanelOpen
+                  ? 'bg-[#0284C7] text-white border border-[#0284C7]'
+                  : 'bg-white/95 hover:bg-white text-[#0F2A3D] border border-[#DCE8F2]'
+              }`}
+            >
+              <Compass className={`w-4 h-4 ${isTripPanelOpen ? 'text-white' : 'text-[#0284C7]'}`} />
+              <span className="hidden sm:inline">Trip Itinerary</span>
+              {activeTrip && (activeTrip.items?.length || 0) > 0 && (
+                <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-black ${
+                  isTripPanelOpen ? 'bg-white/20 text-white' : 'bg-[#DCEFFD] text-[#0284C7]'
+                }`}>
+                  {activeTrip.items?.length}
+                </span>
+              )}
+            </button>
+          </div>
+
+          {/* ━━━━ TRIP ITINERARY SIDE PANEL (Desktop Right Drawer / Mobile Bottom Sheet) ━━━━ */}
+          {isTripPanelOpen && (
+            <div className="absolute inset-y-0 right-0 z-[1002] w-full sm:w-88 bg-white/95 backdrop-blur-xl border-l border-[#DCE8F2] shadow-2xl flex flex-col animate-in slide-in-from-right duration-250">
+              {/* Panel Header */}
+              <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-xl bg-[#DCEFFD] flex items-center justify-center text-[#0284C7]">
+                    <Compass className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-sm text-[#0F2A3D] truncate max-w-[180px]">
+                      {activeTrip ? activeTrip.title : 'My Trip Itinerary'}
+                    </h3>
+                    <p className="text-[11px] text-slate-500">
+                      {activeTrip?.items?.length || 0} stops planned
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsTripPanelOpen(false)}
+                  className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Progress Bar */}
+              {activeTrip && (activeTrip.items?.length || 0) > 0 && (
+                <div className="px-4 py-2.5 bg-sky-50/40 border-b border-sky-100/60">
+                  <div className="flex items-center justify-between text-[11px] font-semibold text-slate-600 mb-1">
+                    <span>
+                      Visited: {(activeTrip.items || []).filter((i) => i.is_visited).length} of{' '}
+                      {activeTrip.items?.length || 0}
+                    </span>
+                    <span className="font-bold text-[#0284C7]">
+                      {Math.round(
+                        (((activeTrip.items || []).filter((i) => i.is_visited).length) /
+                          (activeTrip.items?.length || 1)) *
+                          100
+                      )}%
+                    </span>
+                  </div>
+                  <div className="w-full h-1.5 bg-slate-200/70 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-[#0284C7] rounded-full transition-all duration-300"
+                      style={{
+                        width: `${Math.round(
+                          (((activeTrip.items || []).filter((i) => i.is_visited).length) /
+                            (activeTrip.items?.length || 1)) *
+                            100
+                        )}%`,
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Stops Checklist */}
+              <div className="flex-1 overflow-y-auto p-3 space-y-2">
+                {!activeTrip || !activeTrip.items || activeTrip.items.length === 0 ? (
+                  <div className="py-12 text-center px-4">
+                    <div className="w-12 h-12 mx-auto mb-2 rounded-xl bg-sky-50 flex items-center justify-center text-xl">
+                      📍
+                    </div>
+                    <p className="text-xs font-bold text-slate-800">No stops added yet</p>
+                    <p className="text-[11px] text-slate-500 mt-1 mb-3">
+                      Select any destination on the left or map to add it to your trip.
+                    </p>
+                    <Link
+                      href="/trips"
+                      className="inline-flex items-center gap-1 text-xs font-bold text-[#0284C7] hover:underline"
+                    >
+                      Open Trip Planner
+                    </Link>
+                  </div>
+                ) : (
+                  activeTrip.items.map((item, idx) => (
+                    <div
+                      key={item.id}
+                      className={`p-2.5 rounded-xl border transition-all flex items-start gap-2.5 ${
+                        item.is_visited
+                          ? 'bg-slate-50 border-slate-200 opacity-75'
+                          : 'bg-white border-[#DCE8F2] shadow-2xs'
+                      }`}
+                    >
+                      {/* Checkbox */}
+                      <button
+                        type="button"
+                        onClick={() => toggleVisited(activeTrip.id, item.id)}
+                        className={`mt-0.5 p-0.5 rounded transition-colors ${
+                          item.is_visited ? 'text-emerald-600' : 'text-slate-400 hover:text-slate-600'
+                        }`}
+                      >
+                        {item.is_visited ? (
+                          <CheckSquare className="w-4 h-4 stroke-[2.5]" />
+                        ) : (
+                          <Square className="w-4 h-4 stroke-[2]" />
+                        )}
+                      </button>
+
+                      {/* Content */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[10px] font-black text-[#0284C7] w-4">
+                            #{idx + 1}
+                          </span>
+                          <span
+                            className={`text-xs font-bold truncate ${
+                              item.is_visited ? 'line-through text-slate-400' : 'text-[#0F2A3D]'
+                            }`}
+                          >
+                            {item.title}
+                          </span>
+                        </div>
+                        {item.place && (
+                          <div className="flex items-center gap-1 text-[10px] text-slate-400 mt-0.5 pl-5">
+                            <span>{item.place.category || 'Destination'}</span>
+                            {item.place.province && <span>• {item.place.province}</span>}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Center on map button if geo */}
+                      {item.place && item.place.latitude && item.place.longitude && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const found = places.find((p) => p.id === item.place_id);
+                            if (found) {
+                              setSelectedPlace(found);
+                            }
+                          }}
+                          title="Locate on map"
+                          className="p-1 text-slate-400 hover:text-[#0284C7] rounded"
+                        >
+                          <Navigation className="w-3.5 h-3.5" />
+                        </button>
+                      )}
+                    </div>
+                  ))
+                )}
+              </div>
+
+              {/* Panel Footer */}
+              <div className="p-3 border-t border-slate-100 bg-slate-50/70 flex items-center justify-between">
+                <Link
+                  href="/trips"
+                  className="text-xs font-bold text-[#0284C7] hover:text-[#0369A1] flex items-center gap-1"
+                >
+                  Full Planner View
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => setIsTripPanelOpen(false)}
+                  className="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-200/60"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
           )}
 
           {/* Floating Map Legend / Guide on bottom right */}

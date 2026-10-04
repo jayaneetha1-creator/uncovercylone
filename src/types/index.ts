@@ -274,6 +274,12 @@ export interface AnalyticsSummary {
     views: number;
     clicks: number;
   }>;
+  tripStats?: {
+    totalTrips: number;
+    totalPlannedStops: number;
+    topPlaces: Array<{ id: number; name: string; count: number }>;
+    avgPlacesPerTrip: number;
+  };
 }
 
 

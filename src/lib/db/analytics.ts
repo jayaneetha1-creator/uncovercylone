@@ -6,6 +6,7 @@
 
 import { query, queryOne, execute, isMySqlEnabled } from '../db';
 import { TrackingEvent, VisitorJourney, AnalyticsSummary } from '@/types';
+import { getAggregateTripStats } from './trips';
 
 /**
  * Record a single tracking event.
@@ -381,6 +382,13 @@ export async function getAnalyticsSummary(days = 30): Promise<AnalyticsSummary> 
       clicks: Number(t.clicks || 0),
     }));
 
+    let tripStats;
+    try {
+      tripStats = await getAggregateTripStats();
+    } catch {
+      // ignore
+    }
+
     return {
       totalViews,
       totalClicks,
@@ -392,6 +400,7 @@ export async function getAnalyticsSummary(days = 30): Promise<AnalyticsSummary> 
       deviceBreakdown: { mobile, desktop, tablet },
       eventSources,
       weeklyTrend,
+      tripStats,
     };
   } catch (error) {
     console.error('Error calculating analytics summary:', error);

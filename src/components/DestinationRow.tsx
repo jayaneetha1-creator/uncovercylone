@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useWishlist } from '@/context/WishlistContext';
 import { useLanguage } from '@/context/LanguageContext';
+import { AddToTripButton } from '@/components/AddToTripButton';
 import { trackPlaceClick, trackPlaceSave } from '@/lib/analytics';
 
 interface DestinationRowProps {
@@ -171,6 +172,7 @@ export default function DestinationRow({
           </div>
 
           <div className="flex items-center gap-2.5">
+            <AddToTripButton place={place} variant="pill" />
             <Link
               href={`/places/${place.id}`}
               onClick={() => trackPlaceClick(place.id, 'destinations_directory')}

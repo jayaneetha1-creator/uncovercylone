@@ -1357,6 +1357,85 @@
                   ]
                 },
                 {
+                  "name": "trips",
+                  "description": "Folder in src/app/api/trips",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "recommendations",
+                      "description": "Folder in src/app/api/trips/recommendations",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/trips/recommendations/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "route.ts",
+                      "description": "File in src/app/api/trips/route.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "share",
+                      "description": "Folder in src/app/api/trips/share",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "[slug]",
+                          "description": "Folder in src/app/api/trips/share/[slug]",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "route.ts",
+                              "description": "File in src/app/api/trips/share/[slug]/route.ts",
+                              "type": "file"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "[id]",
+                      "description": "Folder in src/app/api/trips/[id]",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "items",
+                          "description": "Folder in src/app/api/trips/[id]/items",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "route.ts",
+                              "description": "File in src/app/api/trips/[id]/items/route.ts",
+                              "type": "file"
+                            },
+                            {
+                              "name": "[itemId]",
+                              "description": "Folder in src/app/api/trips/[id]/items/[itemId]",
+                              "type": "directory",
+                              "children": [
+                                {
+                                  "name": "route.ts",
+                                  "description": "File in src/app/api/trips/[id]/items/[itemId]/route.ts",
+                                  "type": "file"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/trips/[id]/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "name": "upload",
                   "description": "Folder in src/app/api/upload",
                   "type": "directory",
@@ -1603,6 +1682,37 @@
               ]
             },
             {
+              "name": "trips",
+              "description": "Folder in src/app/trips",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "description": "File in src/app/trips/page.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "share",
+                  "description": "Folder in src/app/trips/share",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "[slug]",
+                      "description": "Folder in src/app/trips/share/[slug]",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "page.tsx",
+                          "description": "File in src/app/trips/share/[slug]/page.tsx",
+                          "type": "file"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
               "name": "uploads",
               "description": "Folder in src/app/uploads",
               "type": "directory",
@@ -1640,6 +1750,16 @@
           "description": "Reusable UI components designed with the light-blue airy aesthetic.",
           "type": "directory",
           "children": [
+            {
+              "name": "AddToTripButton.tsx",
+              "description": "File in src/components/AddToTripButton.tsx",
+              "type": "file"
+            },
+            {
+              "name": "AddToTripModal.tsx",
+              "description": "File in src/components/AddToTripModal.tsx",
+              "type": "file"
+            },
             {
               "name": "AdPlacement.tsx",
               "description": "File in src/components/AdPlacement.tsx",
@@ -1871,6 +1991,21 @@
               "type": "file"
             },
             {
+              "name": "TripItemRow.tsx",
+              "description": "File in src/components/TripItemRow.tsx",
+              "type": "file"
+            },
+            {
+              "name": "TripMapSidePanel.tsx",
+              "description": "File in src/components/TripMapSidePanel.tsx",
+              "type": "file"
+            },
+            {
+              "name": "TripRecommendationsRow.tsx",
+              "description": "File in src/components/TripRecommendationsRow.tsx",
+              "type": "file"
+            },
+            {
               "name": "WishlistButton.tsx",
               "description": "File in src/components/WishlistButton.tsx",
               "type": "file"
@@ -1905,6 +2040,11 @@
             {
               "name": "LocationContext.tsx",
               "description": "File in src/context/LocationContext.tsx",
+              "type": "file"
+            },
+            {
+              "name": "TripContext.tsx",
+              "description": "File in src/context/TripContext.tsx",
               "type": "file"
             },
             {
@@ -1992,6 +2132,11 @@
                   "type": "file"
                 },
                 {
+                  "name": "trips.ts",
+                  "description": "File in src/lib/db/trips.ts",
+                  "type": "file"
+                },
+                {
                   "name": "users.ts",
                   "description": "File in src/lib/db/users.ts",
                   "type": "file"
@@ -2044,6 +2189,18 @@
               "name": "theme.ts",
               "description": "File in src/lib/theme.ts",
               "type": "file"
+            },
+            {
+              "name": "trips",
+              "description": "Folder in src/lib/trips",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "constants.ts",
+                  "description": "File in src/lib/trips/constants.ts",
+                  "type": "file"
+                }
+              ]
             }
           ]
         },

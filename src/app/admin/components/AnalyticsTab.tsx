@@ -23,6 +23,7 @@ import {
   Search,
   RefreshCw,
   AlertCircle,
+  Compass,
 } from 'lucide-react';
 import { AnalyticsSummary } from '@/types';
 
@@ -402,6 +403,69 @@ export default function AnalyticsTab() {
                     {es.source.replace(/_/g, ' ')}
                   </span>
                   <span className="font-bold text-[#38A9F0]">{es.count} events</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* ━━━ AGGREGATE TRIP ANALYTICS (Section 4.11) ━━━ */}
+      <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm">
+        <div className="flex items-center gap-2.5 mb-4">
+          <div className="w-8 h-8 rounded-xl bg-[#DCEFFD] text-[#0284C7] flex items-center justify-center">
+            <Compass className="w-4 h-4" />
+          </div>
+          <div>
+            <h3 className="text-base font-bold text-[#0F2A3D]">
+              Traveler Itineraries & Trip Planning Aggregate Stats
+            </h3>
+            <p className="text-xs text-[#5B7385]">
+              Anonymized aggregate insights into destinations saved inside traveler custom trips
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/60">
+            <div className="text-2xl font-black text-[#0F2A3D]">
+              {loading ? '...' : (summary?.tripStats?.totalTrips ?? 0).toLocaleString()}
+            </div>
+            <div className="text-xs font-semibold text-[#5B7385] mt-0.5">Total Trips Created</div>
+          </div>
+
+          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/60">
+            <div className="text-2xl font-black text-[#0284C7]">
+              {loading ? '...' : (summary?.tripStats?.totalPlannedStops ?? 0).toLocaleString()}
+            </div>
+            <div className="text-xs font-semibold text-[#5B7385] mt-0.5">Total Stops Planned</div>
+          </div>
+
+          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/60">
+            <div className="text-2xl font-black text-emerald-600">
+              {loading ? '...' : (summary?.tripStats?.avgPlacesPerTrip ?? 0)}
+            </div>
+            <div className="text-xs font-semibold text-[#5B7385] mt-0.5">Avg Stops per Itinerary</div>
+          </div>
+        </div>
+
+        <div>
+          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2.5">
+            Top 5 Destinations in Traveler Trips
+          </h4>
+          {!summary?.tripStats?.topPlaces || summary.tripStats.topPlaces.length === 0 ? (
+            <p className="text-xs text-slate-400 italic">No trip items registered yet.</p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+              {summary.tripStats.topPlaces.map((tp, idx) => (
+                <div key={tp.id} className="p-3 rounded-xl bg-sky-50/60 border border-sky-100 flex items-center justify-between">
+                  <div className="min-w-0 pr-2">
+                    <span className="text-[10px] font-black text-[#0284C7]">#{idx + 1}</span>
+                    <div className="text-xs font-bold text-slate-900 truncate">{tp.name}</div>
+                  </div>
+                  <span className="text-xs font-bold text-sky-800 bg-white px-2 py-0.5 rounded-md shadow-2xs">
+                    {tp.count}
+                  </span>
                 </div>
               ))}
             </div>

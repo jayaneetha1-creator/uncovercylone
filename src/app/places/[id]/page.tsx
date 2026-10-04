@@ -13,6 +13,7 @@ import QAList from '@/components/QAList';
 import Folder from '@/components/Folder';
 import WishlistButton from '@/components/WishlistButton';
 import OfflineGuideButton from '@/components/OfflineGuideButton';
+import { AddToTripButton } from '@/components/AddToTripButton';
 import PlaceViewTracker from '@/components/PlaceViewTracker';
 import RecommendationCarousel from '@/components/RecommendationCarousel';
 import AdPlacement from '@/components/AdPlacement';
@@ -251,7 +252,8 @@ export default async function PlaceDetailPage({ params }: PlacePageProps) {
             </span>
           </nav>
 
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+            <AddToTripButton place={place} variant="pill" />
             <OfflineGuideButton place={place} variant="pill" />
             <WishlistButton placeId={place.id} placeName={place.name} variant="pill" />
             <Link

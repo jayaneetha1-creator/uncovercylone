@@ -104,6 +104,17 @@ This document tracks all architectural choices, assumptions, and technology sele
 - **Decision**: Implemented `src/lib/recommend.ts` combining Haversine proximity calculations with real-time transition counts (`place_transitions`) and category distribution caps (diversity rule max 2 per category). Every recommendation includes a human-readable reason tag (e.g. "Close to Sigiriya (12 km away)").
 - **Rationale**: Delivers instant (<15ms) explainable suggestions with zero ML overhead or third-party cloud lock-in.
 
+### D21: Trip Planner Unified Guest-Cloud Data Architecture & Co-Occurrence Engine
+- **Date**: 2026-10-04
+- **Context**: Section 4.11 requires a friendly trip planner that works offline/locally for guests, syncs seamlessly to user accounts upon login, integrates with favorites, interactive map, profile, destination pages, and generates co-occurrence suggestions.
+- **Decision**: 
+  1. Built dual-layer state management in `src/context/TripContext.tsx` supporting guest `localStorage` drafts (`uc_guest_trips`) and cloud database CRUD (`trips` & `trip_items` tables).
+  2. Implemented automatic guest-to-cloud migration on sign-in via `/api/trips` `{ action: 'sync' }`.
+  3. Integrated interactive Leaflet route map with sequential numbered markers, connecting polyline, total Haversine distance, and estimated scenic travel time (~42 km/h).
+  4. Implemented SQL-based co-occurrence discovery querying destinations that frequently co-exist across traveler itineraries (`getTripCoOccurrenceSuggestions`).
+  5. Built read-only public sharing via unique hex slugs (`/trips/share/[slug]`) and PDF/print support.
+- **Rationale**: Frictionless entry for non-logged-in tourists, zero data loss upon registration, and native cross-platform responsiveness across 390px, 768px, and 1440px viewports.
+
 
 
 

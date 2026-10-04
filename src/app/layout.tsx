@@ -8,6 +8,7 @@ import { LanguageProvider } from "@/context/LanguageContext";
 import { CurrencyProvider } from "@/context/CurrencyContext";
 import { LocationProvider } from "@/context/LocationContext";
 import { AuthProvider } from "@/context/AuthContext";
+import { TripProvider } from "@/context/TripContext";
 import WishlistDrawer from "@/components/WishlistDrawer";
 import BottomTabBar from "@/components/BottomTabBar";
 import GoogleTranslator from "@/components/GoogleTranslator";
@@ -103,33 +104,35 @@ export default function RootLayout({
             <CurrencyProvider>
               <LocationProvider>
                 <WishlistProvider>
-                  <Navbar />
-                  <main className="pb-16 md:pb-0">{children}</main>
-                  <WishlistDrawer />
-                  <FloatingAIButton />
-                  <CustomerChatWidget />
-                  <CookieConsentBanner />
-                  <AdSenseScript />
-                  <GoogleTranslator />
-                  <PWARegister />
-                  <Footer />
-                  <BottomTabBar />
-                  <Toaster
-                    position="bottom-right"
-                    toastOptions={{
-                      style: {
-                        background: "#FFFFFF",
-                        color: "#0F2A3D",
-                        border: "1px solid #DCE8F2",
-                        boxShadow: "0 12px 28px -6px rgba(15, 42, 61, 0.09)",
-                        borderRadius: "14px",
-                        fontFamily: "'Inter', sans-serif",
-                        fontWeight: 600,
-                        fontSize: "13.5px",
-                        padding: "12px 18px",
-                      },
-                    }}
-                  />
+                  <TripProvider>
+                    <Navbar />
+                    <main className="pb-16 md:pb-0">{children}</main>
+                    <WishlistDrawer />
+                    <FloatingAIButton />
+                    <CustomerChatWidget />
+                    <CookieConsentBanner />
+                    <AdSenseScript />
+                    <GoogleTranslator />
+                    <PWARegister />
+                    <Footer />
+                    <BottomTabBar />
+                    <Toaster
+                      position="bottom-right"
+                      toastOptions={{
+                        style: {
+                          background: "#FFFFFF",
+                          color: "#0F2A3D",
+                          border: "1px solid #DCE8F2",
+                          boxShadow: "0 12px 28px -6px rgba(15, 42, 61, 0.09)",
+                          borderRadius: "14px",
+                          fontFamily: "'Inter', sans-serif",
+                          fontWeight: 600,
+                          fontSize: "13.5px",
+                          padding: "12px 18px",
+                        },
+                      }}
+                    />
+                  </TripProvider>
                 </WishlistProvider>
               </LocationProvider>
             </CurrencyProvider>

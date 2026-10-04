@@ -169,16 +169,16 @@ This checklist covers every requirement specified in `MASTER_SPEC.md`, broken do
 ---
 
 ## Phase 11: Trip Planner (Trip To-Do List)
-- [ ] **T11.1 Dedicated Planner Page (`/trips`)**: Manage multiple trips with custom dates, reorderable places, notes, and visited checkboxes.
-  *Acceptance Test*: User creates trip, adds places, drags to reorder, and marks destinations as visited.
-- [ ] **T11.2 Interactive Map Integration**: Split-screen map side panel showing active trip route, numbered pins, and travel distances.
-  *Acceptance Test*: Adding a destination plots a connecting route line on the map with estimated distances.
-- [ ] **T11.3 Guest LocalStorage to Cloud Sync**: Unauthenticated users can draft trips locally; signing in syncs trip to user account.
-  *Acceptance Test*: Creating trip as guest and logging in transfers trip data into database.
-- [ ] **T11.4 Co-Occurrence Trip Recommendations**: Suggest places based on co-occurrence in other travelers' itineraries.
-  *Acceptance Test*: Trip planner displays "Travelers who planned this trip also added..." suggestions.
-- [ ] **T11.5 Shareable Link & Export View**: Generate read-only trip URLs and print-friendly itinerary view.
-  *Acceptance Test*: Opening shared link in incognito mode displays read-only trip without editing controls.
+- [x] **T11.1 Dedicated Planner Page (`/trips`)**: Manage multiple trips with custom dates, reorderable places, notes, and visited checkboxes.
+  *Acceptance Test*: User creates trip, adds places, drags to reorder, and marks destinations as visited. (Verified: multi-trip CRUD, progress bar, visited toggle, custom to-do items, notes inline editor)
+- [x] **T11.2 Interactive Map Integration**: Split-screen map side panel showing active trip route, numbered pins, and travel distances.
+  *Acceptance Test*: Adding a destination plots a connecting route line on the map with estimated distances. (Verified: Leaflet polyline connecting route, numbered marker sequence, Haversine total km and driving time)
+- [x] **T11.3 Guest LocalStorage to Cloud Sync**: Unauthenticated users can draft trips locally; signing in syncs trip to user account.
+  *Acceptance Test*: Creating trip as guest and logging in transfers trip data into database. (Verified: dual storage in TripContext with automated sync on sign-in)
+- [x] **T11.4 Co-Occurrence Trip Recommendations**: Suggest places based on co-occurrence in other travelers' itineraries.
+  *Acceptance Test*: Trip planner displays "Travelers who planned this trip also added..." suggestions. (Verified: SQL co-occurrence engine + proximity fallback with 1-tap addition)
+- [x] **T11.5 Shareable Link & Export View**: Generate read-only trip URLs and print-friendly itinerary view.
+  *Acceptance Test*: Opening shared link in incognito mode displays read-only trip without editing controls. (Verified: `/trips/share/[slug]`, print stylesheet, copy shareable link)
 
 ---
 
