@@ -57,17 +57,17 @@ This checklist covers every requirement specified in `MASTER_SPEC.md`, broken do
 ---
 
 ## Phase 3: Permissions, Requests, Notifications & Audit
-- [ ] **T3.1 Permissions Matrix**: Implement single source of truth in `src/lib/permissions.ts` enforcing Section 4.4 capability matrix.
+- [x] **T3.1 Permissions Matrix**: Implement single source of truth in `src/lib/permissions.ts` enforcing Section 4.4 capability matrix.
   *Acceptance Test*: Server-side API guard rejects unauthorized role operations with HTTP 403.
-- [ ] **T3.2 Deletion Request Workflow**: Enforce owner-only deletion; developer/uploader delete actions create pending `change_requests`.
+- [x] **T3.2 Deletion Request Workflow**: Enforce owner-only deletion; developer/uploader delete actions create pending `change_requests`.
   *Acceptance Test*: Developer clicking delete creates a change request; item remains active until owner approves.
-- [ ] **T3.3 Soft Deletion & 30-Day Trash**: Implement `trash` table with 30-day retention and one-click restore for the owner.
+- [x] **T3.3 Soft Deletion & 30-Day Trash**: Implement `trash` table with 30-day retention and one-click restore for the owner.
   *Acceptance Test*: Approved delete moves item to Trash; clicking Restore returns it to active places without data loss.
-- [ ] **T3.4 Version History & Revert**: Store revision snapshots in `versions` table for edits made by staff with one-click rollback.
+- [x] **T3.4 Version History & Revert**: Store revision snapshots in `versions` table for edits made by staff with one-click rollback.
   *Acceptance Test*: Editing a destination logs previous state; clicking Revert restores previous content.
-- [ ] **T3.5 Notification Engine**: In-app bell notification dropdown with unread badge counter, mark-as-read, and 15s polling.
+- [x] **T3.5 Notification Engine**: In-app bell notification dropdown with unread badge counter, mark-as-read, and 15s polling.
   *Acceptance Test*: Triggering a system event (e.g. new user or delete request) increments unread badge.
-- [ ] **T3.6 Audit Logging**: Log every state-changing administrative action (user, action, target, timestamp, IP) in `audit_log`.
+- [x] **T3.6 Audit Logging**: Log every state-changing administrative action (user, action, target, timestamp, IP) in `audit_log`.
   *Acceptance Test*: Admin actions create an audit log entry viewable in Admin Audit tab.
 
 ---

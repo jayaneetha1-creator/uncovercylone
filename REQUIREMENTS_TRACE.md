@@ -39,7 +39,7 @@ Status Definitions:
 | **R26** | Performance budget: no mobile lag, Lighthouse check | Phase 0, 6, 9, 13 | `docs/PERFORMANCE.md` | Mobile Lighthouse ≥ 90; bundle size tracked; zero CLS | Planned (Phase 0, 6, 9, 13) |
 | **R27** | Everything mobile-optimized (touch targets ≥ 44px) | All | All components | Tested at 390px, 768px, 1440px with responsive sheets and tab bar | Planned (All) |
 | **R28** | Trip To-Do List (`/trips`) with Map side-panel & suggestions | Phase 11 | `src/app/trips/page.tsx`, `src/components/TripMapSidePanel.tsx` | Users can create trips, check items, reorder, view route on map | Planned (Phase 11) |
-| **R29** | Strict RBAC permissions table | Phase 3 | `src/lib/permissions.ts` | Matrix enforced on all API routes; non-owners blocked from destructive calls | Planned (Phase 3) |
+| **R29** | Strict RBAC permissions table | Phase 3 | `src/lib/permissions.ts` | Matrix enforced on all API routes; non-owners blocked from destructive calls | Done (Phase 3) |
 | **R30** | Public user "Add a place" form with approval workflow | Phase 5 | `src/app/submit-place/page.tsx`, `src/app/admin/tabs/ApprovalsTab.tsx` | Normal users submit places to Pending; staff review and approve | Planned (Phase 5) |
 | **R31** | Extra admin features (Maintenance mode, Announcement, SEO, Backup) | Phase 4, 5 | `src/app/admin/tabs/SettingsTab.tsx`, `src/app/admin/tabs/JobsTab.tsx` | Maintenance banner, sitemap settings, error viewer, jobs runner active | Planned (Phase 4, 5) |
 | **R32** | Final site contains everything listed in master spec | All | All routes & components | End-to-end verification checklist passes across all phases | Planned (All) |
@@ -50,5 +50,5 @@ Status Definitions:
 | **R37** | Destination detail page structured like Tripadvisor hotel page | Phase 5, 6 | `src/app/places/[id]/page.tsx`, `src/components/PhotoMosaic.tsx` | Photo mosaic, plan visit card, traveler love row, reviews with photos & replies | Planned (Phase 5, 6) |
 | **R38** | AI panel like Tripadvisor AI Assistant with trip proposals | Phase 9, 11 | `src/components/AIChatPanel.tsx`, `src/components/AITripCard.tsx` | Left drawer, `@place` autocomplete, propose itinerary -> "Add to trip" | Planned (Phase 9, 11) |
 | **R39** | Page blocks as collapsible folders with chevron cue | Phase 4, 6 | `src/components/Folder.tsx` | Smooth expand/collapse, chevron cue, accessible ARIA attributes | Planned (Phase 4, 6) |
-| **R40** | Only owner can delete; delete request workflow + notifications | Phase 3 | `src/app/api/admin/requests/`, `src/app/admin/tabs/TrashTab.tsx` | Delete action queues request; owner approves -> moves to trash (30d) | Planned (Phase 3) |
+| **R40** | Only owner can delete; delete request workflow + notifications | Phase 3 | `src/app/api/admin/requests/`, `src/app/admin/tabs/TrashTab.tsx` | Delete action queues request; owner approves -> moves to trash (30d) | Done (Phase 3) |
 | **R41** | Long prompt phased execution with continuous verification | Phase 0 | `TASKS.md`, `DECISIONS.md`, `REQUIREMENTS_TRACE.md` | Phases 0–14 executed systematically with automated build tests | Done (Phase 0) |

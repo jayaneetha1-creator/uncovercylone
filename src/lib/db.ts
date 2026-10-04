@@ -124,6 +124,122 @@ function initializeSqliteDb(database: Database.Database) {
       actor TEXT DEFAULT 'Admin',
       created_at TEXT DEFAULT (datetime('now'))
     );
+
+    CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      email TEXT NOT NULL UNIQUE,
+      password_hash TEXT NOT NULL,
+      name TEXT NOT NULL,
+      role TEXT NOT NULL DEFAULT 'user',
+      country TEXT DEFAULT 'Sri Lanka',
+      avatar TEXT DEFAULT '',
+      status TEXT DEFAULT 'unverified',
+      email_verified_at TEXT NULL,
+      must_change_password INTEGER DEFAULT 0,
+      created_at TEXT DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS sessions (
+      id TEXT PRIMARY KEY,
+      user_id INTEGER NOT NULL,
+      expires_at TEXT NOT NULL,
+      ip_address TEXT DEFAULT '',
+      user_agent TEXT DEFAULT '',
+      created_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE IF NOT EXISTS email_tokens (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      token TEXT NOT NULL UNIQUE,
+      type TEXT NOT NULL,
+      new_email TEXT NULL,
+      expires_at TEXT NOT NULL,
+      used_at TEXT NULL,
+      created_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE IF NOT EXISTS change_requests (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      action_type TEXT NOT NULL,
+      entity_type TEXT NOT NULL,
+      entity_id INTEGER NOT NULL,
+      reason TEXT NOT NULL,
+      status TEXT DEFAULT 'pending',
+      reviewed_by INTEGER NULL,
+      reviewed_at TEXT NULL,
+      created_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE IF NOT EXISTS trash (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      entity_type TEXT NOT NULL,
+      entity_id INTEGER NOT NULL,
+      entity_data TEXT NOT NULL,
+      deleted_by INTEGER NOT NULL,
+      deleted_at TEXT DEFAULT (datetime('now')),
+      expires_at TEXT NOT NULL,
+      FOREIGN KEY (deleted_by) REFERENCES users(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE IF NOT EXISTS versions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      entity_type TEXT NOT NULL,
+      entity_id INTEGER NOT NULL,
+      version_num INTEGER NOT NULL,
+      snapshot TEXT NOT NULL,
+      created_by INTEGER NOT NULL,
+      created_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE IF NOT EXISTS notifications (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NULL,
+      recipient_role TEXT NULL,
+      type TEXT NOT NULL,
+      title TEXT NOT NULL,
+      body TEXT NOT NULL,
+      link TEXT DEFAULT '',
+      payload TEXT NULL,
+      is_read INTEGER DEFAULT 0,
+      created_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE IF NOT EXISTS audit_log (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NULL,
+      user_email TEXT DEFAULT '',
+      user_role TEXT DEFAULT '',
+      action TEXT NOT NULL,
+      entity_type TEXT NOT NULL,
+      entity_id TEXT DEFAULT '',
+      details TEXT NOT NULL,
+      ip_address TEXT DEFAULT '',
+      created_at TEXT DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS site_nodes (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      parent_id INTEGER NULL,
+      node_key TEXT NOT NULL UNIQUE,
+      type TEXT NOT NULL,
+      title_en TEXT NOT NULL,
+      title_si TEXT NOT NULL,
+      enabled INTEGER DEFAULT 1,
+      sort_order INTEGER DEFAULT 0,
+      default_open INTEGER DEFAULT 1,
+      priority INTEGER DEFAULT 0,
+      device_visibility TEXT DEFAULT 'all',
+      config TEXT NULL,
+      created_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (parent_id) REFERENCES site_nodes(id) ON DELETE CASCADE
+    );
   `);
 }
 

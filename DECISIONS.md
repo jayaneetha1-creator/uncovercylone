@@ -64,3 +64,19 @@ This document tracks all architectural choices, assumptions, and technology sele
 - **Decision**: Built complete OAuth 2.0 redirection and callback endpoints (`/api/auth/google`, `/api/auth/google/callback`). The UI button and endpoints gracefully detect missing keys and link accounts automatically by verified email once provided.
 - **Rationale**: Eliminates rework when the owner generates Google Cloud credentials later.
 
+### D13: Strict RBAC Permissions Matrix Single Source of Truth
+- **Context**: Section 4.4 specifies distinct capabilities for Owner, Developer, Uploader, and User.
+- **Decision**: Created `src/lib/permissions.ts` mapping 18 discrete capabilities to authorized roles with `requirePermission` API middleware guards.
+- **Rationale**: Prevents privilege leakage and centralizes security access rules in a single auditable file.
+
+### D14: Owner-Only Deletion with Change Requests, 30-Day Trash & Version Snapshots
+- **Context**: Critical safety requirement that developers/uploaders cannot unilaterally delete places or site data.
+- **Decision**: Destructive requests by non-owners generate a pending row in `change_requests` notifying the owner. Approved deletions write full JSON snapshots to `trash` (30-day retention with restore), and updates record revision snapshots in `versions`.
+- **Rationale**: Eliminates risk of irreversible accidental data loss and provides full auditability.
+
+### D15: In-App 15-Second Polling Notification Engine & Audit Trail
+- **Context**: Section 4.5 requires an in-app notification bell with unread badge counter, realtime updates, and an audit trail.
+- **Decision**: Implemented `notifications` table with role targeting (`all_staff`, `owner`, `developer`), 15-second client polling in `<NotificationBell />`, and structured `audit_log` tracking all state changes.
+- **Rationale**: Low-overhead, highly reliable across serverless and long-lived VPS environments without WebSocket infrastructure overhead.
+
+

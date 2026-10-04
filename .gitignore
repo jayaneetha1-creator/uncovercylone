@@ -43,3 +43,8 @@ next-env.d.ts
 
 # backups
 backup_phase0/
+
+# sqlite temporary wal/shm
+*.db-wal
+*.db-shm
+*.db-journal

@@ -8,6 +8,7 @@ import { useWishlist } from '@/context/WishlistContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { useAuth } from '@/context/AuthContext';
 import LanguageSelector from '@/components/LanguageSelector';
+import NotificationBell from '@/components/NotificationBell';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -204,6 +205,11 @@ export default function Navbar() {
                 </span>
               )}
             </button>
+
+            {/* Staff Notifications Bell */}
+            {user && ['owner', 'developer', 'uploader'].includes(user.role) && (
+              <NotificationBell />
+            )}
 
             {/* User Profile / Sign In */}
             {user ? (
