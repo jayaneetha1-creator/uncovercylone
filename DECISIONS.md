@@ -48,3 +48,19 @@ This document tracks all architectural choices, assumptions, and technology sele
 - **Date**: 2026-10-04
 - **Decision**: Lightweight, explainable algorithmic pipeline (`src/lib/recommend.ts`) combining Haversine geographic proximity, session journey transition statistics (Markov chain co-occurrence from stored journey paths), category affinity, and time-decayed view/click counts.
 - **Rationale**: Fast response times (<20ms) with zero heavy Python/C++ external ML runtime dependencies.
+
+### D10: Database-Backed Sessions with HTTP-only SameSite Lax Cookies
+- **Context**: Need secure user session tracking across client and server.
+- **Decision**: Used 48-byte secure hex tokens stored in the `sessions` table (`uc_session` cookie, 30 days expiry, httpOnly, lax, secure in production).
+- **Rationale**: Provides instant session revocation on logout or password change without JWT revocation complexity.
+
+### D11: Mailer Provider Abstraction with Graceful Dev Fallback
+- **Context**: Outgoing emails required for email verification and password resets.
+- **Decision**: Implemented `src/lib/mailer.ts` using `nodemailer` supporting Gmail App Passwords and custom SMTP. When credentials are not yet configured in local development, it logs tokens to stdout safely without crashing.
+- **Rationale**: Ensures zero friction during local development while providing immediate production readiness.
+
+### D12: Google OAuth 2.0 Backend with Configuration Feature Flag
+- **Context**: Requirement R09 specifies Google login backend complete, but keys provided later by the owner.
+- **Decision**: Built complete OAuth 2.0 redirection and callback endpoints (`/api/auth/google`, `/api/auth/google/callback`). The UI button and endpoints gracefully detect missing keys and link accounts automatically by verified email once provided.
+- **Rationale**: Eliminates rework when the owner generates Google Cloud credentials later.
+

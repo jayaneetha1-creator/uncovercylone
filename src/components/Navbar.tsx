@@ -1,19 +1,23 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Search, Heart, ArrowRight } from 'lucide-react';
+import { Search, Heart, ArrowRight, User as UserIcon, LogOut, Shield, ChevronDown } from 'lucide-react';
 import { useWishlist } from '@/context/WishlistContext';
 import { useLanguage } from '@/context/LanguageContext';
+import { useAuth } from '@/context/AuthContext';
 import LanguageSelector from '@/components/LanguageSelector';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [activeTab, setActiveTab] = useState<'home' | 'destinations' | 'map' | 'about'>('home');
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const { savedCount, setIsDrawerOpen } = useWishlist();
   const { t } = useLanguage();
+  const { user, logout } = useAuth();
 
   const navLinks = [
     { href: '/', label: t('nav.home') || 'Home', id: 'home' },
@@ -80,6 +84,17 @@ export default function Navbar() {
       window.removeEventListener('hashchange', updateActiveTab);
     };
   }, [pathname]);
+
+  // Click outside to close user menu
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+        setUserMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   if (pathname?.startsWith('/admin')) return null;
 
@@ -189,6 +204,86 @@ export default function Navbar() {
                 </span>
               )}
             </button>
+
+            {/* User Profile / Sign In */}
+            {user ? (
+              <div className="relative" ref={userMenuRef}>
+                <button
+                  onClick={() => setUserMenuOpen((prev) => !prev)}
+                  className="flex items-center gap-1.5 sm:gap-2 p-1 sm:pl-1.5 sm:pr-2.5 rounded-full hover:bg-[#EAF4FD] transition-all border border-[#DCE8F2] bg-white cursor-pointer"
+                  aria-label="User Account"
+                >
+                  {user.avatar ? (
+                    <img
+                      src={user.avatar}
+                      alt={user.name}
+                      className="w-7 h-7 rounded-full object-cover border border-[#38A9F0]/30"
+                    />
+                  ) : (
+                    <div className="w-7 h-7 rounded-full bg-[#38A9F0] text-white flex items-center justify-center font-bold text-xs">
+                      {user.name ? user.name[0].toUpperCase() : 'U'}
+                    </div>
+                  )}
+                  <span className="hidden lg:inline-block text-xs font-semibold text-[#0F2A3D] max-w-[85px] truncate">
+                    {user.name.split(' ')[0]}
+                  </span>
+                  <ChevronDown className="w-3 h-3 text-[#5B7385]" />
+                </button>
+
+                {userMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-56 rounded-2xl bg-white border border-[#DCE8F2] shadow-[0_12px_30px_rgba(15,42,61,0.12)] p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                    <div className="px-3 py-2 border-b border-[#DCE8F2]/60 mb-1">
+                      <p className="text-xs font-bold text-[#0F2A3D] truncate">{user.name}</p>
+                      <p className="text-[11px] text-[#5B7385] truncate">{user.email}</p>
+                      <span className="inline-block mt-1 text-[9.5px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#EAF4FD] text-[#38A9F0]">
+                        {user.role}
+                      </span>
+                    </div>
+
+                    <Link
+                      href="/profile"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-[#0F2A3D] hover:bg-[#EAF4FD] transition-colors"
+                    >
+                      <UserIcon className="w-4 h-4 text-[#38A9F0]" />
+                      <span>My Profile & Saved</span>
+                    </Link>
+
+                    {['owner', 'developer', 'uploader'].includes(user.role) && (
+                      <Link
+                        href="/admin"
+                        onClick={() => setUserMenuOpen(false)}
+                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-[#0F2A3D] hover:bg-[#EAF4FD] transition-colors"
+                      >
+                        <Shield className="w-4 h-4 text-[#38A9F0]" />
+                        <span>Admin Portal</span>
+                      </Link>
+                    )}
+
+                    <div className="my-1 border-t border-[#DCE8F2]/60" />
+
+                    <button
+                      onClick={() => {
+                        setUserMenuOpen(false);
+                        logout();
+                      }}
+                      className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer text-left"
+                    >
+                      <LogOut className="w-4 h-4 text-rose-500" />
+                      <span>Sign Out</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 text-[13px] font-semibold text-[#0F2A3D] bg-[#EAF4FD] hover:bg-[#DCE8F2] rounded-full transition-colors border border-[#DCE8F2]"
+              >
+                <UserIcon className="w-3.5 h-3.5 text-[#38A9F0]" />
+                <span className="hidden sm:inline">Sign In</span>
+              </Link>
+            )}
 
             {/* Primary Action Button (Single Prominent Trigger) */}
             <Link

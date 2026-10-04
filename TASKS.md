@@ -37,21 +37,21 @@ This checklist covers every requirement specified in `MASTER_SPEC.md`, broken do
 ---
 
 ## Phase 2: Authentication & Profile
-- [ ] **T2.1 Users Table & Role Architecture**: Establish 4 user roles (`owner`, `developer`, `uploader`, `user`) with bcrypt password hashing.
+- [x] **T2.1 Users Table & Role Architecture**: Establish 4 user roles (`owner`, `developer`, `uploader`, `user`) with bcrypt password hashing.
   *Acceptance Test*: Password hashes verified against bcrypt; role column restricted to the 4 valid enum values.
-- [ ] **T2.2 Email Registration & Verification Flow**: Build registration endpoint sending 24h single-use signed verification tokens via `nodemailer`.
+- [x] **T2.2 Email Registration & Verification Flow**: Build registration endpoint sending 24h single-use signed verification tokens via `nodemailer`.
   *Acceptance Test*: Registering an account generates token; clicking link changes status from `unverified` to `active`.
-- [ ] **T2.3 Mailer Abstraction (Gmail / SMTP)**: Create `src/lib/mailer.ts` supporting Gmail App Passwords and custom SMTP with test email sender.
+- [x] **T2.3 Mailer Abstraction (Gmail / SMTP)**: Create `src/lib/mailer.ts` supporting Gmail App Passwords and custom SMTP with test email sender.
   *Acceptance Test*: Calling mailer test endpoint sends email successfully or reports clear SMTP configuration guidance.
-- [ ] **T2.4 Session Management**: Secure HTTP-only SameSite cookie sessions (`uc_session`) with server-side DB session tracking.
+- [x] **T2.4 Session Management**: Secure HTTP-only SameSite cookie sessions (`uc_session`) with server-side DB session tracking.
   *Acceptance Test*: Logging in sets secure cookie; logging out invalidates session in database.
-- [ ] **T2.5 User Profile Page (`/profile`)**: Build user profile allowing name, country, password changes, and displaying saved places and trips.
+- [x] **T2.5 User Profile Page (`/profile`)**: Build user profile allowing name, country, password changes, and displaying saved places and trips.
   *Acceptance Test*: Logged-in user sees avatar in nav; visiting `/profile` allows updating profile data.
-- [ ] **T2.6 Google OAuth Backend**: Implement Google OAuth 2.0 flow with feature flag (enabled only when client keys are configured).
+- [x] **T2.6 Google OAuth Backend**: Implement Google OAuth 2.0 flow with feature flag (enabled only when client keys are configured).
   *Acceptance Test*: Button appears when keys are present; OAuth exchange links or creates user account.
-- [ ] **T2.7 Staff Login (`/admin/login`)**: Dedicated staff login with role-based routing (staff to `/admin`, standard users to `/profile`).
+- [x] **T2.7 Staff Login (`/admin/login`)**: Dedicated staff login with role-based routing (staff to `/admin`, standard users to `/profile`).
   *Acceptance Test*: Logging in with staff credentials routes to `/admin`; standard user routes to `/`.
-- [ ] **T2.8 Password Reset Flow**: Forgot password request sends time-limited reset link to verified email.
+- [x] **T2.8 Password Reset Flow**: Forgot password request sends time-limited reset link to verified email.
   *Acceptance Test*: Submitting reset form updates password and invalidates previous session tokens.
 
 ---

@@ -56,7 +56,21 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ reviews });
     }
 
-    return NextResponse.json({ error: 'Missing place_id or admin flag' }, { status: 400 });
+    // Author query for user profile
+    const author = searchParams.get('author');
+    if (author) {
+      const reviews = db.prepare(`
+        SELECT r.*, p.name as place_name 
+        FROM reviews r
+        LEFT JOIN places p ON r.place_id = p.id
+        WHERE r.author = ?
+        ORDER BY r.created_at DESC
+      `).all(author) as Review[];
+
+      return NextResponse.json({ reviews });
+    }
+
+    return NextResponse.json({ error: 'Missing place_id, author, or admin flag' }, { status: 400 });
   } catch (error) {
     console.error('GET /api/reviews error:', error);
     return NextResponse.json({ error: 'Failed to fetch reviews' }, { status: 500 });

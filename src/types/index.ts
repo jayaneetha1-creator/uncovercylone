@@ -63,6 +63,7 @@ export interface User {
   country: string;
   avatar: string;
   status: UserStatus;
+  password_hash?: string;
   email_verified_at: string | null;
   must_change_password?: number;
   created_at: string;
