@@ -261,7 +261,7 @@ const moreDestinations = [
     image_url: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&q=85',
     gallery: JSON.stringify([
       'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&q=85',
-      'https://images.unsplash.com/photo-1576706374778-95a95efff7b1?w=1200&q=85'
+      'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=1200&q=85'
     ]),
     tips: 'Hiring an official wildlife department guide is mandatory. Pack waterproof gear as weather can turn swiftly.',
     best_time: 'June to August & December to February',

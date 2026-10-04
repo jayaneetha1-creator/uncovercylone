@@ -8,12 +8,12 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { ChevronLeft, ChevronRight, Star, Heart, Compass, MapPin } from 'lucide-react';
 import { RecommendedPlace } from '@/types';
 import { useWishlist } from '@/context/WishlistContext';
 import { trackPlaceClick, getAnonymousSessionId } from '@/lib/analytics';
 import AdPlacement from '@/components/AdPlacement';
+import PlaceImage from '@/components/PlaceImage';
 
 interface RecommendationCarouselProps {
   currentPlaceId?: number;
@@ -136,14 +136,16 @@ export default function RecommendationCarousel({
                 <Link
                   href={`/places/${place.id}`}
                   onClick={() => trackPlaceClick(place.id, 'recommendation_carousel')}
-                  className="block w-full h-full"
+                  className="block w-full h-full relative"
                 >
-                  <Image
-                    src={place.image_url || '/placeholder.jpg'}
-                    alt={place.name}
-                    fill
+                  <PlaceImage
+                    src={place.image_url}
+                    placeName={place.name}
+                    category={place.category}
+                    location={place.province}
+                    aspectRatio="4/3"
                     sizes="(max-width: 768px) 260px, 280px"
-                    className="object-cover group-hover:scale-105 transition duration-500"
+                    className="group-hover:scale-105 transition duration-500"
                   />
                 </Link>
 

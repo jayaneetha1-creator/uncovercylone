@@ -194,7 +194,7 @@ function DestinationsInnerView({ initialPlaces, reviewSnippetsMap }: Destination
     (filters.minRating > 0 ? 1 : 0);
 
   return (
-    <div className="min-h-screen bg-[#F5FAFF] text-[#0F2A3D] pb-24">
+    <div className="min-h-screen bg-[#F5FAFF] text-[#0F2A3D] pt-20 sm:pt-24 pb-24">
       
       {/* ━━━ BREADCRUMB & HEADER ━━━ */}
       <div className="bg-white border-b border-[#DCE8F2]">

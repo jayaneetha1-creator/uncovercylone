@@ -133,14 +133,13 @@ export async function getAds(options?: {
 
     if (options?.activeOnly) {
       sql += ' AND enabled = 1';
-      // start_date is null or in the past
-      // end_date is null or in the future
-      sql += " AND (start_date IS NULL OR start_date <= datetime('now'))";
-      sql += " AND (end_date IS NULL OR end_date >= datetime('now'))";
+      const nowFn = isMySqlEnabled() ? 'NOW()' : "datetime('now')";
+      sql += ` AND (start_date IS NULL OR start_date <= ${nowFn})`;
+      sql += ` AND (end_date IS NULL OR end_date >= ${nowFn})`;
     }
 
     if (options?.device && options.device !== 'all') {
-      sql += ' AND (device_target = ? OR device_target = "all")';
+      sql += " AND (device_target = ? OR device_target = 'all')";
       params.push(options.device);
     }
 
@@ -334,7 +333,7 @@ export async function seedSampleAds(): Promise<void> {
         title_en: 'Nuwara Eliya Heritage Tea Tasting & Estate Lodging',
         title_si: 'නුවරඑළිය තේ වතු නවාතැන්',
         description: 'Stay in restored colonial planter bungalows amidst emerald rolling hills. Guided plucking, processing, and cupping masterclasses.',
-        image_url: 'https://images.unsplash.com/photo-1576706374778-95a95efff7b1?w=800&q=80',
+        image_url: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800&q=80',
         target_url: 'https://www.pureceylontea.com',
         device_target: 'all',
         enabled: 1,

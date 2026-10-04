@@ -557,7 +557,7 @@ export async function getAIUsageStats(): Promise<{
   unhelpfulCount: number;
 }> {
   const sessRow = await queryOne<{ cnt: number }>('SELECT COUNT(id) as cnt FROM ai_chat_sessions');
-  const msgRow = await queryOne<{ cnt: number }>('SELECT COUNT(id) as cnt FROM ai_chat_messages WHERE role = "user"');
+  const msgRow = await queryOne<{ cnt: number }>('SELECT COUNT(id) as cnt FROM ai_chat_messages WHERE role = \'user\'');
   const guestRow = await queryOne<{ cnt: number }>('SELECT COUNT(id) as cnt FROM ai_chat_sessions WHERE user_id IS NULL');
   const helpfulRow = await queryOne<{ cnt: number }>('SELECT COUNT(id) as cnt FROM ai_chat_messages WHERE feedback = 1');
   const unhelpfulRow = await queryOne<{ cnt: number }>('SELECT COUNT(id) as cnt FROM ai_chat_messages WHERE feedback = -1');

@@ -31,9 +31,11 @@ export async function createUser(data: {
   avatar?: string;
   status?: 'unverified' | 'active' | 'suspended';
 }): Promise<number> {
+  const isMysql = isMySqlEnabled();
+  const createdExpr = isMysql ? 'NOW()' : "datetime('now')";
   const result = await execute(
     `INSERT INTO users (email, password_hash, name, role, country, avatar, status, created_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, NOW())`,
+     VALUES (?, ?, ?, ?, ?, ?, ?, ${createdExpr})`,
     [
       data.email,
       data.password_hash,
@@ -101,19 +103,22 @@ export async function updateUserPassword(id: number, passwordHash: string): Prom
 export async function createSession(
   sessionId: string,
   userId: number,
-  expiresAt: Date,
+  expiresAt: Date | string,
   ipAddress = '',
   userAgent = ''
 ): Promise<void> {
+  const expiresStr = expiresAt instanceof Date ? expiresAt.toISOString() : expiresAt;
   await execute(
     'INSERT INTO sessions (id, user_id, expires_at, ip_address, user_agent) VALUES (?, ?, ?, ?, ?)',
-    [sessionId, userId, expiresAt, ipAddress, userAgent]
+    [sessionId, userId, expiresStr, ipAddress, userAgent]
   );
 }
 
 export async function getSession(sessionId: string): Promise<(Session & { user?: User }) | null> {
+  const isMysql = isMySqlEnabled();
+  const nowExpr = isMysql ? 'NOW()' : "datetime('now')";
   const session = await queryOne<Session>(
-    'SELECT * FROM sessions WHERE id = ? AND expires_at > NOW()',
+    `SELECT * FROM sessions WHERE id = ? AND expires_at > ${nowExpr}`,
     [sessionId]
   );
   if (!session) return null;
@@ -140,12 +145,13 @@ export async function createEmailToken(
   userId: number,
   token: string,
   type: 'verify_email' | 'reset_password' | 'change_email',
-  expiresAt: Date,
+  expiresAt: Date | string,
   newEmail: string | null = null
 ): Promise<number> {
+  const expiresStr = expiresAt instanceof Date ? expiresAt.toISOString() : expiresAt;
   const result = await execute(
     'INSERT INTO email_tokens (user_id, token, type, new_email, expires_at) VALUES (?, ?, ?, ?, ?)',
-    [userId, token, type, newEmail, expiresAt]
+    [userId, token, type, newEmail, expiresStr]
   );
   return result.insertId;
 }
@@ -154,13 +160,17 @@ export async function getEmailToken(
   token: string,
   type: 'verify_email' | 'reset_password' | 'change_email'
 ): Promise<{ id: number; user_id: number; new_email: string | null; expires_at: string } | null> {
+  const isMysql = isMySqlEnabled();
+  const nowExpr = isMysql ? 'NOW()' : "datetime('now')";
   return queryOne(
-    'SELECT * FROM email_tokens WHERE token = ? AND type = ? AND used_at IS NULL AND expires_at > NOW()',
+    `SELECT * FROM email_tokens WHERE token = ? AND type = ? AND used_at IS NULL AND expires_at > ${nowExpr}`,
     [token, type]
   );
 }
 
 export async function markEmailTokenUsed(token: string): Promise<boolean> {
-  const result = await execute('UPDATE email_tokens SET used_at = NOW() WHERE token = ?', [token]);
+  const isMysql = isMySqlEnabled();
+  const nowExpr = isMysql ? 'NOW()' : "datetime('now')";
+  const result = await execute(`UPDATE email_tokens SET used_at = ${nowExpr} WHERE token = ?`, [token]);
   return result.affectedRows > 0;
 }

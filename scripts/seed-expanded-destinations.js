@@ -155,9 +155,9 @@ const destinations = [
     category: 'Hidden Gems',
     lat: 7.1706,
     lng: 80.5475,
-    image_url: 'https://images.unsplash.com/photo-1576706374778-95a95efff7b1?w=1200&q=85',
+    image_url: 'https://upload.wikimedia.org/wikipedia/commons/4/44/Ambuluwawa_hill_tower.jpg',
     gallery: JSON.stringify([
-      'https://images.unsplash.com/photo-1576706374778-95a95efff7b1?w=1200&q=85',
+      'https://upload.wikimedia.org/wikipedia/commons/4/44/Ambuluwawa_hill_tower.jpg',
       'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&q=85'
     ]),
     tips: 'The upper spiral staircase becomes very narrow and windy. Avoid climbing on rainy days or if you suffer from severe vertigo.',
@@ -692,7 +692,7 @@ const destinations = [
     image_url: 'https://images.unsplash.com/photo-1467173572719-f14b9fb86e5f?w=1200&q=85',
     gallery: JSON.stringify([
       'https://images.unsplash.com/photo-1467173572719-f14b9fb86e5f?w=1200&q=85',
-      'https://images.unsplash.com/photo-1576706374778-95a95efff7b1?w=1200&q=85'
+      'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=1200&q=85'
     ]),
     tips: 'Access the upper pools from the top estate village (Uda Diyaluma) rather than climbing from the road base.',
     best_time: 'Post-monsoon (September to March)',

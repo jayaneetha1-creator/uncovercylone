@@ -77,7 +77,7 @@ function LoginContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5FAFF] flex flex-col justify-center items-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#F5FAFF] flex flex-col items-center pt-24 sm:pt-28 pb-16 px-4 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center mb-8">
         <Link href="/" className="inline-flex items-center gap-2 mb-2">
           <div className="w-10 h-10 rounded-xl bg-[#38A9F0] text-white flex items-center justify-center shadow-md">

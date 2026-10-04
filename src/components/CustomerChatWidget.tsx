@@ -80,7 +80,7 @@ export default function CustomerChatWidget() {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-40">
+    <div className="fixed bottom-6 right-4 sm:right-6 z-40">
       {/* Floating Toggle Button */}
       {!isOpen && (
         <button
@@ -95,7 +95,7 @@ export default function CustomerChatWidget() {
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="bg-white rounded-3xl border border-[#DCE8F2] shadow-2xl w-80 sm:w-96 flex flex-col overflow-hidden max-h-[500px] h-[480px] animate-scale-in">
+        <div className="bg-white rounded-3xl border border-[#DCE8F2] shadow-2xl w-[calc(100vw-2rem)] sm:w-96 max-w-sm flex flex-col overflow-hidden max-h-[500px] h-[480px] animate-scale-in">
           {/* Header */}
           <div className="bg-[#38A9F0] text-white p-4 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
