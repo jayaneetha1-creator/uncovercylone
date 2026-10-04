@@ -7,13 +7,19 @@ import {
   ShieldCheck, Plus, Trash2, Star, MapPin,
   Loader2, Lock, Eye, EyeOff, Save, X, CheckCircle2,
   Image as ImageIcon, Layers, Sliders, ExternalLink, RefreshCw, Upload,
-  ArrowLeft, AlertCircle, Map, Gem, Search,
-  Filter, Check, ArrowUpRight, ArrowUpDown, ChevronLeft, ChevronRight,
+  ArrowLeft, AlertCircle, Map, Search,
+  Check, ArrowUpRight, ArrowUpDown, ChevronLeft, ChevronRight,
   Edit, AlertTriangle, CheckSquare, Square, MessageSquare,
-  Database, History, Tag, Download
+  Database, History, Tag,
+  FolderTree, Palette, FileCode2, Trash, ClipboardList
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import DestinationEditorModal from '@/components/DestinationEditorModal';
+import FolderManagerTab from './components/FolderManagerTab';
+import ThemeControllerTab from './components/ThemeControllerTab';
+import FileMapTab from './components/FileMapTab';
+import TrashRequestsTab from './components/TrashRequestsTab';
+import AuditLogTab from './components/AuditLogTab';
 
 interface HeroSlide {
   id: number;
@@ -83,8 +89,10 @@ export default function AdminPage() {
   const [adminPassword, setAdminPassword] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  // Active tab: 'places' | 'slides' | 'region' | 'reviews' | 'logs'
-  const [activeTab, setActiveTab] = useState<'places' | 'slides' | 'region' | 'reviews' | 'logs'>('places');
+  // Active tab: 'places' | 'slides' | 'region' | 'reviews' | 'folders' | 'theme' | 'filemap' | 'trash' | 'audit' | 'logs'
+  const [activeTab, setActiveTab] = useState<
+    'places' | 'slides' | 'region' | 'reviews' | 'folders' | 'theme' | 'filemap' | 'trash' | 'audit' | 'logs'
+  >('places');
 
   // Activity Logs State
   const [activityLogs, setActivityLogs] = useState<ActivityLog[]>([]);
@@ -1122,10 +1130,10 @@ export default function AdminPage() {
         {/* ━━━ TAB SWITCHER & ACTION CONTROLS ━━━ */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200">
           
-          <div className="flex flex-wrap items-center bg-slate-100 p-1.5 rounded-2xl border border-slate-200 w-fit gap-1">
+          <div className="flex flex-wrap items-center bg-slate-100 p-1.5 rounded-2xl border border-slate-200 w-full xl:w-auto gap-1">
             <button
               onClick={() => setActiveTab('places')}
-              className={`flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
+              className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
                 activeTab === 'places'
                   ? 'bg-white text-sky-600 shadow-sm'
                   : 'text-slate-500 hover:text-slate-900'
@@ -1137,7 +1145,7 @@ export default function AdminPage() {
 
             <button
               onClick={() => setActiveTab('slides')}
-              className={`flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
+              className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
                 activeTab === 'slides'
                   ? 'bg-white text-sky-600 shadow-sm'
                   : 'text-slate-500 hover:text-slate-900'
@@ -1149,83 +1157,148 @@ export default function AdminPage() {
 
             <button
               onClick={() => setActiveTab('region')}
-              className={`flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
+              className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
                 activeTab === 'region'
                   ? 'bg-white text-sky-600 shadow-sm'
                   : 'text-slate-500 hover:text-slate-900'
               }`}
             >
               <MapPin className="w-4 h-4" />
-              <span>Explore by Region ({regionSlides.length})</span>
+              <span>Regions ({regionSlides.length})</span>
             </button>
 
             <button
               onClick={() => setActiveTab('reviews')}
-              className={`flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
+              className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
                 activeTab === 'reviews'
                   ? 'bg-white text-sky-600 shadow-sm'
                   : 'text-slate-500 hover:text-slate-900'
               }`}
             >
               <MessageSquare className="w-4 h-4" />
-              <span>Reviews ({adminReviews.length})</span>
+              <span>Reviews</span>
               {adminReviews.filter((r) => r.status === 'pending').length > 0 && (
-                <span className="bg-amber-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full animate-pulse shadow-xs">
-                  {adminReviews.filter((r) => r.status === 'pending').length} pending
+                <span className="bg-amber-500 text-white text-[10px] font-black px-1.5 py-0.2 rounded-full animate-pulse shadow-xs">
+                  {adminReviews.filter((r) => r.status === 'pending').length}
                 </span>
               )}
             </button>
 
             <button
+              onClick={() => setActiveTab('folders')}
+              className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
+                activeTab === 'folders'
+                  ? 'bg-white text-sky-600 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-900'
+              }`}
+            >
+              <FolderTree className="w-4 h-4" />
+              <span>Folders</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('theme')}
+              className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
+                activeTab === 'theme'
+                  ? 'bg-white text-sky-600 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-900'
+              }`}
+            >
+              <Palette className="w-4 h-4" />
+              <span>Theme</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('filemap')}
+              className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
+                activeTab === 'filemap'
+                  ? 'bg-white text-sky-600 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-900'
+              }`}
+            >
+              <FileCode2 className="w-4 h-4" />
+              <span>File Map</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('trash')}
+              className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
+                activeTab === 'trash'
+                  ? 'bg-white text-sky-600 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-900'
+              }`}
+            >
+              <Trash className="w-4 h-4" />
+              <span>Trash & Requests</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('audit')}
+              className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
+                activeTab === 'audit'
+                  ? 'bg-white text-sky-600 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-900'
+              }`}
+            >
+              <ClipboardList className="w-4 h-4" />
+              <span>Audit</span>
+            </button>
+
+            <button
               onClick={() => setActiveTab('logs')}
-              className={`flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
+              className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
                 activeTab === 'logs'
                   ? 'bg-white text-sky-600 shadow-sm'
                   : 'text-slate-500 hover:text-slate-900'
               }`}
             >
               <History className="w-4 h-4" />
-              <span>Activity Logs ({activityLogs.length})</span>
+              <span>Activity</span>
             </button>
           </div>
 
-          {activeTab === 'places' ? (
-            <button
-              onClick={() => {
-                setEditingPlace(null);
-                setIsEditorOpen(true);
-              }}
-              className="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-500 text-white font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-md shadow-sky-600/25 active:scale-95 transition-all cursor-pointer"
-            >
-              <Plus className="w-4 h-4" />
-              <span>Add New Destination</span>
-            </button>
-          ) : activeTab === 'slides' ? (
-            <button
-              onClick={() => setShowSlideForm(!showSlideForm)}
-              className="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-500 text-white font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-md shadow-sky-600/25 active:scale-95 transition-all cursor-pointer"
-            >
-              {showSlideForm ? <X className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-              <span>{showSlideForm ? 'Close Entry Form' : 'Add Hero Slide'}</span>
-            </button>
-          ) : activeTab === 'region' ? (
-            <button
-              onClick={() => setShowRegionSlideForm(!showRegionSlideForm)}
-              className="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-500 text-white font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-md shadow-sky-600/25 active:scale-95 transition-all cursor-pointer"
-            >
-              {showRegionSlideForm ? <X className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-              <span>{showRegionSlideForm ? 'Close Form' : 'Add Region Slide'}</span>
-            </button>
-          ) : (
-            <button
-              onClick={fetchReviews}
-              disabled={loadingReviews}
-              className="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-500 text-white font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-md shadow-sky-600/25 active:scale-95 transition-all cursor-pointer"
-            >
-              <RefreshCw className={`w-4 h-4 ${loadingReviews ? 'animate-spin' : ''}`} />
-              <span>Refresh Reviews</span>
-            </button>
-          )}
+          <div className="flex items-center gap-2">
+            {activeTab === 'places' && (
+              <button
+                onClick={() => {
+                  setEditingPlace(null);
+                  setIsEditorOpen(true);
+                }}
+                className="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-500 text-white font-bold px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-md shadow-sky-600/25 active:scale-95 transition-all cursor-pointer"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Add Destination</span>
+              </button>
+            )}
+            {activeTab === 'slides' && (
+              <button
+                onClick={() => setShowSlideForm(!showSlideForm)}
+                className="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-500 text-white font-bold px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-md shadow-sky-600/25 active:scale-95 transition-all cursor-pointer"
+              >
+                {showSlideForm ? <X className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                <span>{showSlideForm ? 'Close Form' : 'Add Hero Slide'}</span>
+              </button>
+            )}
+            {activeTab === 'region' && (
+              <button
+                onClick={() => setShowRegionSlideForm(!showRegionSlideForm)}
+                className="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-500 text-white font-bold px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-md shadow-sky-600/25 active:scale-95 transition-all cursor-pointer"
+              >
+                {showRegionSlideForm ? <X className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                <span>{showRegionSlideForm ? 'Close Form' : 'Add Region Slide'}</span>
+              </button>
+            )}
+            {activeTab === 'reviews' && (
+              <button
+                onClick={fetchReviews}
+                disabled={loadingReviews}
+                className="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-500 text-white font-bold px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-md shadow-sky-600/25 active:scale-95 transition-all cursor-pointer"
+              >
+                <RefreshCw className={`w-4 h-4 ${loadingReviews ? 'animate-spin' : ''}`} />
+                <span>Refresh Reviews</span>
+              </button>
+            )}
+          </div>
         </div>
 
         {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -2776,6 +2849,21 @@ export default function AdminPage() {
             </div>
           </div>
         )}
+
+        {/* ━━━ TAB 6: FOLDER MANAGER (SITE NODES HIERARCHY) ━━━ */}
+        {activeTab === 'folders' && <FolderManagerTab />}
+
+        {/* ━━━ TAB 7: THEME & STYLES CONTROLLER ━━━ */}
+        {activeTab === 'theme' && <ThemeControllerTab />}
+
+        {/* ━━━ TAB 8: LIVE REPOSITORY FILE MAP ━━━ */}
+        {activeTab === 'filemap' && <FileMapTab />}
+
+        {/* ━━━ TAB 9: TRASH & CHANGE REQUESTS (30-DAY GOVERNANCE) ━━━ */}
+        {activeTab === 'trash' && <TrashRequestsTab />}
+
+        {/* ━━━ TAB 10: GOVERNANCE AUDIT TRAIL ━━━ */}
+        {activeTab === 'audit' && <AuditLogTab />}
       </main>
 
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

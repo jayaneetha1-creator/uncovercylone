@@ -1,0 +1,105 @@
+{
+  "name": "uncoverceylon",
+  "description": "Root directory of the UncoverCeylon application — Authentic Sri Lanka discovery web platform.",
+  "type": "directory",
+  "children": [
+    {
+      "name": "src",
+      "description": "Source code directory containing all Next.js App Router routes, UI components, and libraries.",
+      "type": "directory",
+      "children": [
+        {
+          "name": "app",
+          "description": "Next.js App Router entry points, pages, and REST API endpoints.",
+          "type": "directory",
+          "children": [
+            { "name": "page.tsx", "description": "Dynamic homepage rendering curated hero, interest categories, and teaser sections.", "type": "file" },
+            { "name": "layout.tsx", "description": "Root application layout wrapping global providers (Auth, Language, Wishlist, Currency).", "type": "file" },
+            { "name": "globals.css", "description": "Global Tailwind CSS styles and theme variable definitions.", "type": "file" },
+            { "name": "admin", "description": "Comprehensive administrative shell and back-office management portal.", "type": "directory" },
+            { "name": "login", "description": "Sign in and account creation page with Google OAuth button.", "type": "directory" },
+            { "name": "profile", "description": "User profile dashboard for saved places, trips, and account security.", "type": "directory" },
+            { "name": "places", "description": "Detailed destination view featuring photo mosaic, visit plan card, reviews, and Q&A.", "type": "directory" },
+            { "name": "map", "description": "Interactive Leaflet GPS map view with province filters and geolocation.", "type": "directory" },
+            { "name": "about", "description": "About page featuring the Serandib Co. mission and village story blocks.", "type": "directory" },
+            { "name": "api", "description": "Server-side REST API handlers for authentication, places, reviews, nodes, and admin.", "type": "directory" }
+          ]
+        },
+        {
+          "name": "components",
+          "description": "Reusable UI components designed with the light-blue airy aesthetic.",
+          "type": "directory",
+          "children": [
+            { "name": "Navbar.tsx", "description": "Global sticky navigation bar with active tab tracking and user account menu.", "type": "file" },
+            { "name": "Footer.tsx", "description": "Footer with quick links, Serandib Co. branding, and copyright.", "type": "file" },
+            { "name": "Folder.tsx", "description": "Collapsible section primitive with smooth height animation and accessibility cues.", "type": "file" },
+            { "name": "NotificationBell.tsx", "description": "15-second polling notification bell dropdown with unread badge counter.", "type": "file" },
+            { "name": "LanguageSelector.tsx", "description": "English and Sinhala language switcher with persistent state.", "type": "file" }
+          ]
+        },
+        {
+          "name": "context",
+          "description": "React context providers for reactive state across the application.",
+          "type": "directory",
+          "children": [
+            { "name": "AuthContext.tsx", "description": "Reactive user session context managing authentication and logout.", "type": "file" },
+            { "name": "WishlistContext.tsx", "description": "Saved destinations wishlist context with localStorage sync.", "type": "file" },
+            { "name": "LanguageContext.tsx", "description": "Bilingual EN/SI translation dictionary and state provider.", "type": "file" },
+            { "name": "CurrencyContext.tsx", "description": "Multi-currency switcher (LKR, USD, EUR, GBP, AUD) with live conversion.", "type": "file" },
+            { "name": "LocationContext.tsx", "description": "Visitor GPS geolocation handler for live distance calculation.", "type": "file" }
+          ]
+        },
+        {
+          "name": "lib",
+          "description": "Core backend utilities, database drivers, permissions, and mailers.",
+          "type": "directory",
+          "children": [
+            { "name": "db.ts", "description": "Dual-engine database layer supporting MySQL 8 pool and SQLite development fallback.", "type": "file" },
+            { "name": "auth.ts", "description": "Authentication core: bcrypt hashing, session cookies, and rate limiter.", "type": "file" },
+            { "name": "permissions.ts", "description": "Single source of truth for Role-Based Access Control capability matrix.", "type": "file" },
+            { "name": "mailer.ts", "description": "Nodemailer abstraction for Gmail App Passwords and custom SMTP dispatch.", "type": "file" },
+            { "name": "theme.ts", "description": "Design token constants, seasonal presets, and WCAG AA contrast calculation.", "type": "file" },
+            { "name": "db/users.ts", "description": "User accounts, password resets, and session database access functions.", "type": "file" },
+            { "name": "db/governance.ts", "description": "Change requests, 30-day trash, versions, notifications, and audit log DAL.", "type": "file" },
+            { "name": "db/nodes.ts", "description": "Site nodes tree data access for Folder Manager.", "type": "file" }
+          ]
+        },
+        {
+          "name": "types",
+          "description": "TypeScript interfaces and type declarations for all domain entities.",
+          "type": "directory"
+        }
+      ]
+    },
+    {
+      "name": "db",
+      "description": "Database schema definitions and SQL migrations.",
+      "type": "directory",
+      "children": [
+        { "name": "migrations/001_init.sql", "description": "Full MySQL 8 initialization DDL covering 38 tables with utf8mb4 collation.", "type": "file" }
+      ]
+    },
+    {
+      "name": "docs",
+      "description": "Architectural documentation, operational guides, and setup instructions.",
+      "type": "directory",
+      "children": [
+        { "name": "ARCHITECTURE_CURRENT.md", "description": "15-point baseline architectural overview.", "type": "file" },
+        { "name": "DB_SETUP.md", "description": "Step-by-step instructions for MySQL installation locally and in production.", "type": "file" },
+        { "name": "EMAIL_SETUP.md", "description": "Gmail App Password and transactional SMTP configuration guide.", "type": "file" },
+        { "name": "GOOGLE_LOGIN_SETUP.md", "description": "Google Cloud OAuth 2.0 configuration guide.", "type": "file" },
+        { "name": "FILE_MAP.json", "description": "Plain-English description mapping of project file tree.", "type": "file" }
+      ]
+    },
+    {
+      "name": "scripts",
+      "description": "Automation scripts for migration, seeding, and maintenance.",
+      "type": "directory"
+    },
+    {
+      "name": "public",
+      "description": "Static assets, images, icons, and uploaded media.",
+      "type": "directory"
+    }
+  ]
+}

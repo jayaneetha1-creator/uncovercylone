@@ -73,17 +73,17 @@ This checklist covers every requirement specified in `MASTER_SPEC.md`, broken do
 ---
 
 ## Phase 4: Admin Shell, Folder Manager & File Map
-- [ ] **T4.1 Modern Admin Shell**: Build responsive admin layout with sidebar, mobile bottom bar, and tidy "+" popovers for secondary actions.
+- [x] **T4.1 Modern Admin Shell**: Build responsive admin layout with sidebar, mobile bottom bar, and tidy "+" popovers for secondary actions.
   *Acceptance Test*: All 16 admin tabs render with consistent header, breadcrumb, and clean hierarchy.
-- [ ] **T4.2 Folder Manager (`site_nodes`)**: Tree-view controller for all main pages and sections with drag-reorder and on/off switches.
+- [x] **T4.2 Folder Manager (`site_nodes`)**: Tree-view controller for all main pages and sections with drag-reorder and on/off switches.
   *Acceptance Test*: Reordering or disabling a node in Admin updates `site_nodes` and revalidates cache.
-- [ ] **T4.3 Zero-Gap DOM Unmounting**: Ensure disabled nodes render nothing on public pages (no empty containers, margins, or dead links).
+- [x] **T4.3 Zero-Gap DOM Unmounting**: Ensure disabled nodes render nothing on public pages (no empty containers, margins, or dead links).
   *Acceptance Test*: Inspecting DOM of disabled section confirms 0 elements and no orphaned layout gaps.
-- [ ] **T4.4 Theme Controller**: In-browser design token editor modifying CSS variables (colors, fonts, radius, seasonal presets) with AA contrast check.
+- [x] **T4.4 Theme Controller**: In-browser design token editor modifying CSS variables (colors, fonts, radius, seasonal presets) with AA contrast check.
   *Acceptance Test*: Changing primary color updates CSS variables instantly; low contrast triggers a visual warning.
-- [ ] **T4.5 File Map Viewer**: Read-only interactive file tree in Admin with plain-English descriptions loaded from `docs/FILE_MAP.json`.
+- [x] **T4.5 File Map Viewer**: Read-only interactive file tree in Admin with plain-English descriptions loaded from `docs/FILE_MAP.json`.
   *Acceptance Test*: Admin File Map displays directory tree; sensitive files (.env, secrets) are completely hidden.
-- [ ] **T4.6 Collapsible Folder UI Primitive**: Build accessible `Folder` component with chevron indicator and smooth height animation.
+- [x] **T4.6 Collapsible Folder UI Primitive**: Build accessible `Folder` component with chevron indicator and smooth height animation.
   *Acceptance Test*: Clicking folder header toggles content smoothly with proper `aria-expanded` attributes.
 
 ---

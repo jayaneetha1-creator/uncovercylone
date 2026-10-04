@@ -79,4 +79,20 @@ This document tracks all architectural choices, assumptions, and technology sele
 - **Decision**: Implemented `notifications` table with role targeting (`all_staff`, `owner`, `developer`), 15-second client polling in `<NotificationBell />`, and structured `audit_log` tracking all state changes.
 - **Rationale**: Low-overhead, highly reliable across serverless and long-lived VPS environments without WebSocket infrastructure overhead.
 
+### D16: Database-Driven Site Tree Hierarchy (`site_nodes`) with Zero-Gap Unmounting
+- **Context**: Sections 4.2 & 4.3 require all site pages and sections to be treatable as collapsible, toggleable folders.
+- **Decision**: Modeled site structure recursively in `site_nodes` table with `parent_node_id`, `sort_order`, `enabled`, and custom `settings`. In UI components, when `enabled === 0`, components unmount completely with zero leftover HTML wrappers, margins, or orphaned links.
+- **Rationale**: Guarantees zero DOM clutter or broken visual layout when features or sections are toggled off by staff.
+
+### D17: Live Codebase File Map Generator with Sensitive File Concealment
+- **Context**: Requirement R07 specifies non-technical staff and owners can view project files and their purpose inside Admin.
+- **Decision**: Implemented `scripts/generate-file-map.js` and `/api/admin/file-map` which scans the repository, assigns plain-English descriptions, and explicitly redacts/excludes secret files (`.env*`, `*.pem`, `*.key`, `data/*.db*`, internal cache, `.git`).
+- **Rationale**: Complete transparency for site owners with strict security air-gapping against secret exposure.
+
+### D18: WCAG AA Automated Color Luminance Contrast Checker in Theme Controller
+- **Context**: Admin Theme Controller allows modifying primary, secondary, and background colors with seasonal presets.
+- **Decision**: Embedded relative luminance calculations (WCAG 2.1 formulas) in `src/lib/theme.ts` to compute contrast ratios and block or warn when color combinations fail AA standard (minimum 4.5:1 ratio).
+- **Rationale**: Guarantees accessibility compliance for all traveler demographics and outdoor viewing conditions.
+
+
 
