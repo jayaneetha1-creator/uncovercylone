@@ -13,6 +13,7 @@ import BottomTabBar from "@/components/BottomTabBar";
 import GoogleTranslator from "@/components/GoogleTranslator";
 import PWARegister from "@/components/PWARegister";
 import CustomerChatWidget from "@/components/CustomerChatWidget";
+import CookieConsentBanner from "@/components/CookieConsentBanner";
 
 export const viewport: Viewport = {
   themeColor: "#F5FAFF",
@@ -104,6 +105,7 @@ export default function RootLayout({
                   <main className="pb-16 md:pb-0">{children}</main>
                   <WishlistDrawer />
                   <CustomerChatWidget />
+                  <CookieConsentBanner />
                   <GoogleTranslator />
                   <PWARegister />
                   <Footer />

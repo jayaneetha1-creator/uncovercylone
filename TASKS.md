@@ -121,13 +121,13 @@ This checklist covers every requirement specified in `MASTER_SPEC.md`, broken do
 ---
 
 ## Phase 7: Analytics & Recommendation Algorithm
-- [ ] **T7.1 Event Tracking Engine**: Privacy-conscious event logger tracking views, clicks, saves, directions, and searches in `events`.
+- [x] **T7.1 Event Tracking Engine**: Privacy-conscious event logger tracking views, clicks, saves, directions, and searches in `events`.
   *Acceptance Test*: Interacting with place triggers lightweight beacon saving event without collecting PII.
-- [ ] **T7.2 Visitor Journey Paths (JSON)**: Record ordered destination views per session as JSON array; exportable in Admin Analytics.
+- [x] **T7.2 Visitor Journey Paths (JSON)**: Record ordered destination views per session as JSON array; exportable in Admin Analytics.
   *Acceptance Test*: Viewing 3 destinations creates ordered JSON path; Admin allows downloading journey dataset.
-- [ ] **T7.3 Admin Analytics Dashboard**: Visual charts for top visited places, weekly trends, search terms with 0 results, and device split.
+- [x] **T7.3 Admin Analytics Dashboard**: Visual charts for top visited places, weekly trends, search terms with 0 results, and device split.
   *Acceptance Test*: Analytics tab renders responsive charts with time-range filtering (7d/30d/90d).
-- [ ] **T7.4 Recommendation Pipeline (`src/lib/recommend.ts`)**: Fast multi-factor engine combining proximity, co-occurrence, and category affinity.
+- [x] **T7.4 Recommendation Pipeline (`src/lib/recommend.ts`)**: Fast multi-factor engine combining proximity, co-occurrence, and category affinity.
   *Acceptance Test*: Place page renders "Nearby & you might like" carousel with human-readable reason tag.
 
 ---

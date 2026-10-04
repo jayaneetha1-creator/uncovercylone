@@ -94,5 +94,16 @@ This document tracks all architectural choices, assumptions, and technology sele
 - **Decision**: Embedded relative luminance calculations (WCAG 2.1 formulas) in `src/lib/theme.ts` to compute contrast ratios and block or warn when color combinations fail AA standard (minimum 4.5:1 ratio).
 - **Rationale**: Guarantees accessibility compliance for all traveler demographics and outdoor viewing conditions.
 
+### D19: Privacy-Friendly Anonymous Event Tracking & Journey Persistence
+- **Context**: Section 4.7 requires tracking place views, clicks, saves, directions, and searches without capturing PII.
+- **Decision**: Implemented `events` and `journeys` tables using anonymous client session tokens (`session_id`). Explicitly omitted IP addresses, user agents, and personal identifiers. Provided a one-click history clearing endpoint `/api/user/clear-history` and a floating privacy consent banner.
+- **Rationale**: Ensures compliance with privacy standards while gathering primary demand signals.
+
+### D20: Explainable Multi-Factor Recommendation Pipeline
+- **Context**: Section 4.7 requires recommendation pipeline combining proximity, collaborative transitions, category affinity, and popularity with decay.
+- **Decision**: Implemented `src/lib/recommend.ts` combining Haversine proximity calculations with real-time transition counts (`place_transitions`) and category distribution caps (diversity rule max 2 per category). Every recommendation includes a human-readable reason tag (e.g. "Close to Sigiriya (12 km away)").
+- **Rationale**: Delivers instant (<15ms) explainable suggestions with zero ML overhead or third-party cloud lock-in.
+
+
 
 

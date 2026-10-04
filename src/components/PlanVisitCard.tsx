@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { useWishlist } from '@/context/WishlistContext';
 import toast from 'react-hot-toast';
+import { trackDirectionsClick, trackPlaceSave } from '@/lib/analytics';
 
 interface PlanVisitCardProps {
   place: Place;
@@ -49,6 +50,7 @@ export default function PlanVisitCard({ place }: PlanVisitCardProps) {
   };
 
   const openDirections = () => {
+    trackDirectionsClick(place.id);
     if (place.lat && place.lng) {
       window.open(
         `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}`,
@@ -175,6 +177,7 @@ export default function PlanVisitCard({ place }: PlanVisitCardProps) {
           onClick={() => {
             toggleSave(place.id);
             if (!saved) {
+              trackPlaceSave(place.id);
               toast.success(`Saved "${place.name}" to your favorites!`);
             } else {
               toast(`Removed "${place.name}" from favorites`);

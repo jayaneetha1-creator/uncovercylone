@@ -8,6 +8,7 @@ import DestinationRow from './DestinationRow';
 import FilterSidebar, { FilterState } from './FilterSidebar';
 import DestinationsFilterSheet from './DestinationsFilterSheet';
 import { useLocation } from '@/context/LocationContext';
+import { trackSearchQuery } from '@/lib/analytics';
 import {
   Map, Filter, ChevronLeft, ChevronRight, RotateCcw,
   Sparkles, Compass, Star, SlidersHorizontal, ArrowUpDown
@@ -33,6 +34,7 @@ function DestinationsInnerView({ initialPlaces, reviewSnippetsMap }: Destination
     entryFee: searchParams.get('entryFee') || 'all',
     minRating: parseFloat(searchParams.get('rating') || '0') || 0,
     highlight: searchParams.get('highlight') || 'all',
+    search: searchParams.get('q') || '',
   });
 
   const [sortBy, setSortBy] = useState<'rating' | 'popular' | 'nearest' | 'newest'>(
@@ -119,9 +121,27 @@ function DestinationsInnerView({ initialPlaces, reviewSnippetsMap }: Destination
         if (!bt.includes('year') && !bt.includes('all')) return false;
       }
 
+      if (filters.search && filters.search.trim()) {
+        const q = filters.search.toLowerCase().trim();
+        const matchName = p.name.toLowerCase().includes(q);
+        const matchLoc = p.location.toLowerCase().includes(q);
+        const matchDesc = (p.short_description || p.description || '').toLowerCase().includes(q);
+        if (!matchName && !matchLoc && !matchDesc) return false;
+      }
+
       return true;
     });
   }, [initialPlaces, filters]);
+
+  // Track search queries for analytics with debounce
+  useEffect(() => {
+    const q = (filters.search || '').trim();
+    if (!q || q.length < 2) return;
+    const timer = setTimeout(() => {
+      trackSearchQuery(q, filteredPlaces.length);
+    }, 800);
+    return () => clearTimeout(timer);
+  }, [filters.search, filteredPlaces.length]);
 
   // Sort places
   const sortedPlaces = useMemo(() => {

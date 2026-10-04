@@ -444,6 +444,11 @@
                   "type": "directory",
                   "children": [
                     {
+                      "name": "AnalyticsTab.tsx",
+                      "description": "File in src/app/admin/components/AnalyticsTab.tsx",
+                      "type": "file"
+                    },
+                    {
                       "name": "ApprovalsTab.tsx",
                       "description": "File in src/app/admin/components/ApprovalsTab.tsx",
                       "type": "file"
@@ -519,6 +524,30 @@
                   "description": "Folder in src/app/api/admin",
                   "type": "directory",
                   "children": [
+                    {
+                      "name": "analytics",
+                      "description": "Folder in src/app/api/admin/analytics",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "journeys",
+                          "description": "Folder in src/app/api/admin/analytics/journeys",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "route.ts",
+                              "description": "File in src/app/api/admin/analytics/journeys/route.ts",
+                              "type": "file"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/admin/analytics/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    },
                     {
                       "name": "approvals",
                       "description": "Folder in src/app/api/admin/approvals",
@@ -867,6 +896,18 @@
                   ]
                 },
                 {
+                  "name": "events",
+                  "description": "Folder in src/app/api/events",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "route.ts",
+                      "description": "File in src/app/api/events/route.ts",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
                   "name": "hero-slides",
                   "description": "Folder in src/app/api/hero-slides",
                   "type": "directory",
@@ -965,6 +1006,18 @@
                   ]
                 },
                 {
+                  "name": "recommendations",
+                  "description": "Folder in src/app/api/recommendations",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "route.ts",
+                      "description": "File in src/app/api/recommendations/route.ts",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
                   "name": "region-slides",
                   "description": "Folder in src/app/api/region-slides",
                   "type": "directory",
@@ -1040,6 +1093,25 @@
                       "name": "route.ts",
                       "description": "File in src/app/api/upload/route.ts",
                       "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "user",
+                  "description": "Folder in src/app/api/user",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "clear-history",
+                      "description": "Folder in src/app/api/user/clear-history",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/user/clear-history/route.ts",
+                          "type": "file"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -1300,6 +1372,11 @@
               "type": "file"
             },
             {
+              "name": "CookieConsentBanner.tsx",
+              "description": "File in src/components/CookieConsentBanner.tsx",
+              "type": "file"
+            },
+            {
               "name": "CurrencySelector.tsx",
               "description": "File in src/components/CurrencySelector.tsx",
               "type": "file"
@@ -1430,6 +1507,11 @@
               "type": "file"
             },
             {
+              "name": "PlaceViewTracker.tsx",
+              "description": "File in src/components/PlaceViewTracker.tsx",
+              "type": "file"
+            },
+            {
               "name": "PlanVisitCard.tsx",
               "description": "File in src/components/PlanVisitCard.tsx",
               "type": "file"
@@ -1447,6 +1529,11 @@
             {
               "name": "RatingOverview.tsx",
               "description": "File in src/components/RatingOverview.tsx",
+              "type": "file"
+            },
+            {
+              "name": "RecommendationCarousel.tsx",
+              "description": "File in src/components/RecommendationCarousel.tsx",
               "type": "file"
             },
             {
@@ -1509,6 +1596,11 @@
           "type": "directory",
           "children": [
             {
+              "name": "analytics.ts",
+              "description": "File in src/lib/analytics.ts",
+              "type": "file"
+            },
+            {
               "name": "auth.ts",
               "description": "File in src/lib/auth.ts",
               "type": "file"
@@ -1521,6 +1613,11 @@
                 {
                   "name": "admin.ts",
                   "description": "File in src/lib/db/admin.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "analytics.ts",
+                  "description": "File in src/lib/db/analytics.ts",
                   "type": "file"
                 },
                 {
@@ -1563,6 +1660,11 @@
             {
               "name": "permissions.ts",
               "description": "File in src/lib/permissions.ts",
+              "type": "file"
+            },
+            {
+              "name": "recommend.ts",
+              "description": "File in src/lib/recommend.ts",
               "type": "file"
             },
             {

@@ -208,4 +208,73 @@ export interface NotificationItem {
   created_at: string;
 }
 
+export type EventType = 'view' | 'click' | 'save' | 'directions' | 'share' | 'search';
+
+export interface TrackingEvent {
+  id?: number;
+  place_id?: number | null;
+  user_id?: number | null;
+  session_id: string;
+  event_type: EventType;
+  source?: string;
+  dwell_time?: number;
+  metadata?: string | null;
+  created_at?: string;
+}
+
+export interface VisitorJourney {
+  id?: number;
+  user_id?: number | null;
+  session_id: string;
+  path: number[];
+  updated_at?: string;
+}
+
+export interface RecommendedPlace extends Place {
+  reason: string;
+  matchScore?: number;
+}
+
+export interface AnalyticsSummary {
+  totalViews: number;
+  totalClicks: number;
+  totalSaves: number;
+  totalDirections: number;
+  topPlaces: Array<{
+    id: number;
+    name: string;
+    views: number;
+    clicks: number;
+    saves: number;
+    category: string;
+    image_url: string;
+  }>;
+  trendingPlaces: Array<{
+    id: number;
+    name: string;
+    recentViews: number;
+    growthPercent: number;
+  }>;
+  searchTermsNoResults: Array<{
+    query: string;
+    count: number;
+    lastSearched: string;
+  }>;
+  deviceBreakdown: {
+    mobile: number;
+    desktop: number;
+    tablet: number;
+  };
+  eventSources: Array<{
+    source: string;
+    count: number;
+  }>;
+  weeklyTrend: Array<{
+    date: string;
+    views: number;
+    clicks: number;
+  }>;
+}
+
+
 

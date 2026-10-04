@@ -5,6 +5,7 @@ import HeroSection from '@/components/HeroSection';
 import PlaceCard from '@/components/PlaceCard';
 import RegionImageSlider from '@/components/RegionImageSlider';
 import JourneyCategoriesSection from '@/components/JourneyCategoriesSection';
+import RecommendationCarousel from '@/components/RecommendationCarousel';
 import Link from 'next/link';
 import {
   ArrowRight, Map, MapPin, Sparkles, Star, Calendar,
@@ -230,6 +231,17 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      {/* ━━━ 5.5 RECOMMENDATION ENGINE CAROUSEL (PHASE 7, T7.4) ━━━ */}
+      <section className="py-6 bg-white border-y border-slate-100">
+        <div className="mx-auto w-full max-w-[1240px] px-4 sm:px-6 lg:px-8">
+          <RecommendationCarousel
+            title="Picked for You"
+            subtitle="Curated island experiences matching your journey patterns and traveler favorites"
+            limit={6}
+          />
+        </div>
+      </section>
 
       {/* ━━━ 6. EXPLORE BY REGION (site_nodes: home_regions) ━━━ */}
       {isEnabled('home_regions') && (

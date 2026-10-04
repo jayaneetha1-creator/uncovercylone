@@ -314,6 +314,69 @@ function initializeSqliteDb(database: Database.Database) {
       FOREIGN KEY (thread_id) REFERENCES chat_threads(id) ON DELETE CASCADE,
       FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE
     );
+
+    CREATE TABLE IF NOT EXISTS events (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      place_id INTEGER NULL,
+      user_id INTEGER NULL,
+      session_id TEXT NOT NULL,
+      event_type TEXT NOT NULL,
+      source TEXT DEFAULT '',
+      dwell_time INTEGER DEFAULT 0,
+      metadata TEXT NULL,
+      created_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (place_id) REFERENCES places(id) ON DELETE SET NULL,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS journeys (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NULL,
+      session_id TEXT NOT NULL UNIQUE,
+      path TEXT NOT NULL,
+      updated_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS place_transitions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      from_place_id INTEGER NOT NULL,
+      to_place_id INTEGER NOT NULL,
+      count INTEGER DEFAULT 1,
+      updated_at TEXT DEFAULT (datetime('now')),
+      UNIQUE(from_place_id, to_place_id),
+      FOREIGN KEY (from_place_id) REFERENCES places(id) ON DELETE CASCADE,
+      FOREIGN KEY (to_place_id) REFERENCES places(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE IF NOT EXISTS recommendation_cache (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      cache_key TEXT NOT NULL UNIQUE,
+      data TEXT NOT NULL,
+      expires_at TEXT NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS ads (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      placement TEXT NOT NULL,
+      title_en TEXT NOT NULL,
+      title_si TEXT DEFAULT '',
+      description TEXT DEFAULT '',
+      image_url TEXT DEFAULT '',
+      target_url TEXT NOT NULL,
+      start_date TEXT NULL,
+      end_date TEXT NULL,
+      device_target TEXT DEFAULT 'all',
+      enabled INTEGER DEFAULT 1,
+      impressions INTEGER DEFAULT 0,
+      clicks INTEGER DEFAULT 0,
+      created_at TEXT DEFAULT (datetime('now'))
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_events_place ON events(place_id);
+    CREATE INDEX IF NOT EXISTS idx_events_type ON events(event_type);
+    CREATE INDEX IF NOT EXISTS idx_events_created ON events(created_at);
+    CREATE INDEX IF NOT EXISTS idx_journeys_session ON journeys(session_id);
   `);
 
   // Safe non-destructive column additions for SQLite

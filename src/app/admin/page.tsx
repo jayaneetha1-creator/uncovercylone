@@ -12,7 +12,7 @@ import {
   Edit, AlertTriangle, CheckSquare, Square, MessageSquare,
   Database, History, Tag,
   FolderTree, Palette, FileCode2, Trash, ClipboardList,
-  Sparkles
+  Sparkles, BarChart3
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import DestinationEditorModal from '@/components/DestinationEditorModal';
@@ -25,6 +25,7 @@ import ApprovalsTab from './components/ApprovalsTab';
 import CustomerChatTab from './components/CustomerChatTab';
 import MediaManagerTab from './components/MediaManagerTab';
 import SlidesManagerTab from './components/SlidesManagerTab';
+import AnalyticsTab from './components/AnalyticsTab';
 
 interface HeroSlide {
   id: number;
@@ -94,9 +95,9 @@ export default function AdminPage() {
   const [adminPassword, setAdminPassword] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  // Active tab: 'places' | 'approvals' | 'chat' | 'slides' | 'media' | 'reviews' | 'folders' | 'theme' | 'filemap' | 'trash' | 'audit' | 'logs'
+  // Active tab: 'places' | 'approvals' | 'chat' | 'slides' | 'media' | 'reviews' | 'folders' | 'theme' | 'filemap' | 'trash' | 'audit' | 'logs' | 'analytics'
   const [activeTab, setActiveTab] = useState<
-    'places' | 'approvals' | 'chat' | 'slides' | 'media' | 'reviews' | 'folders' | 'theme' | 'filemap' | 'trash' | 'audit' | 'logs'
+    'places' | 'approvals' | 'chat' | 'slides' | 'media' | 'reviews' | 'folders' | 'theme' | 'filemap' | 'trash' | 'audit' | 'logs' | 'analytics'
   >('places');
 
   // Activity Logs State
@@ -1274,6 +1275,18 @@ export default function AdminPage() {
             </button>
 
             <button
+              onClick={() => setActiveTab('analytics')}
+              className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
+                activeTab === 'analytics'
+                  ? 'bg-white text-sky-600 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-900'
+              }`}
+            >
+              <BarChart3 className="w-4 h-4" />
+              <span>Analytics</span>
+            </button>
+
+            <button
               onClick={() => setActiveTab('logs')}
               className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
                 activeTab === 'logs'
@@ -2288,6 +2301,9 @@ export default function AdminPage() {
 
         {/* ━━━ TAB 10: GOVERNANCE AUDIT TRAIL ━━━ */}
         {activeTab === 'audit' && <AuditLogTab />}
+
+        {/* ━━━ TAB 11: ANALYTICS & RECOMMENDATION METRICS (PHASE 7, T7.3) ━━━ */}
+        {activeTab === 'analytics' && <AnalyticsTab />}
       </main>
 
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

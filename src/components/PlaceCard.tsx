@@ -8,6 +8,7 @@ import WishlistButton from '@/components/WishlistButton';
 import { useLanguage } from '@/context/LanguageContext';
 import { useCurrency } from '@/context/CurrencyContext';
 import { useLocation } from '@/context/LocationContext';
+import { trackPlaceClick } from '@/lib/analytics';
 
 interface PlaceCardProps {
   place: Place;
@@ -43,6 +44,7 @@ export default function PlaceCard({ place, variant = 'grid' }: PlaceCardProps) {
     <div className="h-full w-full">
       <Link
         href={`/places/${place.id}`}
+        onClick={() => trackPlaceClick(place.id, 'place_card')}
         className={`group flex h-full flex-col overflow-hidden rounded-2xl border border-[#DCE8F2] bg-white transition-all duration-200 hover:border-[#38A9F0]/50 hover:shadow-lg hover:shadow-[#38A9F0]/10 hover:-translate-y-1 active:scale-[0.99] ${
           horizontal ? 'sm:flex-row' : ''
         }`}

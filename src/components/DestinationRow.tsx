@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useWishlist } from '@/context/WishlistContext';
 import { useLanguage } from '@/context/LanguageContext';
+import { trackPlaceClick, trackPlaceSave } from '@/lib/analytics';
 
 interface DestinationRowProps {
   place: Place;
@@ -61,6 +62,7 @@ export default function DestinationRow({
             e.preventDefault();
             e.stopPropagation();
             toggleSave(place.id);
+            if (!saved) trackPlaceSave(place.id);
           }}
           aria-label={saved ? 'Remove from favorites' : 'Save to favorites'}
           className={`absolute top-3.5 right-3.5 z-10 w-9 h-9 rounded-full flex items-center justify-center transition-all shadow-md active:scale-90 cursor-pointer ${
@@ -108,6 +110,7 @@ export default function DestinationRow({
           <div className="flex items-start justify-between gap-4 mb-2">
             <Link
               href={`/places/${place.id}`}
+              onClick={() => trackPlaceClick(place.id, 'destinations_directory')}
               className="text-lg sm:text-xl font-black text-[#0F2A3D] hover:text-[#38A9F0] transition-colors leading-snug tracking-tight"
             >
               {rank}. {place.name}
@@ -170,6 +173,7 @@ export default function DestinationRow({
           <div className="flex items-center gap-2.5">
             <Link
               href={`/places/${place.id}`}
+              onClick={() => trackPlaceClick(place.id, 'destinations_directory')}
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#38A9F0] hover:bg-[#1E93DC] text-white text-xs sm:text-sm font-bold shadow-sm shadow-[#38A9F0]/20 active:scale-95 transition-all cursor-pointer"
             >
               <span>View Details</span>

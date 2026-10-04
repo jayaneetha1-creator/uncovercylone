@@ -13,6 +13,8 @@ import QAList from '@/components/QAList';
 import Folder from '@/components/Folder';
 import WishlistButton from '@/components/WishlistButton';
 import OfflineGuideButton from '@/components/OfflineGuideButton';
+import PlaceViewTracker from '@/components/PlaceViewTracker';
+import RecommendationCarousel from '@/components/RecommendationCarousel';
 import {
   MapPin, Star, Calendar, ChevronLeft,
   Navigation, Heart, Share2, Compass,
@@ -222,6 +224,7 @@ export default async function PlaceDetailPage({ params }: PlacePageProps) {
 
   return (
     <div className="min-h-screen bg-[#F5FAFF] text-[#0F2A3D] pt-20 sm:pt-24 pb-28">
+      <PlaceViewTracker placeId={place.id} />
       
       {/* ━━━ 1. BREADCRUMB & TOP CONTROLS ━━━ */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
@@ -552,22 +555,16 @@ export default async function PlaceDetailPage({ params }: PlacePageProps) {
               </Folder>
             )}
 
-            {/* ━━━ BLOCK 7: YOU MAY ALSO LIKE (RELATED PLACES) ━━━ */}
-            {relatedPlaces.length > 0 && (
-              <Folder
-                id="similar-places"
-                title="You May Also Like"
-                subtitle={`Similar ${place.category} across Ceylon`}
-                icon={<Layers className="w-4 h-4" />}
-                defaultOpen={true}
-              >
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {relatedPlaces.map((rp, idx) => (
-                    <PlaceCard key={rp.id} place={rp} index={idx} />
-                  ))}
-                </div>
-              </Folder>
-            )}
+            {/* ━━━ BLOCK 7: YOU MAY ALSO LIKE (RECOMMENDATIONS ENGINE) ━━━ */}
+            <Folder
+              id="similar-places"
+              title="Nearby & You Might Like"
+              subtitle="Curated using geographic proximity, visitor journeys, and traveler affinity"
+              icon={<Compass className="w-4 h-4" />}
+              defaultOpen={true}
+            >
+              <RecommendationCarousel currentPlaceId={place.id} title="" subtitle="" limit={6} />
+            </Folder>
 
           </div>
 

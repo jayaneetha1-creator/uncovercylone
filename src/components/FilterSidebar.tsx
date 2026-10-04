@@ -13,6 +13,7 @@ export interface FilterState {
   entryFee: string;
   minRating: number;
   highlight: string;
+  search?: string;
 }
 
 interface FilterSidebarProps {
