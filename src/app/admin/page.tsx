@@ -12,7 +12,7 @@ import {
   Edit, AlertTriangle, CheckSquare, Square, MessageSquare,
   Database, History, Tag,
   FolderTree, Palette, FileCode2, Trash, ClipboardList,
-  Sparkles, BarChart3, Megaphone, Bot
+  Sparkles, BarChart3, Megaphone, Bot, FileText
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import DestinationEditorModal from '@/components/DestinationEditorModal';
@@ -29,6 +29,7 @@ import AnalyticsTab from './components/AnalyticsTab';
 import AdManagerTab from './components/AdManagerTab';
 import AIChatbotTab from './components/AIChatbotTab';
 import NewsManagerTab from './components/NewsManagerTab';
+import AboutEditorTab from './components/AboutEditorTab';
 import { Newspaper } from 'lucide-react';
 
 interface HeroSlide {
@@ -99,9 +100,9 @@ export default function AdminPage() {
   const [adminPassword, setAdminPassword] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  // Active tab: 'places' | 'approvals' | 'chat' | 'slides' | 'media' | 'reviews' | 'folders' | 'theme' | 'filemap' | 'trash' | 'audit' | 'logs' | 'analytics' | 'ads' | 'ai'
+  // Active tab: 'places' | 'approvals' | 'chat' | 'slides' | 'media' | 'reviews' | 'folders' | 'theme' | 'filemap' | 'trash' | 'audit' | 'logs' | 'analytics' | 'ads' | 'ai' | 'news' | 'about'
   const [activeTab, setActiveTab] = useState<
-    'places' | 'approvals' | 'chat' | 'slides' | 'media' | 'reviews' | 'folders' | 'theme' | 'filemap' | 'trash' | 'audit' | 'logs' | 'analytics' | 'ads' | 'ai' | 'news'
+    'places' | 'approvals' | 'chat' | 'slides' | 'media' | 'reviews' | 'folders' | 'theme' | 'filemap' | 'trash' | 'audit' | 'logs' | 'analytics' | 'ads' | 'ai' | 'news' | 'about'
   >('places');
 
   // Activity Logs State
@@ -1327,6 +1328,18 @@ export default function AdminPage() {
             </button>
 
             <button
+              onClick={() => setActiveTab('about')}
+              className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
+                activeTab === 'about'
+                  ? 'bg-white text-sky-600 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-900'
+              }`}
+            >
+              <FileText className="w-4 h-4" />
+              <span>About Page</span>
+            </button>
+
+            <button
               onClick={() => setActiveTab('logs')}
               className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
                 activeTab === 'logs'
@@ -2353,6 +2366,9 @@ export default function AdminPage() {
 
         {/* ━━━ TAB 14: AI TOURISM NEWS (PHASE 10, T10.1, T10.2) ━━━ */}
         {activeTab === 'news' && <NewsManagerTab />}
+
+        {/* ━━━ TAB 15: ABOUT PAGE REBUILD (PHASE 12, T12.1, T12.2) ━━━ */}
+        {activeTab === 'about' && <AboutEditorTab />}
       </main>
 
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

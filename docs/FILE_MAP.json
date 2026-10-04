@@ -400,6 +400,11 @@
           "type": "file"
         },
         {
+          "name": "seed-about-nodes.js",
+          "description": "File in scripts/seed-about-nodes.js",
+          "type": "file"
+        },
+        {
           "name": "seed-expanded-destinations.js",
           "description": "File in scripts/seed-expanded-destinations.js",
           "type": "file"
@@ -453,6 +458,11 @@
                   "description": "Folder in src/app/admin/components",
                   "type": "directory",
                   "children": [
+                    {
+                      "name": "AboutEditorTab.tsx",
+                      "description": "File in src/app/admin/components/AboutEditorTab.tsx",
+                      "type": "file"
+                    },
                     {
                       "name": "AdManagerTab.tsx",
                       "description": "File in src/app/admin/components/AdManagerTab.tsx",
@@ -549,6 +559,18 @@
                   "description": "Folder in src/app/api/admin",
                   "type": "directory",
                   "children": [
+                    {
+                      "name": "about",
+                      "description": "Folder in src/app/api/admin/about",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/admin/about/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    },
                     {
                       "name": "ads",
                       "description": "Folder in src/app/api/admin/ads",
@@ -2060,6 +2082,18 @@
           "type": "directory",
           "children": [
             {
+              "name": "about",
+              "description": "Folder in src/lib/about",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "constants.ts",
+                  "description": "File in src/lib/about/constants.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
               "name": "ai",
               "description": "Folder in src/lib/ai",
               "type": "directory",
@@ -2091,6 +2125,11 @@
               "description": "Folder in src/lib/db",
               "type": "directory",
               "children": [
+                {
+                  "name": "about.ts",
+                  "description": "File in src/lib/db/about.ts",
+                  "type": "file"
+                },
                 {
                   "name": "admin.ts",
                   "description": "File in src/lib/db/admin.ts",

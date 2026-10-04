@@ -115,6 +115,13 @@ This document tracks all architectural choices, assumptions, and technology sele
   5. Built read-only public sharing via unique hex slugs (`/trips/share/[slug]`) and PDF/print support.
 - **Rationale**: Frictionless entry for non-logged-in tourists, zero data loss upon registration, and native cross-platform responsiveness across 390px, 768px, and 1440px viewports.
 
-
-
-
+### D22: About Page Configurable Block Architecture & Founder Village Narrative Placeholder
+- **Date**: 2026-10-04
+- **Context**: Phase 12 requires rebuilding `/about` from editable blocks (Hero, Village Story, Photos, Values, Team/Credits, Contact) that the site owner can customize from the admin panel (Folder Manager nodes), with a thoughtful placeholder for the founder's ancestral village narrative and permanent SERANDIB CO. credit.
+- **Decision**:
+  1. Registered 6 discrete block nodes under `page_about` in `site_nodes`: `about_hero`, `about_story`, `about_photos`, `about_values`, `about_team`, and `about_contact`.
+  2. Stored block configurations as JSON in `site_nodes.config`, ensuring that disabling any block via Folder Manager cleanly unmounts its DOM elements per the zero-gap rule.
+  3. Separated client-safe constants/types (`src/lib/about/constants.ts`) from server DAL (`src/lib/db/about.ts`) to maintain zero database driver leakage into client bundles.
+  4. Built a dedicated Admin About Editor tab (`src/app/admin/components/AboutEditorTab.tsx`) with instant save, preview link, and cache revalidation via `/api/admin/about`.
+  5. Formatted the founder's ancestral village narrative placeholder with clear styling and footnote, while permanently retaining the SERANDIB CO. parent initiative credits.
+- **Rationale**: Empowers the non-technical site owner to update stories and team information without touching code, enforces the zero-gap rule, and honors the founder's roots.

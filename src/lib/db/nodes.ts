@@ -414,6 +414,92 @@ export const DEFAULT_SITE_NODES: Array<Omit<SiteNode, 'id' | 'created_at'> & { k
     priority: 1,
     device_visibility: 'all',
   },
+
+  // ━━━ ABOUT PAGE BLOCKS (PHASE 12, SECTION 4.6-E) ━━━
+  {
+    node_key: 'about_hero',
+    key: 'about_hero',
+    parent_key: 'page_about',
+    parent_id: null,
+    type: 'block',
+    title_en: 'Hero Banner & Key Metrics',
+    title_si: 'ප්‍රධාන බැනරය සහ සාරාංශය',
+    enabled: 1,
+    sort_order: 1,
+    default_open: 1,
+    priority: 10,
+    device_visibility: 'all',
+  },
+  {
+    node_key: 'about_story',
+    key: 'about_story',
+    parent_key: 'page_about',
+    parent_id: null,
+    type: 'block',
+    title_en: "Founder's Village Story & Origin",
+    title_si: 'නිර්මාතෘගේ ගම්මාන කතාව',
+    enabled: 1,
+    sort_order: 2,
+    default_open: 1,
+    priority: 9,
+    device_visibility: 'all',
+  },
+  {
+    node_key: 'about_photos',
+    key: 'about_photos',
+    parent_key: 'page_about',
+    parent_id: null,
+    type: 'block',
+    title_en: 'Island Moments & Village Photos',
+    title_si: 'ඡායාරූප එකතුව',
+    enabled: 1,
+    sort_order: 3,
+    default_open: 1,
+    priority: 8,
+    device_visibility: 'all',
+  },
+  {
+    node_key: 'about_values',
+    key: 'about_values',
+    parent_key: 'page_about',
+    parent_id: null,
+    type: 'block',
+    title_en: 'Mission & Guiding Values',
+    title_si: 'අපගේ අරමුණු සහ වටිනාකම්',
+    enabled: 1,
+    sort_order: 4,
+    default_open: 1,
+    priority: 7,
+    device_visibility: 'all',
+  },
+  {
+    node_key: 'about_team',
+    key: 'about_team',
+    parent_key: 'page_about',
+    parent_id: null,
+    type: 'block',
+    title_en: 'Team & Serandib Co. Credits',
+    title_si: 'කණ්ඩායම සහ සෙරන්ඩිබ් සමාගම',
+    enabled: 1,
+    sort_order: 5,
+    default_open: 1,
+    priority: 6,
+    device_visibility: 'all',
+  },
+  {
+    node_key: 'about_contact',
+    key: 'about_contact',
+    parent_key: 'page_about',
+    parent_id: null,
+    type: 'block',
+    title_en: 'Community Inquiries & Call to Action',
+    title_si: 'සම්බන්ධ වන්න සහ ප්‍රජාව',
+    enabled: 1,
+    sort_order: 6,
+    default_open: 1,
+    priority: 5,
+    device_visibility: 'all',
+  },
 ];
 
 export async function getSiteNodes(includeDisabled = false): Promise<SiteNode[]> {
@@ -509,6 +595,12 @@ export async function seedDefaultNodes(): Promise<void> {
   try {
     const isMysql = isMySqlEnabled();
     for (const item of DEFAULT_SITE_NODES) {
+      let parentId = item.parent_id;
+      if (!parentId && item.parent_key) {
+        const parent = await queryOne<SiteNode>('SELECT id FROM site_nodes WHERE node_key = ?', [item.parent_key]);
+        if (parent) parentId = parent.id;
+      }
+
       const sql = isMysql
         ? `INSERT INTO site_nodes (parent_id, node_key, type, title_en, title_si, enabled, sort_order, default_open, priority, device_visibility, config)
            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -518,7 +610,7 @@ export async function seedDefaultNodes(): Promise<void> {
            ON CONFLICT(node_key) DO UPDATE SET title_en = excluded.title_en`;
 
       await execute(sql, [
-        item.parent_id,
+        parentId,
         item.node_key,
         item.type,
         item.title_en,

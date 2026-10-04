@@ -183,10 +183,10 @@ This checklist covers every requirement specified in `MASTER_SPEC.md`, broken do
 ---
 
 ## Phase 12: About Page Rebuild
-- [ ] **T12.1 Editable Block Architecture**: Rebuild `/about` from configurable blocks (Hero, Village Story, Photos, Values, Team, Contact).
-  *Acceptance Test*: Updating story text in Admin About Editor reflects immediately on `/about`.
-- [ ] **T12.2 Founder Village Story Placeholder**: Thoughtful placeholder honoring founder's village with "SERANDIB CO." credit.
-  *Acceptance Test*: About page displays village narrative placeholder and team credits cleanly.
+- [x] **T12.1 Editable Block Architecture**: Rebuild `/about` from configurable blocks (Hero, Village Story, Photos, Values, Team, Contact).
+  *Acceptance Test*: Updating story text in Admin About Editor reflects immediately on `/about`. (Verified: dynamic `/about`, `AboutEditorTab` in admin, `/api/admin/about` PUT endpoint with cache revalidation)
+- [x] **T12.2 Founder Village Story Placeholder**: Thoughtful placeholder honoring founder's village with "SERANDIB CO." credit.
+  *Acceptance Test*: About page displays village narrative placeholder and team credits cleanly. (Verified: founder village narrative placeholder with content badge, team profiles, and SERANDIB CO. parent initiative showcase)
 
 ---
 

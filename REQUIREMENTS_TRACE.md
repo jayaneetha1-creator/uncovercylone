@@ -44,7 +44,7 @@ Status Definitions:
 | **R31** | Extra admin features (Maintenance mode, Announcement, SEO, Backup) | Phase 4, 5 | `src/app/admin/tabs/SettingsTab.tsx`, `src/app/admin/tabs/JobsTab.tsx` | Maintenance banner, sitemap settings, error viewer, jobs runner active | Planned (Phase 4, 5) |
 | **R32** | Final site contains everything listed in master spec | All | All routes & components | End-to-end verification checklist passes across all phases | Planned (All) |
 | **R33** | Simple and friendly UI/UX throughout | All | `src/app/globals.css`, `DESIGN_SYSTEM.md` | Clear typography, friendly empty states, soft shadows, 0 clutter | Planned (All) |
-| **R34** | About page with editable village story blocks | Phase 12 | `src/app/about/page.tsx`, `src/app/admin/tabs/AboutEditor.tsx` | Editable story blocks in admin; placeholder text with SERANDIB CO. credit | Planned (Phase 12) |
+| **R34** | About page with editable village story blocks | Phase 12 | `src/app/about/page.tsx`, `src/app/admin/components/AboutEditorTab.tsx`, `src/lib/db/about.ts` | Editable story blocks in admin; placeholder text with SERANDIB CO. credit | Done (Phase 12) |
 | **R35** | Fogg Behavior Model applied to every screen | All | All pages | Motivation, Ability (Simplicity), Triggers (Spark, Facilitator, Signal) clear | Planned (All) |
 | **R36** | Destinations list page structured like Tripadvisor restaurants | Phase 6 | `src/app/destinations/page.tsx` | Left filter bar, ranked cards, review snippets, pagination | Done (Phase 6) |
 | **R37** | Destination detail page structured like Tripadvisor hotel page | Phase 5, 6 | `src/app/places/[id]/page.tsx`, `src/components/PhotoMosaic.tsx` | Photo mosaic, plan visit card, traveler love row, reviews with photos & replies | Done (Phase 6) |
