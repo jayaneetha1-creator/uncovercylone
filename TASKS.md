@@ -107,15 +107,15 @@ This checklist covers every requirement specified in `MASTER_SPEC.md`, broken do
 ---
 
 ## Phase 6: Public Site Restructure
-- [ ] **T6.1 Dynamic Homepage (`/`)**: Rebuild Home from `site_nodes` folders (Hero, Interests, Curated rows, Teasers) without the full grid.
+- [x] **T6.1 Dynamic Homepage (`/`)**: Rebuild Home from `site_nodes` folders (Hero, Interests, Curated rows, Teasers) without the full grid.
   *Acceptance Test*: Homepage renders only curated sections; disabling a section in Folder Manager removes it cleanly.
-- [ ] **T6.2 Destinations Directory (`/destinations`)**: Rebuild listing page per Sec 4.6-B with sticky left filter bar and ranked list rows.
+- [x] **T6.2 Destinations Directory (`/destinations`)**: Rebuild listing page per Sec 4.6-B with sticky left filter bar and ranked list rows.
   *Acceptance Test*: Filters update URL query parameters; ranked rows display photo, ratings, season pill, and review snippet.
-- [ ] **T6.3 Destination Detail Page (`/places/[id]`)**: Rebuild detail page per Sec 4.6-C with photo mosaic, plan visit card, and collapsible folders.
+- [x] **T6.3 Destination Detail Page (`/places/[id]`)**: Rebuild detail page per Sec 4.6-C with photo mosaic, plan visit card, and collapsible folders.
   *Acceptance Test*: Detail page renders all 11 specified folders; "See all photos" opens lightbox modal.
-- [ ] **T6.4 Mobile Viewports & Bottom Sheet Filters**: Mobile layout with bottom tab bar, swipe carousels, and filter drawer.
+- [x] **T6.4 Mobile Viewports & Bottom Sheet Filters**: Mobile layout with bottom tab bar, swipe carousels, and filter drawer.
   *Acceptance Test*: At 390px, filter opens in slide-up bottom sheet with "Apply (N results)" button.
-- [ ] **T6.5 Visual & Content Remediation**: Fix issues from Section 3 (remove fake phone numbers, fake verification badges, broken images).
+- [x] **T6.5 Visual & Content Remediation**: Fix issues from Section 3 (remove fake phone numbers, fake verification badges, broken images).
   *Acceptance Test*: Place pages display real validated data; missing photos show branded light-blue fallback.
 
 ---

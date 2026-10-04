@@ -4,7 +4,7 @@
  * Supports full parent-child hierarchy, drag-reordering, zero-gap disabling, and defaults restoration.
  */
 
-import { query, queryOne, execute } from '../db';
+import { query, queryOne, execute, isMySqlEnabled } from '../db';
 import { SiteNode } from '@/types';
 
 export const DEFAULT_SITE_NODES: Array<Omit<SiteNode, 'id' | 'created_at'> & { key: string; parent_key?: string }> = [
@@ -259,6 +259,161 @@ export const DEFAULT_SITE_NODES: Array<Omit<SiteNode, 'id' | 'created_at'> & { k
     priority: 5,
     device_visibility: 'all',
   },
+
+  // ━━━ DESTINATION DETAIL PAGE & FOLDERS (SECTION 4.6-C) ━━━
+  {
+    node_key: 'page_place_detail',
+    key: 'page_place_detail',
+    parent_id: null,
+    type: 'page',
+    title_en: 'Destination Detail Page',
+    title_si: 'ගමනාන්ත විස්තර පිටුව',
+    enabled: 1,
+    sort_order: 7,
+    default_open: 1,
+    priority: 4,
+    device_visibility: 'all',
+  },
+  {
+    node_key: 'detail_mosaic',
+    key: 'detail_mosaic',
+    parent_key: 'page_place_detail',
+    parent_id: null,
+    type: 'block',
+    title_en: 'Photo Mosaic & Lightbox',
+    title_si: 'ඡායාරූප එකතුව',
+    enabled: 1,
+    sort_order: 1,
+    default_open: 1,
+    priority: 10,
+    device_visibility: 'all',
+  },
+  {
+    node_key: 'detail_plan_visit',
+    key: 'detail_plan_visit',
+    parent_key: 'page_place_detail',
+    parent_id: null,
+    type: 'block',
+    title_en: 'Plan Your Visit Card',
+    title_si: 'සංචාරය සැලසුම් කිරීම',
+    enabled: 1,
+    sort_order: 2,
+    default_open: 1,
+    priority: 9,
+    device_visibility: 'all',
+  },
+  {
+    node_key: 'detail_travelers_love',
+    key: 'detail_travelers_love',
+    parent_key: 'page_place_detail',
+    parent_id: null,
+    type: 'block',
+    title_en: 'Why Travelers Love This Place',
+    title_si: 'සංචාරකයන් ප්‍රිය කිරීමට හේතු',
+    enabled: 1,
+    sort_order: 3,
+    default_open: 1,
+    priority: 8,
+    device_visibility: 'all',
+  },
+  {
+    node_key: 'detail_about',
+    key: 'detail_about',
+    parent_key: 'page_place_detail',
+    parent_id: null,
+    type: 'block',
+    title_en: 'About, Terrain & Insider Tips',
+    title_si: 'විස්තරය සහ ප්‍රායෝගික උපදෙස්',
+    enabled: 1,
+    sort_order: 4,
+    default_open: 1,
+    priority: 7,
+    device_visibility: 'all',
+  },
+  {
+    node_key: 'detail_qa_ai',
+    key: 'detail_qa_ai',
+    parent_key: 'page_place_detail',
+    parent_id: null,
+    type: 'block',
+    title_en: 'Have Questions AI Box',
+    title_si: 'AI සහායක විමසුම',
+    enabled: 1,
+    sort_order: 5,
+    default_open: 1,
+    priority: 6,
+    device_visibility: 'all',
+  },
+  {
+    node_key: 'detail_location',
+    key: 'detail_location',
+    parent_key: 'page_place_detail',
+    parent_id: null,
+    type: 'block',
+    title_en: 'Location & Interactive Map',
+    title_si: 'පිහිටීම සහ සිතියම',
+    enabled: 1,
+    sort_order: 6,
+    default_open: 1,
+    priority: 5,
+    device_visibility: 'all',
+  },
+  {
+    node_key: 'detail_reviews',
+    key: 'detail_reviews',
+    parent_key: 'page_place_detail',
+    parent_id: null,
+    type: 'block',
+    title_en: 'Traveler Reviews & Ratings',
+    title_si: 'සංචාරක අදහස් සහ ඇගයීම්',
+    enabled: 1,
+    sort_order: 7,
+    default_open: 1,
+    priority: 4,
+    device_visibility: 'all',
+  },
+  {
+    node_key: 'detail_qa',
+    key: 'detail_qa',
+    parent_key: 'page_place_detail',
+    parent_id: null,
+    type: 'block',
+    title_en: 'Community Q&A Forum',
+    title_si: 'ප්‍රශ්න සහ පිළිතුරු',
+    enabled: 1,
+    sort_order: 8,
+    default_open: 1,
+    priority: 3,
+    device_visibility: 'all',
+  },
+  {
+    node_key: 'detail_traveler_photos',
+    key: 'detail_traveler_photos',
+    parent_key: 'page_place_detail',
+    parent_id: null,
+    type: 'block',
+    title_en: 'Traveler Photos Gallery',
+    title_si: 'සංචාරක ඡායාරූප',
+    enabled: 1,
+    sort_order: 9,
+    default_open: 0,
+    priority: 2,
+    device_visibility: 'all',
+  },
+  {
+    node_key: 'detail_similar',
+    key: 'detail_similar',
+    parent_key: 'page_place_detail',
+    parent_id: null,
+    type: 'block',
+    title_en: 'You May Also Like Carousel',
+    title_si: 'තවත් නිර්දේශිත ස්ථාන',
+    enabled: 1,
+    sort_order: 10,
+    default_open: 1,
+    priority: 1,
+    device_visibility: 'all',
+  },
 ];
 
 export async function getSiteNodes(includeDisabled = false): Promise<SiteNode[]> {
@@ -352,25 +507,29 @@ export async function reorderNodes(orderedIds: number[]): Promise<boolean> {
 
 export async function seedDefaultNodes(): Promise<void> {
   try {
+    const isMysql = isMySqlEnabled();
     for (const item of DEFAULT_SITE_NODES) {
-      await execute(
-        `INSERT INTO site_nodes (parent_id, node_key, type, title_en, title_si, enabled, sort_order, default_open, priority, device_visibility, config)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-         ON DUPLICATE KEY UPDATE title_en = VALUES(title_en)`,
-        [
-          item.parent_id,
-          item.node_key,
-          item.type,
-          item.title_en,
-          item.title_si,
-          item.enabled,
-          item.sort_order,
-          item.default_open,
-          item.priority,
-          item.device_visibility,
-          null,
-        ]
-      );
+      const sql = isMysql
+        ? `INSERT INTO site_nodes (parent_id, node_key, type, title_en, title_si, enabled, sort_order, default_open, priority, device_visibility, config)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+           ON DUPLICATE KEY UPDATE title_en = VALUES(title_en)`
+        : `INSERT INTO site_nodes (parent_id, node_key, type, title_en, title_si, enabled, sort_order, default_open, priority, device_visibility, config)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+           ON CONFLICT(node_key) DO UPDATE SET title_en = excluded.title_en`;
+
+      await execute(sql, [
+        item.parent_id,
+        item.node_key,
+        item.type,
+        item.title_en,
+        item.title_si,
+        item.enabled,
+        item.sort_order,
+        item.default_open,
+        item.priority,
+        item.device_visibility,
+        null,
+      ]);
     }
   } catch (err) {
     console.error('Seed default nodes error:', err);

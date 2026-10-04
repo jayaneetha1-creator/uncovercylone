@@ -7,6 +7,7 @@ interface WishlistContextType {
   savedIds: number[];
   isSaved: (id: number) => boolean;
   toggleWishlist: (id: number, placeName?: string) => void;
+  toggleSave: (id: number, placeName?: string) => void;
   clearWishlist: () => void;
   savedCount: number;
   isDrawerOpen: boolean;
@@ -75,6 +76,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
         savedIds,
         isSaved,
         toggleWishlist,
+        toggleSave: toggleWishlist,
         clearWishlist,
         savedCount: savedIds.length,
         isDrawerOpen,

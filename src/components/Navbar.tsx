@@ -22,7 +22,7 @@ export default function Navbar() {
 
   const navLinks = [
     { href: '/', label: t('nav.home') || 'Home', id: 'home' },
-    { href: '/#explore', label: t('nav.destinations') || 'Destinations', id: 'destinations' },
+    { href: '/destinations', label: t('nav.destinations') || 'Destinations', id: 'destinations' },
     { href: '/map', label: t('nav.map') || 'Map', id: 'map' },
     { href: '/about', label: t('nav.about') || 'About', id: 'about' },
   ];
@@ -43,7 +43,7 @@ export default function Navbar() {
         return;
       }
 
-      if (currentHash === '#explore') {
+      if (currentPath.startsWith('/destinations') || currentHash === '#explore') {
         setActiveTab('destinations');
         return;
       }
@@ -293,7 +293,7 @@ export default function Navbar() {
 
             {/* Primary Action Button (Single Prominent Trigger) */}
             <Link
-              href="/#explore"
+              href="/destinations"
               onClick={() => handleNavClick('destinations')}
               className="hidden sm:inline-flex items-center gap-1.5 bg-[#38A9F0] hover:bg-[#1E93DC] text-white text-[13px] font-bold px-4 py-2 rounded-full transition-all duration-150 shadow-xs hover:shadow-md hover:shadow-[#38A9F0]/20 active:scale-95"
             >

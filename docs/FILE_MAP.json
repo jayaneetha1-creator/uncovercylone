@@ -1,8 +1,416 @@
 {
   "name": "uncoverceylon",
-  "description": "Root directory of the UncoverCeylon application — Authentic Sri Lanka discovery web platform.",
+  "description": "Folder in uncoverceylon",
   "type": "directory",
   "children": [
+    {
+      "name": ".gitignore",
+      "description": "File in .gitignore",
+      "type": "file"
+    },
+    {
+      "name": "address_bar_local.png",
+      "description": "File in address_bar_local.png",
+      "type": "file"
+    },
+    {
+      "name": "address_bar_skynet.png",
+      "description": "File in address_bar_skynet.png",
+      "type": "file"
+    },
+    {
+      "name": "ADMIN_AUDIT.md",
+      "description": "File in ADMIN_AUDIT.md",
+      "type": "file"
+    },
+    {
+      "name": "AGENTS.md",
+      "description": "File in AGENTS.md",
+      "type": "file"
+    },
+    {
+      "name": "ceylon.db",
+      "description": "File in ceylon.db",
+      "type": "file"
+    },
+    {
+      "name": "CLAUDE.md",
+      "description": "File in CLAUDE.md",
+      "type": "file"
+    },
+    {
+      "name": "CLEANUP_REPORT.md",
+      "description": "File in CLEANUP_REPORT.md",
+      "type": "file"
+    },
+    {
+      "name": "db",
+      "description": "Database schema definitions and SQL migrations.",
+      "type": "directory",
+      "children": [
+        {
+          "name": "migrations",
+          "description": "Folder in db/migrations",
+          "type": "directory",
+          "children": [
+            {
+              "name": "001_init.sql",
+              "description": "File in db/migrations/001_init.sql",
+              "type": "file"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "DECISIONS.md",
+      "description": "File in DECISIONS.md",
+      "type": "file"
+    },
+    {
+      "name": "DESIGN_SYSTEM.md",
+      "description": "File in DESIGN_SYSTEM.md",
+      "type": "file"
+    },
+    {
+      "name": "docs",
+      "description": "Architectural documentation, operational guides, and setup instructions.",
+      "type": "directory",
+      "children": [
+        {
+          "name": "ARCHITECTURE_CURRENT.md",
+          "description": "File in docs/ARCHITECTURE_CURRENT.md",
+          "type": "file"
+        },
+        {
+          "name": "DB_SETUP.md",
+          "description": "File in docs/DB_SETUP.md",
+          "type": "file"
+        },
+        {
+          "name": "EMAIL_SETUP.md",
+          "description": "File in docs/EMAIL_SETUP.md",
+          "type": "file"
+        },
+        {
+          "name": "FILE_MAP.json",
+          "description": "File in docs/FILE_MAP.json",
+          "type": "file"
+        },
+        {
+          "name": "GOOGLE_LOGIN_SETUP.md",
+          "description": "File in docs/GOOGLE_LOGIN_SETUP.md",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "name": "eslint.config.mjs",
+      "description": "File in eslint.config.mjs",
+      "type": "file"
+    },
+    {
+      "name": "IMAGE_AUDIT.md",
+      "description": "File in IMAGE_AUDIT.md",
+      "type": "file"
+    },
+    {
+      "name": "MASTER_SPEC.md",
+      "description": "File in MASTER_SPEC.md",
+      "type": "file"
+    },
+    {
+      "name": "next-env.d.ts",
+      "description": "File in next-env.d.ts",
+      "type": "file"
+    },
+    {
+      "name": "next.config.ts",
+      "description": "File in next.config.ts",
+      "type": "file"
+    },
+    {
+      "name": "package-lock.json",
+      "description": "File in package-lock.json",
+      "type": "file"
+    },
+    {
+      "name": "package.json",
+      "description": "File in package.json",
+      "type": "file"
+    },
+    {
+      "name": "page_output.html",
+      "description": "File in page_output.html",
+      "type": "file"
+    },
+    {
+      "name": "postcss.config.mjs",
+      "description": "File in postcss.config.mjs",
+      "type": "file"
+    },
+    {
+      "name": "public",
+      "description": "Static assets, images, icons, and uploaded media.",
+      "type": "directory",
+      "children": [
+        {
+          "name": "file.svg",
+          "description": "File in public/file.svg",
+          "type": "file"
+        },
+        {
+          "name": "globe.svg",
+          "description": "File in public/globe.svg",
+          "type": "file"
+        },
+        {
+          "name": "icons",
+          "description": "Folder in public/icons",
+          "type": "directory",
+          "children": [
+            {
+              "name": "icon-192.png",
+              "description": "File in public/icons/icon-192.png",
+              "type": "file"
+            },
+            {
+              "name": "icon-512.png",
+              "description": "File in public/icons/icon-512.png",
+              "type": "file"
+            },
+            {
+              "name": "icon-maskable-512.png",
+              "description": "File in public/icons/icon-maskable-512.png",
+              "type": "file"
+            },
+            {
+              "name": "icon.svg",
+              "description": "File in public/icons/icon.svg",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "images",
+          "description": "Folder in public/images",
+          "type": "directory",
+          "children": [
+            {
+              "name": "journey",
+              "description": "Folder in public/images/journey",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "bot_slice.png",
+                  "description": "File in public/images/journey/bot_slice.png",
+                  "type": "file"
+                },
+                {
+                  "name": "coast-beaches.jpg",
+                  "description": "File in public/images/journey/coast-beaches.jpg",
+                  "type": "file"
+                },
+                {
+                  "name": "dot_enlarged.png",
+                  "description": "File in public/images/journey/dot_enlarged.png",
+                  "type": "file"
+                },
+                {
+                  "name": "hero_zoomed.png",
+                  "description": "File in public/images/journey/hero_zoomed.png",
+                  "type": "file"
+                },
+                {
+                  "name": "highlands.jpg",
+                  "description": "File in public/images/journey/highlands.jpg",
+                  "type": "file"
+                },
+                {
+                  "name": "mid_slice.png",
+                  "description": "File in public/images/journey/mid_slice.png",
+                  "type": "file"
+                },
+                {
+                  "name": "top_slice.png",
+                  "description": "File in public/images/journey/top_slice.png",
+                  "type": "file"
+                },
+                {
+                  "name": "wild-sri-lanka.jpg",
+                  "description": "File in public/images/journey/wild-sri-lanka.jpg",
+                  "type": "file"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "manifest.json",
+          "description": "File in public/manifest.json",
+          "type": "file"
+        },
+        {
+          "name": "next.svg",
+          "description": "File in public/next.svg",
+          "type": "file"
+        },
+        {
+          "name": "sw.js",
+          "description": "File in public/sw.js",
+          "type": "file"
+        },
+        {
+          "name": "uploads",
+          "description": "Folder in public/uploads",
+          "type": "directory",
+          "children": [
+            {
+              "name": "ceylon_1790429484803_cgb7pj.jpg",
+              "description": "File in public/uploads/ceylon_1790429484803_cgb7pj.jpg",
+              "type": "file"
+            },
+            {
+              "name": "ceylon_1790431389382_ogvvdn.jpeg",
+              "description": "File in public/uploads/ceylon_1790431389382_ogvvdn.jpeg",
+              "type": "file"
+            },
+            {
+              "name": "ceylon_1790572732885_3su667.jpg",
+              "description": "File in public/uploads/ceylon_1790572732885_3su667.jpg",
+              "type": "file"
+            },
+            {
+              "name": "ceylon_1790742052297_fxlacm.jpg",
+              "description": "File in public/uploads/ceylon_1790742052297_fxlacm.jpg",
+              "type": "file"
+            },
+            {
+              "name": "ceylon_1790742894661_qcv0fq.png",
+              "description": "File in public/uploads/ceylon_1790742894661_qcv0fq.png",
+              "type": "file"
+            },
+            {
+              "name": "ceylon_1790743507690_fm1eh6.jpg",
+              "description": "File in public/uploads/ceylon_1790743507690_fm1eh6.jpg",
+              "type": "file"
+            },
+            {
+              "name": "ceylon_1790743702391_ujcwdg.png",
+              "description": "File in public/uploads/ceylon_1790743702391_ujcwdg.png",
+              "type": "file"
+            },
+            {
+              "name": "ceylon_1790744534946_h9m1l6.png",
+              "description": "File in public/uploads/ceylon_1790744534946_h9m1l6.png",
+              "type": "file"
+            },
+            {
+              "name": "ceylon_1790959367880_m8k8rf.webp",
+              "description": "File in public/uploads/ceylon_1790959367880_m8k8rf.webp",
+              "type": "file"
+            },
+            {
+              "name": "ceylon_1790970077797_h42kvh.webp",
+              "description": "File in public/uploads/ceylon_1790970077797_h42kvh.webp",
+              "type": "file"
+            },
+            {
+              "name": "ceylon_1790970147534_e4wb41.webp",
+              "description": "File in public/uploads/ceylon_1790970147534_e4wb41.webp",
+              "type": "file"
+            },
+            {
+              "name": "ceylon_1790970422547_2j91lg.webp",
+              "description": "File in public/uploads/ceylon_1790970422547_2j91lg.webp",
+              "type": "file"
+            },
+            {
+              "name": "ceylon_1790970487911_lxjshq.webp",
+              "description": "File in public/uploads/ceylon_1790970487911_lxjshq.webp",
+              "type": "file"
+            },
+            {
+              "name": "ceylon_1791039319424_2wqp4z.webp",
+              "description": "File in public/uploads/ceylon_1791039319424_2wqp4z.webp",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "vercel.svg",
+          "description": "File in public/vercel.svg",
+          "type": "file"
+        },
+        {
+          "name": "window.svg",
+          "description": "File in public/window.svg",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "name": "README.md",
+      "description": "File in README.md",
+      "type": "file"
+    },
+    {
+      "name": "REQUIREMENTS_TRACE.md",
+      "description": "File in REQUIREMENTS_TRACE.md",
+      "type": "file"
+    },
+    {
+      "name": "scripts",
+      "description": "Automation scripts for migration, seeding, and maintenance.",
+      "type": "directory",
+      "children": [
+        {
+          "name": "db-migrate.js",
+          "description": "File in scripts/db-migrate.js",
+          "type": "file"
+        },
+        {
+          "name": "db-seed.js",
+          "description": "File in scripts/db-seed.js",
+          "type": "file"
+        },
+        {
+          "name": "fix-shadows.js",
+          "description": "File in scripts/fix-shadows.js",
+          "type": "file"
+        },
+        {
+          "name": "generate-file-map.js",
+          "description": "File in scripts/generate-file-map.js",
+          "type": "file"
+        },
+        {
+          "name": "generate-pwa-icons.js",
+          "description": "File in scripts/generate-pwa-icons.js",
+          "type": "file"
+        },
+        {
+          "name": "migrate-sqlite-to-mysql.js",
+          "description": "File in scripts/migrate-sqlite-to-mysql.js",
+          "type": "file"
+        },
+        {
+          "name": "seed-expanded-destinations.js",
+          "description": "File in scripts/seed-expanded-destinations.js",
+          "type": "file"
+        },
+        {
+          "name": "seed-more-destinations.js",
+          "description": "File in scripts/seed-more-destinations.js",
+          "type": "file"
+        },
+        {
+          "name": "update-colors.js",
+          "description": "File in scripts/update-colors.js",
+          "type": "file"
+        }
+      ]
+    },
     {
       "name": "src",
       "description": "Source code directory containing all Next.js App Router routes, UI components, and libraries.",
@@ -13,16 +421,862 @@
           "description": "Next.js App Router entry points, pages, and REST API endpoints.",
           "type": "directory",
           "children": [
-            { "name": "page.tsx", "description": "Dynamic homepage rendering curated hero, interest categories, and teaser sections.", "type": "file" },
-            { "name": "layout.tsx", "description": "Root application layout wrapping global providers (Auth, Language, Wishlist, Currency).", "type": "file" },
-            { "name": "globals.css", "description": "Global Tailwind CSS styles and theme variable definitions.", "type": "file" },
-            { "name": "admin", "description": "Comprehensive administrative shell and back-office management portal.", "type": "directory" },
-            { "name": "login", "description": "Sign in and account creation page with Google OAuth button.", "type": "directory" },
-            { "name": "profile", "description": "User profile dashboard for saved places, trips, and account security.", "type": "directory" },
-            { "name": "places", "description": "Detailed destination view featuring photo mosaic, visit plan card, reviews, and Q&A.", "type": "directory" },
-            { "name": "map", "description": "Interactive Leaflet GPS map view with province filters and geolocation.", "type": "directory" },
-            { "name": "about", "description": "About page featuring the Serandib Co. mission and village story blocks.", "type": "directory" },
-            { "name": "api", "description": "Server-side REST API handlers for authentication, places, reviews, nodes, and admin.", "type": "directory" }
+            {
+              "name": "about",
+              "description": "Folder in src/app/about",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "description": "File in src/app/about/page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "admin",
+              "description": "Folder in src/app/admin",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "components",
+                  "description": "Folder in src/app/admin/components",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "ApprovalsTab.tsx",
+                      "description": "File in src/app/admin/components/ApprovalsTab.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "AuditLogTab.tsx",
+                      "description": "File in src/app/admin/components/AuditLogTab.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "CustomerChatTab.tsx",
+                      "description": "File in src/app/admin/components/CustomerChatTab.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "FileMapTab.tsx",
+                      "description": "File in src/app/admin/components/FileMapTab.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "FolderManagerTab.tsx",
+                      "description": "File in src/app/admin/components/FolderManagerTab.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "MediaManagerTab.tsx",
+                      "description": "File in src/app/admin/components/MediaManagerTab.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "SlidesManagerTab.tsx",
+                      "description": "File in src/app/admin/components/SlidesManagerTab.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ThemeControllerTab.tsx",
+                      "description": "File in src/app/admin/components/ThemeControllerTab.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "TrashRequestsTab.tsx",
+                      "description": "File in src/app/admin/components/TrashRequestsTab.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "login",
+                  "description": "Folder in src/app/admin/login",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "page.tsx",
+                      "description": "File in src/app/admin/login/page.tsx",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "page.tsx",
+                  "description": "File in src/app/admin/page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "api",
+              "description": "Folder in src/app/api",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "admin",
+                  "description": "Folder in src/app/api/admin",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "approvals",
+                      "description": "Folder in src/app/api/admin/approvals",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/admin/approvals/route.ts",
+                          "type": "file"
+                        },
+                        {
+                          "name": "[id]",
+                          "description": "Folder in src/app/api/admin/approvals/[id]",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "route.ts",
+                              "description": "File in src/app/api/admin/approvals/[id]/route.ts",
+                              "type": "file"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "audit",
+                      "description": "Folder in src/app/api/admin/audit",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/admin/audit/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "backup",
+                      "description": "Folder in src/app/api/admin/backup",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/admin/backup/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "file-map",
+                      "description": "Folder in src/app/api/admin/file-map",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/admin/file-map/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "logs",
+                      "description": "Folder in src/app/api/admin/logs",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/admin/logs/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "media",
+                      "description": "Folder in src/app/api/admin/media",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "optimize",
+                          "description": "Folder in src/app/api/admin/media/optimize",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "route.ts",
+                              "description": "File in src/app/api/admin/media/optimize/route.ts",
+                              "type": "file"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "nodes",
+                      "description": "Folder in src/app/api/admin/nodes",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/admin/nodes/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "notifications",
+                      "description": "Folder in src/app/api/admin/notifications",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/admin/notifications/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "requests",
+                      "description": "Folder in src/app/api/admin/requests",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/admin/requests/route.ts",
+                          "type": "file"
+                        },
+                        {
+                          "name": "[id]",
+                          "description": "Folder in src/app/api/admin/requests/[id]",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "route.ts",
+                              "description": "File in src/app/api/admin/requests/[id]/route.ts",
+                              "type": "file"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "theme",
+                      "description": "Folder in src/app/api/admin/theme",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/admin/theme/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "trash",
+                      "description": "Folder in src/app/api/admin/trash",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/admin/trash/route.ts",
+                          "type": "file"
+                        },
+                        {
+                          "name": "[id]",
+                          "description": "Folder in src/app/api/admin/trash/[id]",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "route.ts",
+                              "description": "File in src/app/api/admin/trash/[id]/route.ts",
+                              "type": "file"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "verify",
+                      "description": "Folder in src/app/api/admin/verify",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/admin/verify/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "versions",
+                      "description": "Folder in src/app/api/admin/versions",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/admin/versions/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "auth",
+                  "description": "Folder in src/app/api/auth",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "forgot-password",
+                      "description": "Folder in src/app/api/auth/forgot-password",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/auth/forgot-password/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "google",
+                      "description": "Folder in src/app/api/auth/google",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "callback",
+                          "description": "Folder in src/app/api/auth/google/callback",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "route.ts",
+                              "description": "File in src/app/api/auth/google/callback/route.ts",
+                              "type": "file"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/auth/google/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "login",
+                      "description": "Folder in src/app/api/auth/login",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/auth/login/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "logout",
+                      "description": "Folder in src/app/api/auth/logout",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/auth/logout/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "me",
+                      "description": "Folder in src/app/api/auth/me",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/auth/me/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "register",
+                      "description": "Folder in src/app/api/auth/register",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/auth/register/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "reset-password",
+                      "description": "Folder in src/app/api/auth/reset-password",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/auth/reset-password/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "verify-email",
+                      "description": "Folder in src/app/api/auth/verify-email",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/auth/verify-email/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "chat",
+                  "description": "Folder in src/app/api/chat",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "customer",
+                      "description": "Folder in src/app/api/chat/customer",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/chat/customer/route.ts",
+                          "type": "file"
+                        },
+                        {
+                          "name": "[id]",
+                          "description": "Folder in src/app/api/chat/customer/[id]",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "route.ts",
+                              "description": "File in src/app/api/chat/customer/[id]/route.ts",
+                              "type": "file"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "hero-slides",
+                  "description": "Folder in src/app/api/hero-slides",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "route.ts",
+                      "description": "File in src/app/api/hero-slides/route.ts",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "places",
+                  "description": "Folder in src/app/api/places",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "bulk",
+                      "description": "Folder in src/app/api/places/bulk",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/places/bulk/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "route.ts",
+                      "description": "File in src/app/api/places/route.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "submit",
+                      "description": "Folder in src/app/api/places/submit",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/places/submit/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "[id]",
+                      "description": "Folder in src/app/api/places/[id]",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "qa",
+                          "description": "Folder in src/app/api/places/[id]/qa",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "route.ts",
+                              "description": "File in src/app/api/places/[id]/qa/route.ts",
+                              "type": "file"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/places/[id]/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "qa",
+                  "description": "Folder in src/app/api/qa",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "[id]",
+                      "description": "Folder in src/app/api/qa/[id]",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "answers",
+                          "description": "Folder in src/app/api/qa/[id]/answers",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "route.ts",
+                              "description": "File in src/app/api/qa/[id]/answers/route.ts",
+                              "type": "file"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "region-slides",
+                  "description": "Folder in src/app/api/region-slides",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "route.ts",
+                      "description": "File in src/app/api/region-slides/route.ts",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "reviews",
+                  "description": "Folder in src/app/api/reviews",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "route.ts",
+                      "description": "File in src/app/api/reviews/route.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "[id]",
+                      "description": "Folder in src/app/api/reviews/[id]",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "reply",
+                          "description": "Folder in src/app/api/reviews/[id]/reply",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "route.ts",
+                              "description": "File in src/app/api/reviews/[id]/reply/route.ts",
+                              "type": "file"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "vote",
+                          "description": "Folder in src/app/api/reviews/[id]/vote",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "route.ts",
+                              "description": "File in src/app/api/reviews/[id]/vote/route.ts",
+                              "type": "file"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "site-settings",
+                  "description": "Folder in src/app/api/site-settings",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "route.ts",
+                      "description": "File in src/app/api/site-settings/route.ts",
+                      "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "upload",
+                  "description": "Folder in src/app/api/upload",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "route.ts",
+                      "description": "File in src/app/api/upload/route.ts",
+                      "type": "file"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "destinations",
+              "description": "Folder in src/app/destinations",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "description": "File in src/app/destinations/page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "favicon.ico",
+              "description": "File in src/app/favicon.ico",
+              "type": "file"
+            },
+            {
+              "name": "favorites",
+              "description": "Folder in src/app/favorites",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "description": "File in src/app/favorites/page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "forgot-password",
+              "description": "Folder in src/app/forgot-password",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "description": "File in src/app/forgot-password/page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "globals.css",
+              "description": "File in src/app/globals.css",
+              "type": "file"
+            },
+            {
+              "name": "layout.tsx",
+              "description": "File in src/app/layout.tsx",
+              "type": "file"
+            },
+            {
+              "name": "login",
+              "description": "Folder in src/app/login",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "description": "File in src/app/login/page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "map",
+              "description": "Folder in src/app/map",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "description": "File in src/app/map/page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "offline",
+              "description": "Folder in src/app/offline",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "description": "File in src/app/offline/page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "page.tsx",
+              "description": "File in src/app/page.tsx",
+              "type": "file"
+            },
+            {
+              "name": "places",
+              "description": "Folder in src/app/places",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "[id]",
+                  "description": "Folder in src/app/places/[id]",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "DestinationGallery.tsx",
+                      "description": "File in src/app/places/[id]/DestinationGallery.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "page.tsx",
+                      "description": "File in src/app/places/[id]/page.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "PlaceMap.tsx",
+                      "description": "File in src/app/places/[id]/PlaceMap.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "PlaceSidebarQuickFacts.tsx",
+                      "description": "File in src/app/places/[id]/PlaceSidebarQuickFacts.tsx",
+                      "type": "file"
+                    },
+                    {
+                      "name": "ReviewSection.tsx",
+                      "description": "File in src/app/places/[id]/ReviewSection.tsx",
+                      "type": "file"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "privacy",
+              "description": "Folder in src/app/privacy",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "description": "File in src/app/privacy/page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "profile",
+              "description": "Folder in src/app/profile",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "description": "File in src/app/profile/page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "reset-password",
+              "description": "Folder in src/app/reset-password",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "description": "File in src/app/reset-password/page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "robots.ts",
+              "description": "File in src/app/robots.ts",
+              "type": "file"
+            },
+            {
+              "name": "sitemap.ts",
+              "description": "File in src/app/sitemap.ts",
+              "type": "file"
+            },
+            {
+              "name": "submit-place",
+              "description": "Folder in src/app/submit-place",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "description": "File in src/app/submit-place/page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "terms",
+              "description": "Folder in src/app/terms",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "description": "File in src/app/terms/page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "uploads",
+              "description": "Folder in src/app/uploads",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "[...path]",
+                  "description": "Folder in src/app/uploads/[...path]",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "route.ts",
+                      "description": "File in src/app/uploads/[...path]/route.ts",
+                      "type": "file"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "verify-email",
+              "description": "Folder in src/app/verify-email",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "description": "File in src/app/verify-email/page.tsx",
+                  "type": "file"
+                }
+              ]
+            }
           ]
         },
         {
@@ -30,11 +1284,191 @@
           "description": "Reusable UI components designed with the light-blue airy aesthetic.",
           "type": "directory",
           "children": [
-            { "name": "Navbar.tsx", "description": "Global sticky navigation bar with active tab tracking and user account menu.", "type": "file" },
-            { "name": "Footer.tsx", "description": "Footer with quick links, Serandib Co. branding, and copyright.", "type": "file" },
-            { "name": "Folder.tsx", "description": "Collapsible section primitive with smooth height animation and accessibility cues.", "type": "file" },
-            { "name": "NotificationBell.tsx", "description": "15-second polling notification bell dropdown with unread badge counter.", "type": "file" },
-            { "name": "LanguageSelector.tsx", "description": "English and Sinhala language switcher with persistent state.", "type": "file" }
+            {
+              "name": "AnimatedReveal.tsx",
+              "description": "File in src/components/AnimatedReveal.tsx",
+              "type": "file"
+            },
+            {
+              "name": "BottomTabBar.tsx",
+              "description": "File in src/components/BottomTabBar.tsx",
+              "type": "file"
+            },
+            {
+              "name": "CategoryFilter.tsx",
+              "description": "File in src/components/CategoryFilter.tsx",
+              "type": "file"
+            },
+            {
+              "name": "CurrencySelector.tsx",
+              "description": "File in src/components/CurrencySelector.tsx",
+              "type": "file"
+            },
+            {
+              "name": "CustomerChatWidget.tsx",
+              "description": "File in src/components/CustomerChatWidget.tsx",
+              "type": "file"
+            },
+            {
+              "name": "DestinationEditorModal.tsx",
+              "description": "File in src/components/DestinationEditorModal.tsx",
+              "type": "file"
+            },
+            {
+              "name": "DestinationRow.tsx",
+              "description": "File in src/components/DestinationRow.tsx",
+              "type": "file"
+            },
+            {
+              "name": "DestinationsClientView.tsx",
+              "description": "File in src/components/DestinationsClientView.tsx",
+              "type": "file"
+            },
+            {
+              "name": "DestinationsFilterSheet.tsx",
+              "description": "File in src/components/DestinationsFilterSheet.tsx",
+              "type": "file"
+            },
+            {
+              "name": "FilterSheet.tsx",
+              "description": "File in src/components/FilterSheet.tsx",
+              "type": "file"
+            },
+            {
+              "name": "FilterSidebar.tsx",
+              "description": "File in src/components/FilterSidebar.tsx",
+              "type": "file"
+            },
+            {
+              "name": "Folder.tsx",
+              "description": "File in src/components/Folder.tsx",
+              "type": "file"
+            },
+            {
+              "name": "Footer.tsx",
+              "description": "File in src/components/Footer.tsx",
+              "type": "file"
+            },
+            {
+              "name": "GoogleTranslator.tsx",
+              "description": "File in src/components/GoogleTranslator.tsx",
+              "type": "file"
+            },
+            {
+              "name": "HeroSection.tsx",
+              "description": "File in src/components/HeroSection.tsx",
+              "type": "file"
+            },
+            {
+              "name": "InteractiveMap.tsx",
+              "description": "File in src/components/InteractiveMap.tsx",
+              "type": "file"
+            },
+            {
+              "name": "JourneyCategoriesSection.tsx",
+              "description": "File in src/components/JourneyCategoriesSection.tsx",
+              "type": "file"
+            },
+            {
+              "name": "LanguageSelector.tsx",
+              "description": "File in src/components/LanguageSelector.tsx",
+              "type": "file"
+            },
+            {
+              "name": "MapLocationPicker.tsx",
+              "description": "File in src/components/MapLocationPicker.tsx",
+              "type": "file"
+            },
+            {
+              "name": "Navbar.tsx",
+              "description": "File in src/components/Navbar.tsx",
+              "type": "file"
+            },
+            {
+              "name": "NotificationBell.tsx",
+              "description": "File in src/components/NotificationBell.tsx",
+              "type": "file"
+            },
+            {
+              "name": "OfflineGuideButton.tsx",
+              "description": "File in src/components/OfflineGuideButton.tsx",
+              "type": "file"
+            },
+            {
+              "name": "OfflineGuideModal.tsx",
+              "description": "File in src/components/OfflineGuideModal.tsx",
+              "type": "file"
+            },
+            {
+              "name": "PhotoMosaic.tsx",
+              "description": "File in src/components/PhotoMosaic.tsx",
+              "type": "file"
+            },
+            {
+              "name": "PlaceAIQuestionBox.tsx",
+              "description": "File in src/components/PlaceAIQuestionBox.tsx",
+              "type": "file"
+            },
+            {
+              "name": "PlaceCard.tsx",
+              "description": "File in src/components/PlaceCard.tsx",
+              "type": "file"
+            },
+            {
+              "name": "PlaceCardSkeleton.tsx",
+              "description": "File in src/components/PlaceCardSkeleton.tsx",
+              "type": "file"
+            },
+            {
+              "name": "PlaceImage.tsx",
+              "description": "File in src/components/PlaceImage.tsx",
+              "type": "file"
+            },
+            {
+              "name": "PlacesGrid.tsx",
+              "description": "File in src/components/PlacesGrid.tsx",
+              "type": "file"
+            },
+            {
+              "name": "PlanVisitCard.tsx",
+              "description": "File in src/components/PlanVisitCard.tsx",
+              "type": "file"
+            },
+            {
+              "name": "PWARegister.tsx",
+              "description": "File in src/components/PWARegister.tsx",
+              "type": "file"
+            },
+            {
+              "name": "QAList.tsx",
+              "description": "File in src/components/QAList.tsx",
+              "type": "file"
+            },
+            {
+              "name": "RatingOverview.tsx",
+              "description": "File in src/components/RatingOverview.tsx",
+              "type": "file"
+            },
+            {
+              "name": "RegionImageSlider.tsx",
+              "description": "File in src/components/RegionImageSlider.tsx",
+              "type": "file"
+            },
+            {
+              "name": "ReviewCard.tsx",
+              "description": "File in src/components/ReviewCard.tsx",
+              "type": "file"
+            },
+            {
+              "name": "WishlistButton.tsx",
+              "description": "File in src/components/WishlistButton.tsx",
+              "type": "file"
+            },
+            {
+              "name": "WishlistDrawer.tsx",
+              "description": "File in src/components/WishlistDrawer.tsx",
+              "type": "file"
+            }
           ]
         },
         {
@@ -42,11 +1476,31 @@
           "description": "React context providers for reactive state across the application.",
           "type": "directory",
           "children": [
-            { "name": "AuthContext.tsx", "description": "Reactive user session context managing authentication and logout.", "type": "file" },
-            { "name": "WishlistContext.tsx", "description": "Saved destinations wishlist context with localStorage sync.", "type": "file" },
-            { "name": "LanguageContext.tsx", "description": "Bilingual EN/SI translation dictionary and state provider.", "type": "file" },
-            { "name": "CurrencyContext.tsx", "description": "Multi-currency switcher (LKR, USD, EUR, GBP, AUD) with live conversion.", "type": "file" },
-            { "name": "LocationContext.tsx", "description": "Visitor GPS geolocation handler for live distance calculation.", "type": "file" }
+            {
+              "name": "AuthContext.tsx",
+              "description": "File in src/context/AuthContext.tsx",
+              "type": "file"
+            },
+            {
+              "name": "CurrencyContext.tsx",
+              "description": "File in src/context/CurrencyContext.tsx",
+              "type": "file"
+            },
+            {
+              "name": "LanguageContext.tsx",
+              "description": "File in src/context/LanguageContext.tsx",
+              "type": "file"
+            },
+            {
+              "name": "LocationContext.tsx",
+              "description": "File in src/context/LocationContext.tsx",
+              "type": "file"
+            },
+            {
+              "name": "WishlistContext.tsx",
+              "description": "File in src/context/WishlistContext.tsx",
+              "type": "file"
+            }
           ]
         },
         {
@@ -54,52 +1508,98 @@
           "description": "Core backend utilities, database drivers, permissions, and mailers.",
           "type": "directory",
           "children": [
-            { "name": "db.ts", "description": "Dual-engine database layer supporting MySQL 8 pool and SQLite development fallback.", "type": "file" },
-            { "name": "auth.ts", "description": "Authentication core: bcrypt hashing, session cookies, and rate limiter.", "type": "file" },
-            { "name": "permissions.ts", "description": "Single source of truth for Role-Based Access Control capability matrix.", "type": "file" },
-            { "name": "mailer.ts", "description": "Nodemailer abstraction for Gmail App Passwords and custom SMTP dispatch.", "type": "file" },
-            { "name": "theme.ts", "description": "Design token constants, seasonal presets, and WCAG AA contrast calculation.", "type": "file" },
-            { "name": "db/users.ts", "description": "User accounts, password resets, and session database access functions.", "type": "file" },
-            { "name": "db/governance.ts", "description": "Change requests, 30-day trash, versions, notifications, and audit log DAL.", "type": "file" },
-            { "name": "db/nodes.ts", "description": "Site nodes tree data access for Folder Manager.", "type": "file" }
+            {
+              "name": "auth.ts",
+              "description": "File in src/lib/auth.ts",
+              "type": "file"
+            },
+            {
+              "name": "db",
+              "description": "Folder in src/lib/db",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "admin.ts",
+                  "description": "File in src/lib/db/admin.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "governance.ts",
+                  "description": "File in src/lib/db/governance.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "locations.ts",
+                  "description": "File in src/lib/db/locations.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "nodes.ts",
+                  "description": "File in src/lib/db/nodes.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "users.ts",
+                  "description": "File in src/lib/db/users.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "db.ts",
+              "description": "File in src/lib/db.ts",
+              "type": "file"
+            },
+            {
+              "name": "mailer.ts",
+              "description": "File in src/lib/mailer.ts",
+              "type": "file"
+            },
+            {
+              "name": "optimizer.ts",
+              "description": "File in src/lib/optimizer.ts",
+              "type": "file"
+            },
+            {
+              "name": "permissions.ts",
+              "description": "File in src/lib/permissions.ts",
+              "type": "file"
+            },
+            {
+              "name": "theme.ts",
+              "description": "File in src/lib/theme.ts",
+              "type": "file"
+            }
           ]
         },
         {
           "name": "types",
           "description": "TypeScript interfaces and type declarations for all domain entities.",
-          "type": "directory"
+          "type": "directory",
+          "children": [
+            {
+              "name": "index.ts",
+              "description": "File in src/types/index.ts",
+              "type": "file"
+            }
+          ]
         }
       ]
     },
     {
-      "name": "db",
-      "description": "Database schema definitions and SQL migrations.",
-      "type": "directory",
-      "children": [
-        { "name": "migrations/001_init.sql", "description": "Full MySQL 8 initialization DDL covering 38 tables with utf8mb4 collation.", "type": "file" }
-      ]
+      "name": "TASKS.md",
+      "description": "File in TASKS.md",
+      "type": "file"
     },
     {
-      "name": "docs",
-      "description": "Architectural documentation, operational guides, and setup instructions.",
-      "type": "directory",
-      "children": [
-        { "name": "ARCHITECTURE_CURRENT.md", "description": "15-point baseline architectural overview.", "type": "file" },
-        { "name": "DB_SETUP.md", "description": "Step-by-step instructions for MySQL installation locally and in production.", "type": "file" },
-        { "name": "EMAIL_SETUP.md", "description": "Gmail App Password and transactional SMTP configuration guide.", "type": "file" },
-        { "name": "GOOGLE_LOGIN_SETUP.md", "description": "Google Cloud OAuth 2.0 configuration guide.", "type": "file" },
-        { "name": "FILE_MAP.json", "description": "Plain-English description mapping of project file tree.", "type": "file" }
-      ]
+      "name": "tsconfig.json",
+      "description": "File in tsconfig.json",
+      "type": "file"
     },
     {
-      "name": "scripts",
-      "description": "Automation scripts for migration, seeding, and maintenance.",
-      "type": "directory"
-    },
-    {
-      "name": "public",
-      "description": "Static assets, images, icons, and uploaded media.",
-      "type": "directory"
+      "name": "tsconfig.tsbuildinfo",
+      "description": "File in tsconfig.tsbuildinfo",
+      "type": "file"
     }
   ]
 }

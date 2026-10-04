@@ -1,73 +1,91 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Review } from '@/types';
-import { Star, Send, Loader2, CheckCircle2, ThumbsUp, MessageSquarePlus, Filter } from 'lucide-react';
+import RatingOverview from '@/components/RatingOverview';
+import ReviewCard, { ExtendedReview } from '@/components/ReviewCard';
+import {
+  Star, MessageSquarePlus, Upload, X, Loader2,
+  CheckCircle2, Filter, ArrowUpDown, ChevronLeft, ChevronRight
+} from 'lucide-react';
 import toast from 'react-hot-toast';
+import { useAuth } from '@/context/AuthContext';
 
 interface ReviewSectionProps {
   placeId: number;
+  placeName: string;
   initialReviews: Review[];
+  rating: number;
+  reviewCount: number;
 }
 
-function StarPicker({ value, onChange }: { value: number; onChange: (v: number) => void }) {
-  const [hovered, setHovered] = useState(0);
-  return (
-    <div className="flex gap-2">
-      {[1, 2, 3, 4, 5].map((s) => (
-        <button
-          key={s}
-          type="button"
-          onClick={() => onChange(s)}
-          onMouseEnter={() => setHovered(s)}
-          onMouseLeave={() => setHovered(0)}
-          className="focus:outline-hidden transition-transform hover:scale-110 cursor-pointer"
-        >
-          <Star
-            className={`w-7 h-7 transition-colors ${
-              s <= (hovered || value) ? 'fill-emerald-500 text-emerald-500' : 'text-slate-200 hover:text-emerald-400/50'
-            }`}
-          />
-        </button>
-      ))}
-    </div>
-  );
-}
+export default function ReviewSection({
+  placeId,
+  placeName,
+  initialReviews,
+  rating,
+  reviewCount,
+}: ReviewSectionProps) {
+  const { user } = useAuth();
+  const [reviews, setReviews] = useState<ExtendedReview[]>(initialReviews as ExtendedReview[]);
+  const [showModal, setShowModal] = useState(false);
 
-export default function ReviewSection({ placeId, initialReviews }: ReviewSectionProps) {
-  const [reviews, setReviews] = useState<Review[]>(initialReviews);
-  const [showForm, setShowForm] = useState(false);
-  const [author, setAuthor] = useState('');
-  const [rating, setRating] = useState(5);
-  const [comment, setComment] = useState('');
-  const [website, setWebsite] = useState('');
-  const [challenge, setChallenge] = useState(() => ({
-    num1: Math.floor(Math.random() * 6) + 3,
-    num2: Math.floor(Math.random() * 5) + 2,
-  }));
-  const [userAnswer, setUserAnswer] = useState('');
+  // Form State
+  const [authorName, setAuthorName] = useState(user?.name || '');
+  const [ratingScore, setRatingScore] = useState(5);
+  const [commentText, setCommentText] = useState('');
+  const [subRatings, setSubRatings] = useState({
+    clean: 5,
+    crowd: 4,
+    value: 5,
+    accessibility: 4,
+  });
+  const [photos, setPhotos] = useState<string[]>([]);
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  const refreshChallenge = () => {
-    setChallenge({
-      num1: Math.floor(Math.random() * 6) + 3,
-      num2: Math.floor(Math.random() * 5) + 2,
-    });
-    setUserAnswer('');
+  // Filters & Sorting
+  const [sortBy, setSortBy] = useState<'recent' | 'highest' | 'lowest'>('recent');
+  const [filterRating, setFilterRating] = useState<number>(0);
+  const [page, setPage] = useState(1);
+  const REVIEWS_PER_PAGE = 5;
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    if (photos.length + files.length > 5) {
+      toast.error('Maximum 5 photos allowed per review');
+      return;
+    }
+
+    setUploadingPhoto(true);
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const res = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        });
+        const data = await res.json();
+        if (res.ok && data.url) {
+          setPhotos((prev) => [...prev, data.url]);
+        } else {
+          toast.error(data.error || 'Photo upload failed');
+        }
+      } catch {
+        toast.error('Network error during photo upload');
+      }
+    }
+    setUploadingPhoto(false);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmitReview = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!author.trim() || !comment.trim() || rating === 0) {
-      toast.error('Please fill in your name, rating, and review.');
-      return;
-    }
-
-    if (parseInt(userAnswer.trim(), 10) !== challenge.num1 + challenge.num2) {
-      toast.error('Incorrect human verification answer. Please try again.');
-      refreshChallenge();
-      return;
-    }
+    if (!commentText.trim()) return;
 
     setSubmitting(true);
     try {
@@ -76,349 +94,311 @@ export default function ReviewSection({ placeId, initialReviews }: ReviewSection
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           place_id: placeId,
-          author: author.trim(),
-          rating,
-          comment: comment.trim(),
-          website,
-          challenge_answer: userAnswer.trim(),
-          expected_challenge: challenge.num1 + challenge.num2,
+          author: authorName.trim() || user?.name || 'Ceylon Traveler',
+          rating: ratingScore,
+          comment: commentText.trim(),
+          photos,
+          ratings: subRatings,
         }),
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to submit review');
-
-      if (data.status === 'pending') {
-        toast.success(data.message || 'Thank you! Your review is pending quick admin moderation.', {
-          duration: 5000,
-        });
-      } else {
-        const newReview: Review = {
+      if (res.ok) {
+        toast.success('Your review has been submitted!');
+        setShowModal(false);
+        setCommentText('');
+        setPhotos([]);
+        // Re-fetch reviews or append
+        const newReview: ExtendedReview = {
           id: data.id || Date.now(),
           place_id: placeId,
-          author: author.trim(),
-          rating,
-          comment: comment.trim(),
+          author: authorName.trim() || user?.name || 'Ceylon Traveler',
+          rating: ratingScore,
+          comment: commentText.trim(),
+          photos,
           created_at: new Date().toISOString(),
           status: 'approved',
         };
         setReviews((prev) => [newReview, ...prev]);
-        toast.success('Thank you! Review posted successfully.');
+      } else {
+        toast.error(data.error || 'Failed to submit review');
       }
-
-      setAuthor('');
-      setRating(5);
-      setComment('');
-      setWebsite('');
-      setShowForm(false);
-      refreshChallenge();
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to submit review. Please try again.';
-      toast.error(msg);
-      refreshChallenge();
+    } catch {
+      toast.error('Network error while submitting review');
     } finally {
       setSubmitting(false);
     }
   };
 
-  const formatDate = (dateStr: string) => {
-    try {
-      return new Date(dateStr).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-      });
-    } catch {
-      return dateStr;
-    }
-  };
+  // Filter & sort reviews
+  const displayedReviews = [...reviews]
+    .filter((r) => (filterRating > 0 ? Math.round(r.rating) === filterRating : true))
+    .sort((a, b) => {
+      if (sortBy === 'highest') return b.rating - a.rating;
+      if (sortBy === 'lowest') return a.rating - b.rating;
+      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+    });
 
-  // TripAdvisor Rating Breakdown calculations (Image 5 style)
-  const totalReviewsCount = Math.max(reviews.length, 1);
-  const avgRating = reviews.length > 0
-    ? (reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length).toFixed(1)
-    : '4.9';
+  const totalPages = Math.max(1, Math.ceil(displayedReviews.length / REVIEWS_PER_PAGE));
+  const paginatedReviews = displayedReviews.slice((page - 1) * REVIEWS_PER_PAGE, page * REVIEWS_PER_PAGE);
 
   return (
-    <div className="space-y-8" id="reviews-section">
-      {/* ━━━ TRIPADVISOR-STYLE REVIEWS BREAKDOWN CARD (Image 5) ━━━ */}
-      <div className="border-b border-slate-200 pb-8">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-          <div>
-            <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Traveler Reviews</h2>
-            <p className="text-xs sm:text-sm text-slate-500 mt-0.5">Authentic feedback from verified island visitors</p>
-          </div>
+    <div id="reviews" className="space-y-8">
+      
+      {/* ━━━ RATING OVERVIEW BLOCK ━━━ */}
+      <RatingOverview
+        rating={rating}
+        reviewCount={reviewCount || reviews.length}
+      />
 
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-semibold text-slate-500">
-              Showing {reviews.length} {reviews.length === 1 ? 'review' : 'reviews'}
-            </span>
-            <button
-              onClick={() => setShowForm(!showForm)}
-              className="inline-flex items-center gap-1.5 bg-[#00aa6c] hover:bg-[#008f5a] text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-full transition-all shadow-sm active:scale-95 cursor-pointer"
+      {/* ━━━ REVIEWS ACTION & FILTER BAR ━━━ */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#DCE8F2]">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-[#5B7385]">Sort:</span>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as any)}
+              className="bg-white border border-[#DCE8F2] rounded-xl px-3 py-1.5 text-xs font-bold text-[#0F2A3D] focus:outline-none"
             >
-              <MessageSquarePlus className="w-4 h-4" />
-              <span>{showForm ? 'Cancel Review' : 'Write a Review'}</span>
-            </button>
+              <option value="recent">Most Recent</option>
+              <option value="highest">Highest Rating</option>
+              <option value="lowest">Lowest Rating</option>
+            </select>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-[#5B7385]">Filter:</span>
+            <select
+              value={filterRating}
+              onChange={(e) => {
+                setFilterRating(Number(e.target.value));
+                setPage(1);
+              }}
+              className="bg-white border border-[#DCE8F2] rounded-xl px-3 py-1.5 text-xs font-bold text-[#0F2A3D] focus:outline-none"
+            >
+              <option value={0}>All Stars</option>
+              <option value={5}>5 Stars only</option>
+              <option value={4}>4 Stars only</option>
+              <option value={3}>3 Stars only</option>
+            </select>
           </div>
         </div>
 
-        {/* Rating Breakdown Grid */}
-        <div className="bg-slate-50/80 rounded-2xl p-5 sm:p-7 border border-slate-200/90 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-          
-          {/* Big Score Box */}
-          <div className="md:col-span-3 text-center md:text-left md:border-r border-slate-200/80 md:pr-6">
-            <div className="text-5xl font-black text-slate-900 tracking-tight">
-              {avgRating}
-            </div>
-            <div className="flex items-center justify-center md:justify-start gap-1 my-2">
-              {[1, 2, 3, 4, 5].map((s) => (
-                <span key={s} className="w-3.5 h-3.5 rounded-full bg-[#00aa6c] inline-block" />
-              ))}
-            </div>
-            <p className="text-sm font-bold text-slate-800">Excellent Experience</p>
-            <p className="text-xs text-slate-500 mt-0.5">Based on community ratings</p>
-          </div>
-
-          {/* Distribution Bars */}
-          <div className="md:col-span-5 space-y-2 text-xs font-medium text-slate-600">
-            <div className="flex items-center gap-3">
-              <span className="w-16 text-right">Excellent</span>
-              <div className="flex-1 h-3 bg-slate-200 rounded-full overflow-hidden">
-                <div className="h-full bg-[#00aa6c] rounded-full" style={{ width: '85%' }} />
-              </div>
-              <span className="w-8 text-slate-400 text-right">85%</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="w-16 text-right">Very Good</span>
-              <div className="flex-1 h-3 bg-slate-200 rounded-full overflow-hidden">
-                <div className="h-full bg-[#00aa6c] rounded-full" style={{ width: '12%' }} />
-              </div>
-              <span className="w-8 text-slate-400 text-right">12%</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="w-16 text-right">Average</span>
-              <div className="flex-1 h-3 bg-slate-200 rounded-full overflow-hidden">
-                <div className="h-full bg-amber-400 rounded-full" style={{ width: '3%' }} />
-              </div>
-              <span className="w-8 text-slate-400 text-right">3%</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="w-16 text-right">Poor</span>
-              <div className="flex-1 h-3 bg-slate-200 rounded-full overflow-hidden">
-                <div className="h-full bg-slate-300 rounded-full" style={{ width: '0%' }} />
-              </div>
-              <span className="w-8 text-slate-400 text-right">0%</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="w-16 text-right">Terrible</span>
-              <div className="flex-1 h-3 bg-slate-200 rounded-full overflow-hidden">
-                <div className="h-full bg-slate-300 rounded-full" style={{ width: '0%' }} />
-              </div>
-              <span className="w-8 text-slate-400 text-right">0%</span>
-            </div>
-          </div>
-
-          {/* Sub-Category Ratings (TripAdvisor style) */}
-          <div className="md:col-span-4 md:border-l border-slate-200/80 md:pl-6 space-y-2 text-xs font-semibold text-slate-700">
-            <div className="flex items-center justify-between">
-              <span>Scenic Views</span>
-              <div className="flex items-center gap-1.5 text-slate-900">
-                <div className="flex gap-0.5">
-                  {[1, 2, 3, 4, 5].map((s) => (
-                    <span key={s} className="w-2 h-2 rounded-full bg-[#00aa6c]" />
-                  ))}
-                </div>
-                <span>5.0</span>
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
-              <span>Photo Spots</span>
-              <div className="flex items-center gap-1.5 text-slate-900">
-                <div className="flex gap-0.5">
-                  {[1, 2, 3, 4, 5].map((s) => (
-                    <span key={s} className="w-2 h-2 rounded-full bg-[#00aa6c]" />
-                  ))}
-                </div>
-                <span>5.0</span>
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
-              <span>Accessibility</span>
-              <div className="flex items-center gap-1.5 text-slate-900">
-                <div className="flex gap-0.5">
-                  {[1, 2, 3, 4].map((s) => (
-                    <span key={s} className="w-2 h-2 rounded-full bg-[#00aa6c]" />
-                  ))}
-                  <span className="w-2 h-2 rounded-full bg-slate-300" />
-                </div>
-                <span>4.6</span>
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
-              <span>Atmosphere & Value</span>
-              <div className="flex items-center gap-1.5 text-slate-900">
-                <div className="flex gap-0.5">
-                  {[1, 2, 3, 4, 5].map((s) => (
-                    <span key={s} className="w-2 h-2 rounded-full bg-[#00aa6c]" />
-                  ))}
-                </div>
-                <span>4.9</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Write a Review Button */}
+        <button
+          type="button"
+          onClick={() => setShowModal(true)}
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#38A9F0] hover:bg-[#1E93DC] text-white text-xs sm:text-sm font-bold shadow-sm shadow-[#38A9F0]/20 active:scale-95 transition-all cursor-pointer self-start sm:self-auto"
+        >
+          <MessageSquarePlus className="w-4 h-4" />
+          <span>Write a Review</span>
+        </button>
       </div>
 
-      {/* ━━━ WRITE A REVIEW FORM (COLLAPSIBLE) ━━━ */}
-      {showForm && (
-        <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-md border border-slate-200 animate-in fade-in slide-in-from-top-4 duration-300">
-          <h3 className="text-xl font-bold text-slate-900 mb-1">Share Your Experience</h3>
-          <p className="text-slate-500 text-xs sm:text-sm mb-6">
-            Your review helps independent explorers plan their trip across Sri Lanka.
+      {/* ━━━ REVIEWS LIST ━━━ */}
+      {paginatedReviews.length === 0 ? (
+        <div className="bg-white rounded-3xl border border-[#DCE8F2] p-10 text-center space-y-2">
+          <p className="text-sm font-bold text-[#0F2A3D]">
+            No reviews matching this filter.
           </p>
-
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="hidden" aria-hidden="true">
-              <input
-                name="website"
-                value={website}
-                onChange={(e) => setWebsite(e.target.value)}
-                tabIndex={-1}
-              />
-            </div>
-
-            <div>
-              <label className="block text-slate-600 text-xs font-bold uppercase tracking-wider mb-2">
-                Your Overall Rating
-              </label>
-              <StarPicker value={rating} onChange={setRating} />
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-slate-600 text-xs font-bold uppercase tracking-wider mb-2">
-                  Your Name
-                </label>
-                <input
-                  value={author}
-                  onChange={(e) => setAuthor(e.target.value)}
-                  placeholder="e.g. Ruwan Silva"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 text-sm focus:border-emerald-500 focus:bg-white transition-all outline-hidden"
-                  required
-                  maxLength={60}
-                />
-              </div>
-
-              <div>
-                <label className="block text-slate-600 text-xs font-bold uppercase tracking-wider mb-2">
-                  Verification ({challenge.num1} + {challenge.num2} = ?)
-                </label>
-                <input
-                  type="number"
-                  value={userAnswer}
-                  onChange={(e) => setUserAnswer(e.target.value)}
-                  placeholder="Answer"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 text-sm focus:border-emerald-500 focus:bg-white transition-all outline-hidden"
-                  required
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-slate-600 text-xs font-bold uppercase tracking-wider mb-2">
-                Your Review
-              </label>
-              <textarea
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                rows={4}
-                placeholder="What did you enjoy most? Best viewpoints, timings, or practical tips for fellow travelers?"
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-slate-900 text-sm focus:border-emerald-500 focus:bg-white transition-all outline-hidden resize-y"
-                required
-                maxLength={1000}
-              />
-            </div>
-
-            <div className="flex items-center justify-end gap-3 pt-2">
-              <button
-                type="button"
-                onClick={() => setShowForm(false)}
-                className="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                disabled={submitting}
-                className="inline-flex items-center gap-2 bg-[#00aa6c] hover:bg-[#008f5a] text-white font-bold px-6 py-2.5 rounded-xl text-sm transition-all shadow-sm active:scale-95 disabled:opacity-50 cursor-pointer"
-              >
-                {submitting ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    <span>Publishing...</span>
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-4 h-4" />
-                    <span>Submit Review</span>
-                  </>
-                )}
-              </button>
-            </div>
-          </form>
+          <p className="text-xs text-[#5B7385]">
+            Be the first traveler to share your authentic tips for {placeName}!
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {paginatedReviews.map((rev) => (
+            <ReviewCard key={rev.id} review={rev} />
+          ))}
         </div>
       )}
 
-      {/* ━━━ REVIEWS LIST ━━━ */}
-      <div className="space-y-4">
-        {reviews.length === 0 ? (
-          <div className="text-center py-10 bg-slate-50 rounded-2xl border border-slate-200">
-            <p className="text-slate-600 font-bold text-sm">Be the first to leave a review!</p>
-            <p className="text-xs text-slate-400 mt-1">Share your experience to help others visit this destination.</p>
-          </div>
-        ) : (
-          reviews.map((r) => (
-            <div
-              key={r.id}
-              className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-xs space-y-3"
+      {/* ━━━ NUMBERED PAGINATION ━━━ */}
+      {totalPages > 1 && (
+        <div className="pt-4 flex items-center justify-center gap-2">
+          <button
+            type="button"
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={page === 1}
+            className="px-3 py-1.5 rounded-xl border border-[#DCE8F2] bg-white text-xs font-bold disabled:opacity-40"
+          >
+            Prev
+          </button>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+            <button
+              key={p}
+              type="button"
+              onClick={() => setPage(p)}
+              className={`w-8 h-8 rounded-xl text-xs font-bold transition-all ${
+                page === p
+                  ? 'bg-[#38A9F0] text-white'
+                  : 'bg-white border border-[#DCE8F2] text-[#0F2A3D]'
+              }`}
             >
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-sm">
-                    {r.author.charAt(0).toUpperCase()}
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-bold text-sm text-slate-900">{r.author}</span>
-                      <span className="inline-flex items-center gap-0.5 text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 font-semibold">
-                        <CheckCircle2 className="w-3 h-3" />
-                        Verified Visit
-                      </span>
-                    </div>
-                    <span className="text-xs text-slate-400">{formatDate(r.created_at)}</span>
-                  </div>
-                </div>
+              {p}
+            </button>
+          ))}
+          <button
+            type="button"
+            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+            disabled={page === totalPages}
+            className="px-3 py-1.5 rounded-xl border border-[#DCE8F2] bg-white text-xs font-bold disabled:opacity-40"
+          >
+            Next
+          </button>
+        </div>
+      )}
 
-                <div className="flex gap-1 text-emerald-600">
+      {/* ━━━ WRITE REVIEW MODAL ━━━ */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-fade-in">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 space-y-5 shadow-2xl border border-[#DCE8F2] max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-3 border-b border-[#DCE8F2]">
+              <div>
+                <h3 className="text-base font-black text-[#0F2A3D]">
+                  Review {placeName}
+                </h3>
+                <p className="text-xs text-[#5B7385]">
+                  Help fellow travelers plan an unforgettable experience
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowModal(false)}
+                className="w-8 h-8 rounded-full bg-[#F5FAFF] hover:bg-[#EAF4FD] text-[#5B7385] flex items-center justify-center"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmitReview} className="space-y-4">
+              
+              {/* Star Rating Picker */}
+              <div>
+                <label className="text-xs font-bold text-[#0F2A3D] uppercase tracking-wider block mb-2">
+                  Your Overall Rating *
+                </label>
+                <div className="flex items-center gap-2">
                   {[1, 2, 3, 4, 5].map((s) => (
-                    <span
+                    <button
                       key={s}
-                      className={`w-2.5 h-2.5 rounded-full inline-block ${
-                        s <= r.rating ? 'bg-[#00aa6c]' : 'bg-slate-200'
-                      }`}
-                    />
+                      type="button"
+                      onClick={() => setRatingScore(s)}
+                      className="p-1 cursor-pointer transition-transform hover:scale-110"
+                    >
+                      <Star
+                        className={`w-7 h-7 ${
+                          s <= ratingScore
+                            ? 'fill-[#F5A623] text-[#F5A623]'
+                            : 'text-[#DCE8F2] fill-[#DCE8F2]'
+                        }`}
+                      />
+                    </button>
                   ))}
+                  <span className="text-xs font-bold text-[#0F2A3D] ml-2">
+                    {ratingScore} out of 5 stars
+                  </span>
                 </div>
               </div>
 
-              <p className="text-slate-700 text-sm leading-relaxed whitespace-pre-line pl-1">
-                {r.comment}
-              </p>
-            </div>
-          ))
-        )}
-      </div>
+              {/* Author Name */}
+              {!user && (
+                <div>
+                  <label className="text-xs font-bold text-[#0F2A3D] uppercase tracking-wider block mb-1">
+                    Your Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={authorName}
+                    onChange={(e) => setAuthorName(e.target.value)}
+                    placeholder="e.g. Kasun Fernando"
+                    className="w-full text-xs rounded-xl border border-[#DCE8F2] p-3 text-[#0F2A3D] outline-none focus:border-[#38A9F0]"
+                  />
+                </div>
+              )}
+
+              {/* Comment */}
+              <div>
+                <label className="text-xs font-bold text-[#0F2A3D] uppercase tracking-wider block mb-1">
+                  Your Review &amp; Practical Tips *
+                </label>
+                <textarea
+                  required
+                  rows={4}
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}
+                  placeholder="Share details about optimal timing, trail conditions, local guides, or food options..."
+                  className="w-full text-xs rounded-xl border border-[#DCE8F2] p-3 text-[#0F2A3D] outline-none focus:border-[#38A9F0]"
+                />
+              </div>
+
+              {/* Photos upload */}
+              <div>
+                <label className="text-xs font-bold text-[#0F2A3D] uppercase tracking-wider block mb-2">
+                  Attach Photos (Up to 5)
+                </label>
+                <div className="flex items-center gap-2 flex-wrap mb-2">
+                  {photos.map((p, idx) => (
+                    <div key={idx} className="relative w-16 h-16 rounded-xl overflow-hidden border border-[#DCE8F2]">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={p} alt="Uploaded" className="w-full h-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => setPhotos((prev) => prev.filter((_, i) => i !== idx))}
+                        className="absolute top-1 right-1 w-4 h-4 rounded-full bg-black/70 text-white flex items-center justify-center text-[10px]"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+
+                  {photos.length < 5 && (
+                    <label className="w-16 h-16 rounded-xl border-2 border-dashed border-[#DCE8F2] hover:border-[#38A9F0] flex flex-col items-center justify-center text-[#5B7385] cursor-pointer hover:bg-[#F5FAFF] transition-colors">
+                      <Upload className="w-4 h-4 text-[#38A9F0]" />
+                      <span className="text-[9px] font-bold mt-1">Upload</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        disabled={uploadingPhoto}
+                        onChange={handleFileUpload}
+                        className="hidden"
+                      />
+                    </label>
+                  )}
+                </div>
+                {uploadingPhoto && (
+                  <p className="text-[11px] text-[#38A9F0] flex items-center gap-1">
+                    <Loader2 className="w-3 h-3 animate-spin" /> Uploading photograph...
+                  </p>
+                )}
+              </div>
+
+              {/* Form submit bar */}
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#DCE8F2]">
+                <button
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                  className="px-4 py-2.5 rounded-xl text-xs font-bold text-[#5B7385]"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={submitting || !commentText.trim()}
+                  className="px-6 py-2.5 rounded-xl bg-[#38A9F0] hover:bg-[#1E93DC] disabled:opacity-50 text-white text-xs font-bold shadow-md shadow-[#38A9F0]/25 transition-all cursor-pointer"
+                >
+                  {submitting ? 'Submitting...' : 'Post Review'}
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
