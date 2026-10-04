@@ -45,8 +45,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    fetchCurrentUser();
-  }, [fetchCurrentUser]);
+    let isSubscribed = true;
+    const initAuth = async () => {
+      try {
+        const res = await fetch('/api/auth/me');
+        if (!isSubscribed) return;
+        if (res.ok) {
+          const data = await res.json();
+          setUser(data.authenticated && data.user ? data.user : null);
+        } else {
+          setUser(null);
+        }
+      } catch (err) {
+        console.error('Failed to fetch auth session:', err);
+        if (isSubscribed) setUser(null);
+      } finally {
+        if (isSubscribed) setIsLoading(false);
+      }
+    };
+
+    initAuth();
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, []);
 
   const logout = async () => {
     try {

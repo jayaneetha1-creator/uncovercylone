@@ -19,16 +19,31 @@ export default function WishlistDrawer() {
 
   // Fetch places when drawer opens to populate wishlist items
   useEffect(() => {
-    if (isDrawerOpen && allPlaces.length === 0) {
+    if (!isDrawerOpen || allPlaces.length > 0) return;
+    let cancelled = false;
+
+    const loadPlaces = async () => {
+      await Promise.resolve();
+      if (cancelled) return;
       setLoading(true);
-      fetch('/api/places')
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.places) setAllPlaces(data.places);
-        })
-        .catch(() => undefined)
-        .finally(() => setLoading(false));
-    }
+      try {
+        const res = await fetch('/api/places');
+        const data = await res.json();
+        if (!cancelled && data.places) {
+          setAllPlaces(data.places);
+        }
+      } catch {
+        // ignore
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+
+    loadPlaces();
+
+    return () => {
+      cancelled = true;
+    };
   }, [isDrawerOpen, allPlaces.length]);
 
   const savedPlaces = allPlaces.filter((p) => savedIds.includes(p.id));

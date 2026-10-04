@@ -7,6 +7,7 @@ import RegionImageSlider from '@/components/RegionImageSlider';
 import JourneyCategoriesSection from '@/components/JourneyCategoriesSection';
 import RecommendationCarousel from '@/components/RecommendationCarousel';
 import AdPlacement from '@/components/AdPlacement';
+import { LatestNewsTeaser } from '@/components/LatestNewsTeaser';
 import Link from 'next/link';
 import {
   ArrowRight, Map, MapPin, Sparkles, Star, Calendar,
@@ -292,6 +293,9 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      {/* ━━━ 6.5 LATEST TOURISM NEWS TEASER (site_nodes: home_news, PHASE 10) ━━━ */}
+      {isEnabled('home_news') && <LatestNewsTeaser />}
 
       {/* ━━━ 7. DEDICATED DIRECTORY TEASER CALLOUT (SECTION 4.6-B & R12) ━━━ */}
       <section className="py-16 sm:py-20 bg-white border-t border-[#DCE8F2]">

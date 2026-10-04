@@ -24,6 +24,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'nav.home': 'Home',
     'nav.destinations': 'Destinations',
     'nav.map': 'Map',
+    'nav.news': 'News',
     'nav.about': 'About',
     'nav.explore': 'Explore',
     'nav.savedPlaces': 'Saved Wishlist',
@@ -115,6 +116,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'nav.home': 'Startseite',
     'nav.destinations': 'Reiseziele',
     'nav.map': 'Karte',
+    'nav.news': 'Nachrichten',
     'nav.about': 'Über uns',
     'nav.explore': 'Entdecken',
     'nav.savedPlaces': 'Merkliste',
@@ -206,6 +208,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'nav.home': 'Главная',
     'nav.destinations': 'Направления',
     'nav.map': 'Карта',
+    'nav.news': 'Новости',
     'nav.about': 'О нас',
     'nav.explore': 'Исследовать',
     'nav.savedPlaces': 'Избранное',
@@ -297,6 +300,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'nav.home': 'Accueil',
     'nav.destinations': 'Destinations',
     'nav.map': 'Carte',
+    'nav.news': 'Actualités',
     'nav.about': 'À propos',
     'nav.explore': 'Explorer',
     'nav.savedPlaces': 'Favoris',
@@ -397,22 +401,18 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 const STORAGE_KEY = 'uncover_ceylon_lang';
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<LanguageCode>('en');
-
-  // Load from localStorage on mount
-  useEffect(() => {
+  const [lang, setLangState] = useState<LanguageCode>(() => {
+    if (typeof window === 'undefined') return 'en';
     try {
       const stored = localStorage.getItem(STORAGE_KEY) as LanguageCode | null;
       if (stored && ['en', 'de', 'ru', 'fr'].includes(stored)) {
-        setLangState(stored);
-        if (stored !== 'en') {
-          syncGoogleTranslate(stored);
-        }
+        return stored;
       }
     } catch {
       // ignore
     }
-  }, []);
+    return 'en';
+  });
 
   const syncGoogleTranslate = (targetLang: LanguageCode) => {
     if (typeof window === 'undefined') return;
@@ -458,6 +458,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       }, 200);
     }
   };
+
+  // Sync google translate on initial mount if non-en
+  useEffect(() => {
+    if (lang !== 'en') {
+      syncGoogleTranslate(lang);
+    }
+  }, [lang]);
 
   const setLang = (newLang: LanguageCode) => {
     setLangState(newLang);

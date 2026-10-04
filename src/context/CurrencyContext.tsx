@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 export type CurrencyCode = 'USD' | 'LKR' | 'EUR' | 'GBP';
 
@@ -43,18 +43,18 @@ const CurrencyContext = createContext<CurrencyContextType>({
 const STORAGE_KEY = 'uc_preferred_currency';
 
 export function CurrencyProvider({ children }: { children: React.ReactNode }) {
-  const [currency, setCurrencyState] = useState<CurrencyCode>('USD');
-
-  useEffect(() => {
+  const [currency, setCurrencyState] = useState<CurrencyCode>(() => {
+    if (typeof window === 'undefined') return 'USD';
     try {
       const saved = localStorage.getItem(STORAGE_KEY) as CurrencyCode;
       if (saved && CURRENCIES[saved]) {
-        setCurrencyState(saved);
+        return saved;
       }
     } catch {
       // ignore local storage errors
     }
-  }, []);
+    return 'USD';
+  });
 
   const setCurrency = (c: CurrencyCode) => {
     setCurrencyState(c);

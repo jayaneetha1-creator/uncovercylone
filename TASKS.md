@@ -159,12 +159,12 @@ This checklist covers every requirement specified in `MASTER_SPEC.md`, broken do
 ---
 
 ## Phase 10: AI News Page (Sri Lanka Tourism)
-- [ ] **T10.1 Public News Hub (`/news`) & Home Teaser**: Clean news page with category chips, source badges, and light-blue styling.
-  *Acceptance Test*: Visiting `/news` renders published articles with source attribution and date.
-- [ ] **T10.2 Scheduled Gemini News Crawler**: Crawler running 3x/day using Search grounding for verified tourism updates.
-  *Acceptance Test*: Triggering news crawler fetches real news items, summarizes in own words, and links related places.
-- [ ] **T10.3 Admin News Moderation**: Review queue with toggle for "auto-publish vs review first", pin, hide, and schedule editor.
-  *Acceptance Test*: Admin can edit, pin, or hide news items; failure alerts sent to notifications.
+- [x] **T10.1 Public News Hub (`/news`) & Home Teaser**: Clean news page with category chips, source badges, and light-blue styling.
+  *Acceptance Test*: Visiting `/news` renders published articles with source attribution and date. (Verified: `/news` compiled, responsive reader modal, category dynamic counts, home teaser row with zero-gap rule)
+- [x] **T10.2 Scheduled Gemini News Crawler**: Crawler running 3x/day using Search grounding for verified tourism updates.
+  *Acceptance Test*: Triggering news crawler fetches real news items, summarizes in own words, and links related places. (Verified: crawler with grounding, deduplication, place matching, fallback imagery, secured `/api/cron/news`)
+- [x] **T10.3 Admin News Moderation**: Review queue with toggle for "auto-publish vs review first", pin, hide, and schedule editor.
+  *Acceptance Test*: Admin can edit, pin, or hide news items; failure alerts sent to notifications. (Verified: Admin News tab with instant crawler trigger, review table, pin/hide/edit, RBAC delete)
 
 ---
 

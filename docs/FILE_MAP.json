@@ -499,6 +499,11 @@
                       "type": "file"
                     },
                     {
+                      "name": "NewsManagerTab.tsx",
+                      "description": "File in src/app/admin/components/NewsManagerTab.tsx",
+                      "type": "file"
+                    },
+                    {
                       "name": "SlidesManagerTab.tsx",
                       "description": "File in src/app/admin/components/SlidesManagerTab.tsx",
                       "type": "file"
@@ -725,6 +730,54 @@
                             {
                               "name": "route.ts",
                               "description": "File in src/app/api/admin/media/optimize/route.ts",
+                              "type": "file"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "news",
+                      "description": "Folder in src/app/api/admin/news",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "crawl",
+                          "description": "Folder in src/app/api/admin/news/crawl",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "route.ts",
+                              "description": "File in src/app/api/admin/news/crawl/route.ts",
+                              "type": "file"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/admin/news/route.ts",
+                          "type": "file"
+                        },
+                        {
+                          "name": "runs",
+                          "description": "Folder in src/app/api/admin/news/runs",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "route.ts",
+                              "description": "File in src/app/api/admin/news/runs/route.ts",
+                              "type": "file"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "[id]",
+                          "description": "Folder in src/app/api/admin/news/[id]",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "route.ts",
+                              "description": "File in src/app/api/admin/news/[id]/route.ts",
                               "type": "file"
                             }
                           ]
@@ -1072,6 +1125,25 @@
                   ]
                 },
                 {
+                  "name": "cron",
+                  "description": "Folder in src/app/api/cron",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "news",
+                      "description": "Folder in src/app/api/cron/news",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/cron/news/route.ts",
+                          "type": "file"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "name": "events",
                   "description": "Folder in src/app/api/events",
                   "type": "directory",
@@ -1092,6 +1164,30 @@
                       "name": "route.ts",
                       "description": "File in src/app/api/hero-slides/route.ts",
                       "type": "file"
+                    }
+                  ]
+                },
+                {
+                  "name": "news",
+                  "description": "Folder in src/app/api/news",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "route.ts",
+                      "description": "File in src/app/api/news/route.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "[id]",
+                      "description": "Folder in src/app/api/news/[id]",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/news/[id]/route.ts",
+                          "type": "file"
+                        }
+                      ]
                     }
                   ]
                 },
@@ -1364,6 +1460,18 @@
                 {
                   "name": "page.tsx",
                   "description": "File in src/app/map/page.tsx",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "news",
+              "description": "Folder in src/app/news",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "description": "File in src/app/news/page.tsx",
                   "type": "file"
                 }
               ]
@@ -1653,6 +1761,11 @@
               "type": "file"
             },
             {
+              "name": "LatestNewsTeaser.tsx",
+              "description": "File in src/components/LatestNewsTeaser.tsx",
+              "type": "file"
+            },
+            {
               "name": "MapLocationPicker.tsx",
               "description": "File in src/components/MapLocationPicker.tsx",
               "type": "file"
@@ -1660,6 +1773,16 @@
             {
               "name": "Navbar.tsx",
               "description": "File in src/components/Navbar.tsx",
+              "type": "file"
+            },
+            {
+              "name": "NewsArticleCard.tsx",
+              "description": "File in src/components/NewsArticleCard.tsx",
+              "type": "file"
+            },
+            {
+              "name": "NewsReaderModal.tsx",
+              "description": "File in src/components/NewsReaderModal.tsx",
               "type": "file"
             },
             {
@@ -1859,6 +1982,11 @@
                   "type": "file"
                 },
                 {
+                  "name": "news.ts",
+                  "description": "File in src/lib/db/news.ts",
+                  "type": "file"
+                },
+                {
                   "name": "nodes.ts",
                   "description": "File in src/lib/db/nodes.ts",
                   "type": "file"
@@ -1879,6 +2007,23 @@
               "name": "mailer.ts",
               "description": "File in src/lib/mailer.ts",
               "type": "file"
+            },
+            {
+              "name": "news",
+              "description": "Folder in src/lib/news",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "constants.ts",
+                  "description": "File in src/lib/news/constants.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "crawler.ts",
+                  "description": "File in src/lib/news/crawler.ts",
+                  "type": "file"
+                }
+              ]
             },
             {
               "name": "optimizer.ts",

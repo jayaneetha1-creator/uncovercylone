@@ -12,7 +12,7 @@ import NotificationBell from '@/components/NotificationBell';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [activeTab, setActiveTab] = useState<'home' | 'destinations' | 'map' | 'about'>('home');
+  const [activeTab, setActiveTab] = useState<'home' | 'destinations' | 'map' | 'news' | 'about'>('home');
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
@@ -24,6 +24,7 @@ export default function Navbar() {
     { href: '/', label: t('nav.home') || 'Home', id: 'home' },
     { href: '/destinations', label: t('nav.destinations') || 'Destinations', id: 'destinations' },
     { href: '/map', label: t('nav.map') || 'Map', id: 'map' },
+    { href: '/news', label: t('nav.news') || 'News', id: 'news' },
     { href: '/about', label: t('nav.about') || 'About', id: 'about' },
   ];
 
@@ -32,6 +33,11 @@ export default function Navbar() {
       if (typeof window === 'undefined') return;
       const currentPath = window.location.pathname;
       const currentHash = window.location.hash;
+
+      if (currentPath.startsWith('/news')) {
+        setActiveTab('news');
+        return;
+      }
 
       if (currentPath.startsWith('/about')) {
         setActiveTab('about');

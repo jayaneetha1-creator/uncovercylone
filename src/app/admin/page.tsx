@@ -28,6 +28,8 @@ import SlidesManagerTab from './components/SlidesManagerTab';
 import AnalyticsTab from './components/AnalyticsTab';
 import AdManagerTab from './components/AdManagerTab';
 import AIChatbotTab from './components/AIChatbotTab';
+import NewsManagerTab from './components/NewsManagerTab';
+import { Newspaper } from 'lucide-react';
 
 interface HeroSlide {
   id: number;
@@ -99,7 +101,7 @@ export default function AdminPage() {
 
   // Active tab: 'places' | 'approvals' | 'chat' | 'slides' | 'media' | 'reviews' | 'folders' | 'theme' | 'filemap' | 'trash' | 'audit' | 'logs' | 'analytics' | 'ads' | 'ai'
   const [activeTab, setActiveTab] = useState<
-    'places' | 'approvals' | 'chat' | 'slides' | 'media' | 'reviews' | 'folders' | 'theme' | 'filemap' | 'trash' | 'audit' | 'logs' | 'analytics' | 'ads' | 'ai'
+    'places' | 'approvals' | 'chat' | 'slides' | 'media' | 'reviews' | 'folders' | 'theme' | 'filemap' | 'trash' | 'audit' | 'logs' | 'analytics' | 'ads' | 'ai' | 'news'
   >('places');
 
   // Activity Logs State
@@ -1313,6 +1315,18 @@ export default function AdminPage() {
             </button>
 
             <button
+              onClick={() => setActiveTab('news')}
+              className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
+                activeTab === 'news'
+                  ? 'bg-white text-sky-600 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-900'
+              }`}
+            >
+              <Newspaper className="w-4 h-4" />
+              <span>Tourism News</span>
+            </button>
+
+            <button
               onClick={() => setActiveTab('logs')}
               className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
                 activeTab === 'logs'
@@ -2336,6 +2350,9 @@ export default function AdminPage() {
 
         {/* ━━━ TAB 13: AI CHATBOT (GEMINI) (PHASE 9, T9.1, T9.2) ━━━ */}
         {activeTab === 'ai' && <AIChatbotTab />}
+
+        {/* ━━━ TAB 14: AI TOURISM NEWS (PHASE 10, T10.1, T10.2) ━━━ */}
+        {activeTab === 'news' && <NewsManagerTab />}
       </main>
 
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

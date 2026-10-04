@@ -172,6 +172,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/news" className="text-[#5B7385] hover:text-[#38A9F0] transition-colors">
+                  Tourism News & Updates
+                </Link>
+              </li>
+              <li>
                 <Link href="/favorites" className="text-[#5B7385] hover:text-[#38A9F0] transition-colors">
                   Saved Places
                 </Link>

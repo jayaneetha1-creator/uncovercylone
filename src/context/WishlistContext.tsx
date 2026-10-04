@@ -19,26 +19,21 @@ const WishlistContext = createContext<WishlistContextType | undefined>(undefined
 const STORAGE_KEY = 'uncover_ceylon_wishlist';
 
 export function WishlistProvider({ children }: { children: ReactNode }) {
-  const [savedIds, setSavedIds] = useState<number[]>([]);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  // Load from localStorage on mount
-  useEffect(() => {
+  const [savedIds, setSavedIds] = useState<number[]>(() => {
+    if (typeof window === 'undefined') return [];
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed)) {
-          setSavedIds(parsed);
-        }
+        if (Array.isArray(parsed)) return parsed;
       }
     } catch (e) {
       console.error('Failed to load wishlist from storage:', e);
-    } finally {
-      setIsLoaded(true);
     }
-  }, []);
+    return [];
+  });
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const isLoaded = typeof window !== 'undefined';
 
   // Save to localStorage on change
   useEffect(() => {

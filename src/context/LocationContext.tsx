@@ -59,35 +59,32 @@ export function calculateDistanceKm(
 }
 
 export function LocationProvider({ children }: { children: React.ReactNode }) {
-  const [userCoords, setUserCoords] = useState<Coordinates | null>(null);
-  const [status, setStatus] = useState<LocationStatus>('idle');
-
-  // Attempt to restore cached coordinates from session/local storage
-  useEffect(() => {
+  const [userCoords, setUserCoords] = useState<Coordinates | null>(() => {
+    if (typeof window === 'undefined') return null;
     try {
       const cached = sessionStorage.getItem(STORAGE_KEY);
       if (cached) {
         const parsed = JSON.parse(cached);
         if (parsed.lat && parsed.lng) {
-          setUserCoords(parsed);
-          setStatus('granted');
+          return parsed;
         }
       }
-    } catch {
-      // ignore
-    }
-
-    // Check if navigator.permissions allows querying geolocation
-    if (typeof window !== 'undefined' && 'permissions' in navigator) {
-      navigator.permissions.query({ name: 'geolocation' }).then((res) => {
-        if (res.state === 'granted') {
-          requestLocation();
-        } else if (res.state === 'denied') {
-          setStatus('denied');
+    } catch {}
+    return null;
+  });
+  const [status, setStatus] = useState<LocationStatus>(() => {
+    if (typeof window === 'undefined') return 'idle';
+    try {
+      const cached = sessionStorage.getItem(STORAGE_KEY);
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (parsed.lat && parsed.lng) {
+          return 'granted';
         }
-      }).catch(() => {});
-    }
-  }, []);
+      }
+    } catch {}
+    return 'idle';
+  });
 
   const requestLocation = useCallback(async (): Promise<Coordinates | null> => {
     if (typeof window === 'undefined' || !('geolocation' in navigator)) {
@@ -124,6 +121,19 @@ export function LocationProvider({ children }: { children: React.ReactNode }) {
       );
     });
   }, []);
+
+  // Check if navigator.permissions allows querying geolocation
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'permissions' in navigator) {
+      navigator.permissions.query({ name: 'geolocation' }).then((res) => {
+        if (res.state === 'granted') {
+          requestLocation();
+        } else if (res.state === 'denied') {
+          setStatus('denied');
+        }
+      }).catch(() => {});
+    }
+  }, [requestLocation]);
 
   const getDistanceTo = useCallback(
     (destLat: number, destLng: number): number | null => {

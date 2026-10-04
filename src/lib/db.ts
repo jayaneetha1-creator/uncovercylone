@@ -403,12 +403,43 @@ function initializeSqliteDb(database: Database.Database) {
       FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL
     );
 
+    CREATE TABLE IF NOT EXISTS news_items (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT NOT NULL,
+      slug TEXT NOT NULL UNIQUE,
+      summary TEXT NOT NULL,
+      content TEXT DEFAULT '',
+      category TEXT NOT NULL DEFAULT 'Tourism',
+      source_name TEXT NOT NULL,
+      source_url TEXT DEFAULT '',
+      image_url TEXT DEFAULT '',
+      related_place_ids TEXT DEFAULT '[]',
+      status TEXT DEFAULT 'published',
+      is_pinned INTEGER DEFAULT 0,
+      published_at TEXT DEFAULT (datetime('now')),
+      created_at TEXT DEFAULT (datetime('now')),
+      updated_at TEXT DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS news_runs (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      trigger_type TEXT NOT NULL DEFAULT 'manual',
+      items_found INTEGER DEFAULT 0,
+      items_added INTEGER DEFAULT 0,
+      status TEXT NOT NULL DEFAULT 'success',
+      error_message TEXT DEFAULT '',
+      executed_at TEXT DEFAULT (datetime('now'))
+    );
+
     CREATE INDEX IF NOT EXISTS idx_events_place ON events(place_id);
     CREATE INDEX IF NOT EXISTS idx_events_type ON events(event_type);
     CREATE INDEX IF NOT EXISTS idx_events_created ON events(created_at);
     CREATE INDEX IF NOT EXISTS idx_journeys_session ON journeys(session_id);
     CREATE INDEX IF NOT EXISTS idx_ai_sessions_user ON ai_chat_sessions(user_id);
     CREATE INDEX IF NOT EXISTS idx_ai_messages_session ON ai_chat_messages(session_id);
+    CREATE INDEX IF NOT EXISTS idx_news_published ON news_items(published_at);
+    CREATE INDEX IF NOT EXISTS idx_news_category ON news_items(category);
+    CREATE INDEX IF NOT EXISTS idx_news_status ON news_items(status);
   `);
 
   // Safe non-destructive column additions for SQLite
