@@ -13,6 +13,7 @@ import { ChevronLeft, ChevronRight, Star, Heart, Compass, MapPin } from 'lucide-
 import { RecommendedPlace } from '@/types';
 import { useWishlist } from '@/context/WishlistContext';
 import { trackPlaceClick, getAnonymousSessionId } from '@/lib/analytics';
+import AdPlacement from '@/components/AdPlacement';
 
 interface RecommendationCarouselProps {
   currentPlaceId?: number;
@@ -123,13 +124,13 @@ export default function RecommendationCarousel({
         className="flex gap-4 overflow-x-auto pb-4 pt-1 snap-x scrollbar-none scroll-smooth"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        {places.map((place) => {
+        {places.map((place, index) => {
           const saved = isSaved(place.id);
           return (
-            <div
-              key={place.id}
-              className="min-w-[260px] sm:min-w-[280px] max-w-[280px] bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition group overflow-hidden flex flex-col snap-start"
-            >
+            <React.Fragment key={place.id}>
+              <div
+                className="min-w-[260px] sm:min-w-[280px] max-w-[280px] bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition group overflow-hidden flex flex-col snap-start"
+              >
               {/* Image & Reason Pill */}
               <div className="relative aspect-[4/3] w-full bg-slate-100 overflow-hidden">
                 <Link
@@ -211,8 +212,10 @@ export default function RecommendationCarousel({
                 </div>
               </div>
             </div>
-          );
-        })}
+            {index === 1 && <AdPlacement placement="carousel_slot" />}
+          </React.Fragment>
+        );
+      })}
       </div>
     </section>
   );

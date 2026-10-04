@@ -7,6 +7,7 @@ import { Place } from '@/types';
 import DestinationRow from './DestinationRow';
 import FilterSidebar, { FilterState } from './FilterSidebar';
 import DestinationsFilterSheet from './DestinationsFilterSheet';
+import AdPlacement from './AdPlacement';
 import { useLocation } from '@/context/LocationContext';
 import { trackSearchQuery } from '@/lib/analytics';
 import {
@@ -421,6 +422,11 @@ function DestinationsInnerView({ initialPlaces, reviewSnippetsMap }: Destination
                       reviewSnippets={snippets}
                       distanceKm={distanceKm}
                     />
+
+                    {/* Sponsored Place Card (Placement 1) */}
+                    {index === 1 && (
+                      <AdPlacement placement="grid_card" />
+                    )}
 
                     {/* Section 4.6-B: Interspersed curated strip after row 4 */}
                     {index === 3 && (

@@ -15,6 +15,7 @@ import WishlistButton from '@/components/WishlistButton';
 import OfflineGuideButton from '@/components/OfflineGuideButton';
 import PlaceViewTracker from '@/components/PlaceViewTracker';
 import RecommendationCarousel from '@/components/RecommendationCarousel';
+import AdPlacement from '@/components/AdPlacement';
 import {
   MapPin, Star, Calendar, ChevronLeft,
   Navigation, Heart, Share2, Compass,
@@ -571,6 +572,9 @@ export default async function PlaceDetailPage({ params }: PlacePageProps) {
           {/* ━━━ RIGHT COLUMN: STICKY PLAN YOUR VISIT CARD ━━━ */}
           <div className="space-y-6 lg:sticky lg:top-24">
             <PlanVisitCard place={place} />
+
+            {/* Non-Disruptive Ad Placement 3: Sidebar Partner */}
+            <AdPlacement placement="sidebar_partner" />
 
             {/* Share / Save Card */}
             <div className="bg-white rounded-3xl border border-[#DCE8F2] p-5 shadow-xs space-y-3">

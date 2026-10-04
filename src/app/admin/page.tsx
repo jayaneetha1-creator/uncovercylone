@@ -12,7 +12,7 @@ import {
   Edit, AlertTriangle, CheckSquare, Square, MessageSquare,
   Database, History, Tag,
   FolderTree, Palette, FileCode2, Trash, ClipboardList,
-  Sparkles, BarChart3
+  Sparkles, BarChart3, Megaphone
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import DestinationEditorModal from '@/components/DestinationEditorModal';
@@ -26,6 +26,7 @@ import CustomerChatTab from './components/CustomerChatTab';
 import MediaManagerTab from './components/MediaManagerTab';
 import SlidesManagerTab from './components/SlidesManagerTab';
 import AnalyticsTab from './components/AnalyticsTab';
+import AdManagerTab from './components/AdManagerTab';
 
 interface HeroSlide {
   id: number;
@@ -95,9 +96,9 @@ export default function AdminPage() {
   const [adminPassword, setAdminPassword] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  // Active tab: 'places' | 'approvals' | 'chat' | 'slides' | 'media' | 'reviews' | 'folders' | 'theme' | 'filemap' | 'trash' | 'audit' | 'logs' | 'analytics'
+  // Active tab: 'places' | 'approvals' | 'chat' | 'slides' | 'media' | 'reviews' | 'folders' | 'theme' | 'filemap' | 'trash' | 'audit' | 'logs' | 'analytics' | 'ads'
   const [activeTab, setActiveTab] = useState<
-    'places' | 'approvals' | 'chat' | 'slides' | 'media' | 'reviews' | 'folders' | 'theme' | 'filemap' | 'trash' | 'audit' | 'logs' | 'analytics'
+    'places' | 'approvals' | 'chat' | 'slides' | 'media' | 'reviews' | 'folders' | 'theme' | 'filemap' | 'trash' | 'audit' | 'logs' | 'analytics' | 'ads'
   >('places');
 
   // Activity Logs State
@@ -1287,6 +1288,18 @@ export default function AdminPage() {
             </button>
 
             <button
+              onClick={() => setActiveTab('ads')}
+              className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
+                activeTab === 'ads'
+                  ? 'bg-white text-sky-600 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-900'
+              }`}
+            >
+              <Megaphone className="w-4 h-4" />
+              <span>Ads &amp; Sponsors</span>
+            </button>
+
+            <button
               onClick={() => setActiveTab('logs')}
               className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer ${
                 activeTab === 'logs'
@@ -2304,6 +2317,9 @@ export default function AdminPage() {
 
         {/* ━━━ TAB 11: ANALYTICS & RECOMMENDATION METRICS (PHASE 7, T7.3) ━━━ */}
         {activeTab === 'analytics' && <AnalyticsTab />}
+
+        {/* ━━━ TAB 12: AD & SPONSOR MANAGEMENT (PHASE 8, T8.1, T8.2) ━━━ */}
+        {activeTab === 'ads' && <AdManagerTab />}
       </main>
 
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

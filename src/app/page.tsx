@@ -6,6 +6,7 @@ import PlaceCard from '@/components/PlaceCard';
 import RegionImageSlider from '@/components/RegionImageSlider';
 import JourneyCategoriesSection from '@/components/JourneyCategoriesSection';
 import RecommendationCarousel from '@/components/RecommendationCarousel';
+import AdPlacement from '@/components/AdPlacement';
 import Link from 'next/link';
 import {
   ArrowRight, Map, MapPin, Sparkles, Star, Calendar,
@@ -185,6 +186,9 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ━━━ NON-DISRUPTIVE AD PLACEMENT 2: HOME BANNER (PHASE 8) ━━━ */}
+      <AdPlacement placement="home_banner" className="my-6" />
 
       {/* ━━━ 5. HIDDEN GEMS (site_nodes: home_gems) ━━━ */}
       {isEnabled('home_gems') && (

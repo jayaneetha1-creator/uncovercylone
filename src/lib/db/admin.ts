@@ -7,6 +7,8 @@ import { query, execute, isMySqlEnabled, getDb, logActivity } from '../db';
 import fs from 'fs';
 import path from 'path';
 
+export { logAudit, recordAuditLog } from './governance';
+
 export interface SqlExecutionResult {
   success: boolean;
   message?: string;

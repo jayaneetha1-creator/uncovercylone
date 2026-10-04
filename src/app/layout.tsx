@@ -14,6 +14,7 @@ import GoogleTranslator from "@/components/GoogleTranslator";
 import PWARegister from "@/components/PWARegister";
 import CustomerChatWidget from "@/components/CustomerChatWidget";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
+import AdSenseScript from "@/components/AdSenseScript";
 
 export const viewport: Viewport = {
   themeColor: "#F5FAFF",
@@ -106,6 +107,7 @@ export default function RootLayout({
                   <WishlistDrawer />
                   <CustomerChatWidget />
                   <CookieConsentBanner />
+                  <AdSenseScript />
                   <GoogleTranslator />
                   <PWARegister />
                   <Footer />

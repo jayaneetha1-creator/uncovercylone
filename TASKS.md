@@ -133,11 +133,11 @@ This checklist covers every requirement specified in `MASTER_SPEC.md`, broken do
 ---
 
 ## Phase 8: Ad Manager (5 Placements & AdSense)
-- [ ] **T8.1 5 Non-Disruptive Ad Slots**: Implement Sponsored Card, Homepage Slim Banner, Sidebar Partner Card, Carousel Slot, and Footer Strip.
+- [x] **T8.1 5 Non-Disruptive Ad Slots**: Implement Sponsored Card, Homepage Slim Banner, Sidebar Partner Card, Carousel Slot, and Footer Strip.
   *Acceptance Test*: Each slot renders only when active; zero DOM elements rendered when switched off.
-- [ ] **T8.2 Google AdSense Integration**: Script loader and `public/ads.txt` support, disabled by default via feature flag.
+- [x] **T8.2 Google AdSense Integration**: Script loader and `public/ads.txt` support, disabled by default via feature flag.
   *Acceptance Test*: AdSense scripts load only when master toggle enabled in Admin Settings.
-- [ ] **T8.3 Admin Ad Manager Tab**: CRUD interface for ads with image upload, link, date range, device targeting, and impression tracking.
+- [x] **T8.3 Admin Ad Manager Tab**: CRUD interface for ads with image upload, link, date range, device targeting, and impression tracking.
   *Acceptance Test*: Creating an ad renders it in the specified slot; impressions counter increments on view.
 
 ---

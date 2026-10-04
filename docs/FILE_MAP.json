@@ -155,6 +155,11 @@
       "type": "directory",
       "children": [
         {
+          "name": "ads.txt",
+          "description": "File in public/ads.txt",
+          "type": "file"
+        },
+        {
           "name": "file.svg",
           "description": "File in public/file.svg",
           "type": "file"
@@ -444,6 +449,11 @@
                   "type": "directory",
                   "children": [
                     {
+                      "name": "AdManagerTab.tsx",
+                      "description": "File in src/app/admin/components/AdManagerTab.tsx",
+                      "type": "file"
+                    },
+                    {
                       "name": "AnalyticsTab.tsx",
                       "description": "File in src/app/admin/components/AnalyticsTab.tsx",
                       "type": "file"
@@ -524,6 +534,42 @@
                   "description": "Folder in src/app/api/admin",
                   "type": "directory",
                   "children": [
+                    {
+                      "name": "ads",
+                      "description": "Folder in src/app/api/admin/ads",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "route.ts",
+                          "description": "File in src/app/api/admin/ads/route.ts",
+                          "type": "file"
+                        },
+                        {
+                          "name": "settings",
+                          "description": "Folder in src/app/api/admin/ads/settings",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "route.ts",
+                              "description": "File in src/app/api/admin/ads/settings/route.ts",
+                              "type": "file"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "[id]",
+                          "description": "Folder in src/app/api/admin/ads/[id]",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "route.ts",
+                              "description": "File in src/app/api/admin/ads/[id]/route.ts",
+                              "type": "file"
+                            }
+                          ]
+                        }
+                      ]
+                    },
                     {
                       "name": "analytics",
                       "description": "Folder in src/app/api/admin/analytics",
@@ -744,6 +790,49 @@
                           "name": "route.ts",
                           "description": "File in src/app/api/admin/versions/route.ts",
                           "type": "file"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "ads",
+                  "description": "Folder in src/app/api/ads",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "route.ts",
+                      "description": "File in src/app/api/ads/route.ts",
+                      "type": "file"
+                    },
+                    {
+                      "name": "[id]",
+                      "description": "Folder in src/app/api/ads/[id]",
+                      "type": "directory",
+                      "children": [
+                        {
+                          "name": "click",
+                          "description": "Folder in src/app/api/ads/[id]/click",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "route.ts",
+                              "description": "File in src/app/api/ads/[id]/click/route.ts",
+                              "type": "file"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "impression",
+                          "description": "Folder in src/app/api/ads/[id]/impression",
+                          "type": "directory",
+                          "children": [
+                            {
+                              "name": "route.ts",
+                              "description": "File in src/app/api/ads/[id]/impression/route.ts",
+                              "type": "file"
+                            }
+                          ]
                         }
                       ]
                     }
@@ -1357,6 +1446,16 @@
           "type": "directory",
           "children": [
             {
+              "name": "AdPlacement.tsx",
+              "description": "File in src/components/AdPlacement.tsx",
+              "type": "file"
+            },
+            {
+              "name": "AdSenseScript.tsx",
+              "description": "File in src/components/AdSenseScript.tsx",
+              "type": "file"
+            },
+            {
               "name": "AnimatedReveal.tsx",
               "description": "File in src/components/AnimatedReveal.tsx",
               "type": "file"
@@ -1613,6 +1712,11 @@
                 {
                   "name": "admin.ts",
                   "description": "File in src/lib/db/admin.ts",
+                  "type": "file"
+                },
+                {
+                  "name": "ads.ts",
+                  "description": "File in src/lib/db/ads.ts",
                   "type": "file"
                 },
                 {
